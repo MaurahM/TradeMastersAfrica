@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Trade Masters for Business • Enterprise Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --accent-2: #7ef6d4;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 24px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .hero-banner {
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent);
+            padding: 100px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        .hero-banner h1 { font-size: 56px; font-weight: 800; letter-spacing: -3px; margin-bottom: 20px; }
+        .hero-banner p { font-size: 20px; color: var(--text-dim); max-width: 700px; margin: 0 auto 40px; }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: -60px auto 80px;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transition: 0.3s;
+        }
+        .feature-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .icon { font-size: 32px; margin-bottom: 20px; display: block; }
+
+        /* Pricing Table */
+        .pricing-section { padding: 80px 0; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        
+        .price-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+        .price-card.featured { border: 2px solid var(--accent); position: relative; }
+        .price-card.featured::after {
+            content: 'RECOMMENDED';
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            background: var(--accent); font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px;
+        }
+
+        .price-header h2 { font-size: 24px; margin-bottom: 10px; }
+        .price-amount { font-size: 48px; font-weight: 800; margin: 20px 0; }
+        .price-amount span { font-size: 16px; color: var(--text-dim); font-weight: 400; }
+
+        ul.specs { list-style: none; margin: 30px 0; flex-grow: 1; }
+        ul.specs li { margin-bottom: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 10px; }
+        ul.specs li::before { content: '✓'; color: var(--accent-2); font-weight: 800; }
+
+        .btn {
+            display: block; width: 100%; padding: 16px; border-radius: 12px;
+            text-align: center; text-decoration: none; font-weight: 700; transition: 0.3s;
+        }
+        .btn-outline { border: 1px solid var(--border); color: var(--text-main); }
+        .btn-solid { background: var(--accent); color: white; }
+
+        /* Contact CTA */
+        .demo-section {
+            background: linear-gradient(90deg, #1e1b4b, #0f172a);
+            border-radius: var(--radius);
+            padding: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        @media (max-width: 900px) {
+            .demo-section { grid-template-columns: 1fr; padding: 30px; }
+            .hero-banner h1 { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+
+<section class="hero-banner">
+    <div class="container">
+        <h1>Upskill your entire workforce</h1>
+        <p>The #1 technical training platform for African teams. scalable learning, verified skills, and detailed analytics for forward-thinking companies.</p>
+        <div style="display:flex; gap:15px; justify-content:center;">
+            <a href="#demo" class="btn btn-solid" style="width:auto; padding-left:40px; padding-right:40px;">Request a Demo</a>
+            <a href="#pricing" class="btn btn-outline" style="width:auto; padding-left:40px; padding-right:40px;">View Plans</a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="feature-grid">
+        <div class="feature-card">
+            <span class="icon">📊</span>
+            <h3>Admin Dashboard</h3>
+            <p>Track team progress, monitor course completion rates, and identify skill gaps across departments in real-time.</p>
+        </div>
+        <div class="feature-card">
+            <span class="icon">🛠️</span>
+            <h3>Custom Learning Paths</h3>
+            <p>Curate specific playlists of courses that align with your company's unique tech stack and goals.</p>
+        </div>
+        <div class="feature-card">
+            <span class="icon">📜</span>
+            <h3>Bulk Certification</h3>
+            <p>Automatically issue co-branded certificates to employees upon successful completion of internal tracks.</p>
+        </div>
+    </div>
+
+    <section id="pricing" class="pricing-section">
+        <h2 style="text-align:center; font-size:40px; margin-bottom:50px;">Plans for every stage</h2>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div class="price-header">
+                    <h2>Starter Team</h2>
+                    <p>Up to 10 users</p>
+                </div>
+                <div class="price-amount">$190 <span>/month</span></div>
+                <ul class="specs">
+                    <li>Access to all 200+ courses</li>
+                    <li>Individual certificates</li>
+                    <li>Standard support</li>
+                </ul>
+                <a href="#" class="btn btn-outline">Start Trial</a>
+            </div>
+
+            <div class="price-card featured">
+                <div class="price-header">
+                    <h2>Growth</h2>
+                    <p>Up to 50 users</p>
+                </div>
+                <div class="price-amount">$750 <span>/month</span></div>
+                <ul class="specs">
+                    <li>Advanced Analytics</li>
+                    <li>Custom Learning Paths</li>
+                    <li>Priority Support</li>
+                    <li>Monthly progress reports</li>
+                </ul>
+                <a href="#" class="btn btn-solid">Scale Now</a>
+            </div>
+
+            <div class="price-card">
+                <div class="price-header">
+                    <h2>Custom</h2>
+                    <p>Unlimited users</p>
+                </div>
+                <div class="price-amount">Custom</div>
+                <ul class="specs">
+                    <li>White-label portal</li>
+                    <li>Dedicated Account Manager</li>
+                    <li>API Integration</li>
+                    <li>Single Sign-On (SSO)</li>
+                </ul>
+                <a href="#demo" class="btn btn-outline">Contact Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="demo" class="demo-section">
+        <div>
+            <h2>Ready to transform your team?</h2>
+            <p style="margin-top:20px;">Join 200+ companies already using Trade Masters to close the digital skill gap. One of our specialists will reach out within 2 hours.</p>
+        </div>
+        <div style="background: rgba(0,0,0,0.3); padding: 30px; border-radius: 16px;">
+            <form onsubmit="event.preventDefault(); alert('Demo requested! We will call you shortly.');">
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; font-size:12px; margin-bottom:5px; color:var(--text-dim);">COMPANY NAME</label>
+                    <input type="text" placeholder="TechSolutions Ltd" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:white;">
+                </div>
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; font-size:12px; margin-bottom:5px; color:var(--text-dim);">WORK EMAIL</label>
+                    <input type="email" placeholder="ceo@techsolutions.com" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:white;">
+                </div>
+                <button type="submit" class="btn btn-solid">Request Callback</button>
+            </form>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

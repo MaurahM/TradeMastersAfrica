@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Achievement Hub • Trade Masters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #020617;
+      --card-bg: rgba(15, 23, 42, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-magic: #a855f7;
+      --accent-teal: #2dd4bf;
+      --accent-gold: #fbbf24;
+      --gradient-magic: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      --radius-lg: 24px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    body {
+      background-color: var(--bg-deep);
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(45, 212, 191, 0.05) 0%, transparent 40%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* Sidebar Navigation */
+    .nexus-nav {
+      width: 280px; height: 100vh; background: rgba(15, 23, 42, 0.8);
+      border-right: 1px solid var(--glass-border); padding: 40px 24px;
+      position: sticky; top: 0; display: flex; flex-direction: column;
+    }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+      border-radius: 14px; color: var(--text-muted); font-weight: 600;
+      text-decoration: none; margin-bottom: 8px; transition: 0.3s;
+    }
+    .nav-item.active { background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--glass-border); }
+
+    /* Main Content */
+    .main-content { flex: 1; padding: 40px 60px; max-width: 1400px; }
+
+    /* Header Stats */
+    .stat-banner {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px;
+    }
+    .stat-pill {
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      padding: 24px; border-radius: 20px; text-align: center;
+    }
+    .stat-pill span { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; margin-bottom: 5px; }
+    .stat-pill b { font-size: 24px; color: var(--text-main); }
+
+    /* Achievement Grid */
+    .section-title { font-size: 22px; font-weight: 800; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--glass-border); }
+
+    .badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
+
+    .badge-card {
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      border-radius: 24px; padding: 30px 20px; text-align: center;
+      transition: 0.4s; position: relative; overflow: hidden;
+    }
+    .badge-card:hover { transform: translateY(-10px); border-color: var(--accent-magic); }
+    
+    .badge-icon {
+      width: 80px; height: 80px; margin: 0 auto 20px;
+      background: rgba(255,255,255,0.03); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px; position: relative; z-index: 2;
+    }
+    .badge-card.locked { opacity: 0.5; filter: grayscale(1); }
+    .badge-card.locked::after {
+      content: 'LOCKED'; position: absolute; top: 12px; right: 12px;
+      font-size: 8px; font-weight: 900; background: rgba(255,255,255,0.1);
+      padding: 4px 8px; border-radius: 6px;
+    }
+
+    .xp-glow {
+      position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+      background: var(--gradient-magic);
+    }
+
+    /* Leaderboard Module */
+    .flex-row { display: grid; grid-template-columns: 1fr 350px; gap: 32px; margin-top: 40px; }
+    
+    .leaderboard {
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg); padding: 30px;
+    }
+    .leader-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 0; border-bottom: 1px solid var(--glass-border);
+    }
+    .leader-user { display: flex; align-items: center; gap: 12px; }
+    .rank-num { font-weight: 800; color: var(--text-muted); width: 25px; }
+    .avatar-sm { width: 35px; height: 35px; border-radius: 10px; background: var(--gradient-magic); }
+
+    @media (max-width: 1000px) {
+      .nexus-nav { display: none; }
+      .flex-row { grid-template-columns: 1fr; }
+      .stat-banner { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="nexus-nav">
+    <a href="#" class="nav-logo">
+      <div style="width:35px; height:35px; background:var(--gradient-magic); border-radius:8px; display:flex; align-items:center; justify-content:center;">TM</div>
+      Trade Masters
+    </a>
+    <nav>
+      <a href="dashboard.html" class="nav-item">🏠 Overview</a>
+      <a href="library.html" class="nav-item">📚 My Library</a>
+      <a href="#" class="nav-item active">🏆 Achievement Hub</a>
+      <a href="#" class="nav-item">💬 Nexus Mentor</a>
+      <a href="profilesettingspage.html" class="nav-item">⚙️ Settings</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="header-flex" style="margin-bottom: 40px;">
+      <h1 style="font-size: 32px; font-weight: 800; letter-spacing: -1px;">Maura's Hall of Fame</h1>
+      <p style="color: var(--text-muted);">Rank: <span style="color: var(--accent-teal)">Platinum Scholar</span> • Top 4% of Learners</p>
+    </div>
+
+    <div class="stat-banner">
+      <div class="stat-pill"><span>Total XP</span><b>12,450</b></div>
+      <div class="stat-pill"><span>Global Rank</span><b>#142</b></div>
+      <div class="stat-pill"><span>Day Streak</span><b>12 Days</b></div>
+      <div class="stat-pill"><span>Badges</span><b>18 / 50</b></div>
+    </div>
+
+    <div class="section-title">Unlocked Mastery Badges</div>
+    <div class="badge-grid" id="badgeGrid">
+      </div>
+
+    <div class="flex-row">
+      <div class="leaderboard">
+        <h3 class="section-title">Scholar Leaderboard</h3>
+        <div id="leaderboardList">
+          </div>
+      </div>
+
+      <div class="leaderboard" style="background: var(--gradient-magic); border: none;">
+        <h3 style="color: white; font-weight: 800; margin-bottom: 15px;">Next Reward</h3>
+        <p style="color: rgba(255,255,255,0.8); font-size: 14px; margin-bottom: 20px;">Earn 550 more XP to unlock the "Market Oracle" badge and get a 1-on-1 mentor session.</p>
+        <div style="background: rgba(255,255,255,0.2); height: 8px; border-radius: 10px; margin-bottom: 20px;">
+          <div style="width: 70%; height: 100%; background: white; border-radius: 10px;"></div>
+        </div>
+        <button style="width: 100%; padding: 12px; border-radius: 12px; border: none; background: white; color: var(--accent-magic); font-weight: 800; cursor: pointer;">View Challenges</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const badges = [
+      { name: "Early Bird", desc: "Started 5 courses before 7AM", icon: "🌅", unlocked: true },
+      { name: "Fast Learner", desc: "Finished a module in < 1 hour", icon: "⚡", unlocked: true },
+      { name: "Perfect Score", desc: "Scored 100% on 3 Final Exams", icon: "💎", unlocked: true },
+      { name: "Day Trader", desc: "Active in Library for 7 days straight", icon: "📈", unlocked: true },
+      { name: "Master Oracle", desc: "Predict market trend in Sim mode", icon: "🔮", unlocked: false },
+      { name: "Code Ninja", desc: "Build a PineScript strategy", icon: "🥷", unlocked: false }
+    ];
+
+    const leaders = [
+      { name: "Alex Rivers", xp: "15,200", rank: 1 },
+      { name: "Maura (You)", xp: "12,450", rank: 2 },
+      { name: "Jordan K.", xp: "11,800", rank: 3 },
+      { name: "Sarah Dev", xp: "9,400", rank: 4 }
+    ];
+
+    function renderBadges() {
+      const grid = document.getElementById('badgeGrid');
+      grid.innerHTML = badges.map(b => `
+        <div class="badge-card ${b.unlocked ? '' : 'locked'}">
+          ${b.unlocked ? '<div class="xp-glow"></div>' : ''}
+          <div class="badge-icon">${b.icon}</div>
+          <h4 style="font-size: 16px; margin-bottom: 8px;">${b.name}</h4>
+          <p style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">${b.desc}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderLeaderboard() {
+      const list = document.getElementById('leaderboardList');
+      list.innerHTML = leaders.map(l => `
+        <div class="leader-item">
+          <div class="leader-user">
+            <span class="rank-num">${l.rank}</span>
+            <div class="avatar-sm"></div>
+            <span style="font-weight: 600; font-size: 14px;">${l.name}</span>
+          </div>
+          <span style="color: var(--accent-teal); font-weight: 800; font-size: 13px;">${l.xp} XP</span>
+        </div>
+      `).join('');
+    }
+
+    renderBadges();
+    renderLeaderboard();
+  </script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Finalize Your Journey — Trade Masters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #030816;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-magic: #a855f7;
+      --accent-teal: #2dd4bf;
+      --gradient-magic: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg-deep);
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(45, 212, 191, 0.05) 0%, transparent 40%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      padding-bottom: 50px;
+    }
+
+    .wrap { max-width: 1000px; margin: 40px auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 40px;
+    }
+    .logo-mark {
+      width: 44px; height: 44px; background: var(--gradient-magic);
+      border-radius: 12px; display: flex; align-items: center; 
+      justify-content: center; font-weight: 800; color: white;
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    }
+
+    .btn-back {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+      color: var(--text-main); padding: 10px 20px; border-radius: 12px;
+      cursor: pointer; font-weight: 600; transition: 0.3s;
+    }
+    .btn-back:hover { background: rgba(255,255,255,0.1); border-color: var(--text-muted); }
+
+    /* Layout */
+    .grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 32px; }
+
+    /* Card Styling */
+    .glass-card {
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      border-radius: 24px; padding: 32px; backdrop-filter: blur(10px);
+    }
+
+    h3 { font-size: 18px; margin-bottom: 24px; letter-spacing: -0.5px; }
+
+    /* Payment Methods */
+    .payment-methods { display: flex; gap: 16px; margin-bottom: 32px; }
+    .method-opt {
+      flex: 1; padding: 20px; border: 2px solid var(--glass-border);
+      border-radius: 18px; text-align: center; cursor: pointer;
+      transition: 0.3s; background: rgba(255,255,255,0.01);
+    }
+    .method-opt img { height: 28px; margin-bottom: 8px; filter: grayscale(1) brightness(2); transition: 0.3s; }
+    .method-opt.active {
+      border-color: var(--accent-magic); background: rgba(168, 85, 247, 0.05);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+    }
+    .method-opt.active img { filter: grayscale(0) brightness(1.2); }
+    .method-opt div { font-size: 14px; font-weight: 700; color: var(--text-muted); }
+    .method-opt.active div { color: white; }
+
+    /* Form Fields */
+    .field-group { margin-bottom: 20px; }
+    label { display: block; font-size: 12px; font-weight: 700; color: var(--accent-teal); 
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    input {
+      width: 100%; padding: 14px 18px; border-radius: 14px; border: 1px solid var(--glass-border);
+      background: rgba(0,0,0,0.2); color: white; font-size: 15px; outline: none;
+      transition: 0.3s;
+    }
+    input:focus { border-color: var(--accent-magic); background: rgba(0,0,0,0.4); }
+
+    .flex-row { display: flex; gap: 16px; }
+
+    /* Order Summary */
+    .summary-card { height: fit-content; position: sticky; top: 40px; }
+    .summary-line { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
+    .summary-line.total {
+      margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--glass-border);
+      font-size: 22px; font-weight: 800; color: white;
+    }
+
+    .btn-pay {
+      width: 100%; padding: 18px; border-radius: 16px; border: none;
+      background: var(--gradient-magic); color: white; font-weight: 800;
+      font-size: 18px; cursor: pointer; margin-top: 24px;
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3); transition: 0.3s;
+    }
+    .btn-pay:hover { transform: translateY(-3px); filter: brightness(1.1); }
+
+    /* M-Pesa Specific */
+    .mpesa-notice {
+      background: rgba(45, 212, 191, 0.05); border: 1px solid rgba(45, 212, 191, 0.2);
+      padding: 16px; border-radius: 12px; font-size: 13px; color: var(--accent-teal);
+      display: flex; gap: 12px; align-items: center;
+    }
+
+    @media (max-width: 800px) {
+      .grid { grid-template-columns: 1fr; }
+      .summary-card { order: -1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div style="display:flex; gap:16px; align-items:center;">
+      <div class="logo-mark">TM</div>
+      <div>
+        <h1 style="font-size: 20px;">Checkout</h1>
+        <p style="font-size: 12px; color: var(--text-muted);">Secure Alchemy Portal</p>
+      </div>
+    </div>
+    <button class="btn-back" onclick="location.href='courselisting.html'">Return to Library</button>
+  </header>
+
+  <div class="grid">
+    <div class="glass-card">
+      <h3>1. Select Payment Method</h3>
+      <div class="payment-methods">
+        <div class="method-opt active" id="cardMethod" onclick="selectMethod('card')">
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/bank-card.png" alt="Card"/>
+          <div>Credit Card</div>
+        </div>
+        <div class="method-opt" id="mpesaMethod" onclick="selectMethod('mpesa')">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/M-Pesa_logo.png" alt="M-Pesa" style="filter: none; grayscale: 0;"/>
+          <div>M-Pesa</div>
+        </div>
+      </div>
+
+      <form id="checkoutForm" onsubmit="handlePay(event)">
+        <div id="cardFields">
+          <div class="field-group">
+            <label>Cardholder Name</label>
+            <input id="fullName" type="text" placeholder="Enter your full name" required>
+          </div>
+          <div class="field-group">
+            <label>Card Number</label>
+            <input id="cardNumber" type="text" placeholder="0000 0000 0000 0000" required>
+          </div>
+          <div class="flex-row">
+            <div class="field-group" style="flex: 2;">
+              <label>Expiry Date</label>
+              <input id="exp" type="text" placeholder="MM/YY" required>
+            </div>
+            <div class="field-group" style="flex: 1;">
+              <label>CVC</label>
+              <input id="cvc" type="text" placeholder="123" required>
+            </div>
+          </div>
+        </div>
+
+        <div id="mpesaFields" style="display:none;">
+          <div class="field-group">
+            <label>M-Pesa Registered Number</label>
+            <input id="mpesaPhone" type="text" placeholder="e.g. 254712345678">
+          </div>
+          <div class="mpesa-notice">
+            <span>💡</span>
+            <p>You will receive an STK Push on your phone to enter your M-Pesa PIN.</p>
+          </div>
+        </div>
+
+        <button class="btn-pay" type="submit">Complete Enrollment</button>
+      </form>
+    </div>
+
+    <aside class="glass-card summary-card">
+      <h3>Order Summary</h3>
+      <div style="margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--glass-border);">
+        <p style="font-size: 15px; font-weight: 700;">Full-Stack Web Alchemy</p>
+        <p style="font-size: 13px; color: var(--text-muted);">Instructor: Nana Kwame</p>
+      </div>
+
+      <div class="summary-line">
+        <span style="color: var(--text-muted);">Original Price</span>
+        <span style="text-decoration: line-through;">$149.00</span>
+      </div>
+      <div class="summary-line">
+        <span style="color: var(--text-muted);">Trade Masters Discount</span>
+        <span style="color: var(--accent-teal);">-$120.00</span>
+      </div>
+      
+      <div class="summary-line total">
+        <span>Total</span>
+        <span id="totalText">$29.00</span>
+      </div>
+
+      <div style="margin-top: 30px; text-align: center;">
+        <p style="font-size: 11px; color: var(--text-muted);">
+          🔒 Secured by AES-256 Encryption. <br>Your data never leaves the sanctuary.
+        </p>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+let selectedMethod = 'card';
+
+function selectMethod(method){
+  selectedMethod = method;
+  document.getElementById('cardMethod').classList.remove('active');
+  document.getElementById('mpesaMethod').classList.remove('active');
+  document.getElementById(method+'Method').classList.add('active');
+  
+  document.getElementById('cardFields').style.display = method === 'card' ? 'block' : 'none';
+  document.getElementById('mpesaFields').style.display = method === 'mpesa' ? 'block' : 'none';
+}
+
+function handlePay(e){
+  e.preventDefault();
+  const btn = document.querySelector('.btn-pay');
+  btn.innerHTML = "Opening Portal...";
+  btn.disabled = true;
+
+  setTimeout(() => {
+    if(selectedMethod === 'card'){
+      alert('Payment Successful! Welcome to the Academy.');
+    } else {
+      alert('STK Push Sent! Check your phone to complete the transaction.');
+    }
+    // In a real app, redirect to a success page here
+    // location.href = 'success.html';
+    btn.innerHTML = "Success!";
+  }, 1500);
+}
+</script>
+</body>
+</html>

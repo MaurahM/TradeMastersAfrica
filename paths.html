@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Paths • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.15);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --emerald: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        header { text-align: center; margin-bottom: 60px; }
+        header h1 { font-size: 48px; font-weight: 800; letter-spacing: -2px; margin-bottom: 12px; }
+        header p { color: var(--text-dim); font-size: 18px; max-width: 600px; margin: 0 auto; }
+
+        /* Path Card Layout */
+        .path-row {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .path-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 40px;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .path-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.5);
+            transform: scale(1.01);
+        }
+
+        /* Journey Progress UI */
+        .journey {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .journey::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border);
+            z-index: 1;
+        }
+
+        .milestone {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 80px;
+        }
+
+        .m-node {
+            width: 50px;
+            height: 50px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .path-card:hover .m-node {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .milestone span { font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; }
+
+        /* Side Info */
+        .path-stats {
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-item { margin-bottom: 20px; }
+        .stat-item:last-child { margin-bottom: 0; }
+        .stat-label { font-size: 12px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .stat-value { font-size: 20px; font-weight: 800; color: var(--text-main); }
+
+        .btn-path {
+            margin-top: 25px;
+            background: var(--accent);
+            color: white;
+            padding: 16px;
+            border-radius: 14px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 800;
+            transition: 0.3s;
+            display: block;
+        }
+
+        .btn-path:hover { background: #4f46e5; }
+
+        .salary-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--emerald);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .path-card { grid-template-columns: 1fr; }
+            .journey { display: none; } /* Hide complex journey on mobile for clean look */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Career Blueprints</h1>
+        <p>Verified learning tracks designed by industry experts to get you hired in record time.</p>
+    </header>
+
+    <div class="path-row">
+        <div class="path-card">
+            <div class="content">
+                <div class="salary-badge">💰 Avg. Salary: $45k - $90k</div>
+                <h2 style="font-size: 32px; font-weight: 800; margin-bottom: 10px;">Full-Stack Engineer</h2>
+                <p style="color: var(--text-dim); max-width: 500px;">Go from zero to building complex SaaS applications. This path covers everything from HTML to advanced system architecture.</p>
+                
+                <div class="journey">
+                    <div class="milestone">
+                        <div class="m-node">🎨</div>
+                        <span>Static UI</span>
+                    </div>
+                    <div class="milestone">
+                        <div class="m-node">⚙️</div>
+                        <span>Logic</span>
+                    </div>
+                    <div class="milestone">
+                        <div class="m-node">📦</div>
+                        <span>Backend</span>
+                    </div>
+                    <div class="milestone">
+                        <div class="m-node">🚀</div>
+                        <span>Cloud</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="path-stats">
+                <div class="stat-item">
+                    <div class="stat-label">Time to Finish</div>
+                    <div class="stat-value">24 Weeks</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Total Projects</div>
+                    <div class="stat-value">6 Major Builds</div>
+                </div>
+                <a href="#" class="btn-path">Start Journey</a>
+            </div>
+        </div>
+
+        <div class="path-card">
+            <div class="content">
+                <div class="salary-badge">🎨 Avg. Salary: $35k - $70k</div>
+                <h2 style="font-size: 32px; font-weight: 800; margin-bottom: 10px;">UI/UX Professional</h2>
+                <p style="color: var(--text-dim); max-width: 500px;">Master the psychological side of design. Learn to build high-converting interfaces for the global market.</p>
+                
+                <div class="journey">
+                    <div class="milestone">
+                        <div class="m-node">📝</div>
+                        <span>Research</span>
+                    </div>
+                    <div class="milestone">
+                        <div class="m-node">📐</div>
+                        <span>UX Wire</span>
+                    </div>
+                    <div class="milestone">
+                        <div class="m-node">✨</div>
+                        <span>Visuals</span>
+                    </div>
+                    <div class="milestone">
+                        <div class="m-node">📱</div>
+                        <span>Prototypes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="path-stats">
+                <div class="stat-item">
+                    <div class="stat-label">Time to Finish</div>
+                    <div class="stat-value">16 Weeks</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Portfolio Focus</div>
+                    <div class="stat-value">B2C Apps</div>
+                </div>
+                <a href="#" class="btn-path">Start Journey</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

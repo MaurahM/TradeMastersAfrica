@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Success Stories • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --accent-2: #2dd4bf;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 24px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 60px 20px;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        header { text-align: center; margin-bottom: 80px; }
+        header h1 { font-size: 52px; font-weight: 800; letter-spacing: -3px; margin-bottom: 16px; }
+        header p { color: var(--text-dim); font-size: 20px; max-width: 700px; margin: 0 auto; }
+
+        /* Story Grid */
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .story-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            transition: 0.4s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .story-card:hover { 
+            transform: translateY(-12px); 
+            border-color: var(--accent);
+            box-shadow: 0 30px 60px -15px rgba(99, 102, 241, 0.2);
+        }
+
+        .user-profile { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
+        .user-photo { 
+            width: 70px; height: 70px; border-radius: 50%; 
+            border: 3px solid var(--accent); padding: 3px;
+        }
+        .user-info h3 { font-size: 20px; font-weight: 700; }
+        .user-info p { font-size: 14px; color: var(--accent-2); font-weight: 600; }
+
+        /* The Transformation Box */
+        .transformation {
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--accent);
+        }
+        .label { font-size: 10px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .trans-text { font-size: 15px; margin-top: 5px; font-weight: 500; }
+
+        .quote { font-style: italic; color: var(--text-dim); font-size: 16px; position: relative; }
+        .quote::before { content: '"'; font-size: 50px; color: var(--accent); position: absolute; left: -20px; top: -20px; opacity: 0.3; }
+
+        /* Company Badge */
+        .hired-by {
+            margin-top: auto;
+            padding-top: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+        .company-logo {
+            filter: grayscale(1) brightness(2);
+            opacity: 0.7;
+            height: 20px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 36px; }
+            .story-card { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Beyond the Certificate</h1>
+        <p>Real people. Real careers. Real transformations. See how our graduates are shaping the future of African tech.</p>
+    </header>
+
+    <div class="story-grid">
+        <article class="story-card">
+            <div class="user-profile">
+                <img src="https://i.pravatar.cc/150?u=joshua" class="user-photo" alt="Joshua">
+                <div class="user-info">
+                    <h3>Joshua Okonjo</h3>
+                    <p>Frontend Engineer</p>
+                </div>
+            </div>
+            
+            <div class="transformation">
+                <div class="label">The Shift</div>
+                <p class="trans-text">From Retail Assistant ➔ Lead Dev</p>
+            </div>
+
+            <p class="quote">"I was working 50 hours a week in a shop with no path forward. Trade Masters didn't just teach me React; they taught me how to think like an engineer. Within 5 months, I had 3 job offers."</p>
+            
+            <div class="hired-by">
+                <span>Hired at:</span>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" class="company-logo" alt="PayPal">
+            </div>
+        </article>
+
+        <article class="story-card">
+            <div class="user-profile">
+                <img src="https://i.pravatar.cc/150?u=sarah" class="user-photo" alt="Sarah">
+                <div class="user-info">
+                    <h3>Sarah Mensah</h3>
+                    <p>UI/UX Designer</p>
+                </div>
+            </div>
+            
+            <div class="transformation">
+                <div class="label">The Shift</div>
+                <p class="trans-text">From Admin Clerk ➔ Product Designer</p>
+            </div>
+
+            <p class="quote">"The mentorship was the game changer. Having a designer from Google review my portfolio gave me the confidence to apply for roles I previously thought were out of my reach."</p>
+            
+            <div class="hired-by">
+                <span>Hired at:</span>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/01/LinkedIn_Logo.svg" class="company-logo" alt="LinkedIn">
+            </div>
+        </article>
+
+        <article class="story-card">
+            <div class="user-profile">
+                <img src="https://i.pravatar.cc/150?u=emeka" class="user-photo" alt="Emeka">
+                <div class="user-info">
+                    <h3>Emeka Uzor</h3>
+                    <p>Data Analyst</p>
+                </div>
+            </div>
+            
+            <div class="transformation">
+                <div class="label">The Shift</div>
+                <p class="trans-text">From Unemployed ➔ Data Scientist</p>
+            </div>
+
+            <p class="quote">"The project-based learning is what got me the job. In my interview, I showed them the real-world dataset I cleaned and analyzed during my Trade Masters Path. They were blown away."</p>
+            
+            <div class="hired-by">
+                <span>Hired at:</span>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" class="company-logo" alt="Stripe">
+            </div>
+        </article>
+    </div>
+
+    <div style="text-align: center; margin-top: 80px;">
+        <h2 style="margin-bottom: 20px;">Your story is next.</h2>
+        <a href="paths.html" style="background: var(--accent); color: white; padding: 18px 40px; border-radius: 14px; text-decoration: none; font-weight: 800; display: inline-block;">Start Your Journey</a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Post-Assessment Report • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --emerald: #10b981;
+            --rose: #f43f5e;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 20px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+            color: var(--text-main);
+            padding: 40px 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        /* Top Result Card */
+        .result-hero {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            margin-bottom: 24px;
+        }
+
+        .result-hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--accent);
+        }
+
+        .passed-theme::after { background: var(--emerald); }
+        .failed-theme::after { background: var(--rose); }
+
+        .score-circle {
+            width: 150px; height: 150px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            border: 8px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+
+        .score-val { font-size: 42px; font-weight: 800; line-height: 1; }
+        .score-total { font-size: 14px; color: var(--text-dim); margin-top: 5px; }
+
+        .status-pill {
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .passed-pill { background: rgba(16, 185, 129, 0.1); color: var(--emerald); border: 1px solid rgba(16, 185, 129, 0.2); }
+        .failed-pill { background: rgba(244, 63, 94, 0.1); color: var(--rose); border: 1px solid rgba(244, 63, 94, 0.2); }
+
+        /* Question Breakdown */
+        .grid-layout { display: grid; grid-template-columns: 1fr 300px; gap: 24px; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px; }
+
+        .question-item {
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.02);
+            border-left: 4px solid transparent;
+        }
+        .q-correct { border-left-color: var(--emerald); }
+        .q-incorrect { border-left-color: var(--rose); }
+
+        .ans-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; margin-top: 10px; }
+        .ans-text { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s;
+            width: 100%; margin-bottom: 10px; text-decoration: none; display: inline-block; text-align: center;
+        }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); }
+        .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
+        .btn-ghost:hover { background: rgba(255,255,255,0.05); color: var(--text-main); }
+
+        @media (max-width: 800px) { .grid-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="heroCard" class="result-hero">
+        <div id="statusPill" class="status-pill">Analyzing...</div>
+        <div class="score-circle">
+            <span class="score-val" id="percent">0%</span>
+            <span class="score-total" id="fraction">0 / 0</span>
+        </div>
+        <h1 id="courseTitle" style="margin-bottom: 8px;">Technical Assessment</h1>
+        <p id="timeText" style="color: var(--text-dim); font-size: 14px;">Time Elapsed: 0m 0s</p>
+    </div>
+
+    <div class="grid-layout">
+        <main class="card">
+            <h3 style="margin-bottom: 20px; font-size: 18px;">Detailed Breakdown</h3>
+            <div id="questionBreakdown">
+                </div>
+        </main>
+
+        <aside>
+            <div class="card">
+                <h3 style="margin-bottom: 20px; font-size: 16px;">Next Actions</h3>
+                <button id="certBtn" class="btn btn-primary" onclick="downloadCertificate()" style="display: none;">Claim Certificate</button>
+                <button class="btn btn-ghost" onclick="location.href='coursedetailspage.html'">Back to Course</button>
+                <button class="btn btn-ghost" onclick="location.href='dashboard.html'">Return to Dashboard</button>
+                <hr style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
+                <button class="btn btn-ghost" style="font-size: 13px;" onclick="retake()">Retake Assessment</button>
+            </div>
+            
+            
+
+            <div class="card" style="margin-top: 24px; text-align: center;">
+                <p style="font-size: 12px; color: var(--text-dim);">Your results have been synced to your permanent learning record.</p>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<script>
+    function loadResult() {
+        const res = JSON.parse(localStorage.getItem('tm_last_quiz_result') || 'null');
+        if(!res) {
+            location.href = 'dashboard.html';
+            return;
+        }
+
+        const passed = res.percent >= (res.passing || 70);
+        
+        // Theme Update
+        const hero = document.getElementById('heroCard');
+        const pill = document.getElementById('statusPill');
+        hero.className = `result-hero ${passed ? 'passed-theme' : 'failed-theme'}`;
+        pill.className = `status-pill ${passed ? 'passed-pill' : 'failed-pill'}`;
+        pill.textContent = passed ? 'Passed • Certification Ready' : 'Incomplete • Review Required';
+
+        document.getElementById('percent').textContent = res.percent + '%';
+        document.getElementById('fraction').textContent = `${res.score} / ${res.total}`;
+        document.getElementById('courseTitle').textContent = res.courseTitle || 'Technical Assessment';
+        document.getElementById('timeText').textContent = `Duration: ${res.timeTaken || 'N/A'}`;
+
+        if(passed) document.getElementById('certBtn').style.display = 'block';
+
+        // Render Questions
+        const container = document.getElementById('questionBreakdown');
+        if(res.questions && res.questions.length > 0) {
+            container.innerHTML = res.questions.map((q, i) => `
+                <div class="question-item ${q.correct ? 'q-correct' : 'q-incorrect'}">
+                    <div style="font-weight: 700; margin-bottom: 15px;">Q${i+1}: ${q.text}</div>
+                    <div class="ans-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <div class="ans-label">Your Answer</div>
+                            <div class="ans-text" style="color: ${q.correct ? 'var(--emerald)' : 'var(--rose)'}">${q.userAnswer || 'No Answer'}</div>
+                        </div>
+                        <div>
+                            <div class="ans-label">Correct Solution</div>
+                            <div class="ans-text" style="color: var(--emerald)">${q.correctAnswer}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            container.innerHTML = `<p class="muted">Detailed breakdown not available for this session.</p>`;
+        }
+    }
+
+    function downloadCertificate() {
+        const res = JSON.parse(localStorage.getItem('tm_last_quiz_result'));
+        const content = `TRADE MASTERS CERTIFICATE\n\nCourse: ${res.courseTitle}\nScore: ${res.percent}%\nVerification Code: TM-${Math.random().toString(36).substr(2, 9).toUpperCase()}\n\nVerified on ${new Date().toLocaleDateString()}`;
+        const blob = new Blob([content], {type: 'text/plain'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Certificate_${res.courseTitle.replace(/\s/g, '_')}.txt`;
+        a.click();
+    }
+
+    function retake() {
+        if(confirm('Are you ready to attempt the assessment again? Your current result will be archived.')) {
+            location.href = 'coursedetailspage.html';
+        }
+    }
+
+    loadResult();
+</script>
+
+</body>
+</html>

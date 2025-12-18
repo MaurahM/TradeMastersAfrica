@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Support Hub • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --emerald: #10b981;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 20px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .logo-mark {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--accent), #7ef6d4);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: #020617;
+        }
+
+        .hero-section { text-align: center; margin-bottom: 60px; }
+        .hero-section h1 { font-size: 42px; font-weight: 800; letter-spacing: -1px; }
+        .hero-section p { color: var(--text-dim); font-size: 18px; }
+
+        .support-grid { display: grid; grid-template-columns: 1.8fr 1fr; gap: 30px; }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: 0 20px 50px -12px rgba(0,0,0,0.5);
+        }
+
+        /* FAQ Styling */
+        .faq-container { margin-top: 30px; }
+        .faq-item {
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px; margin-bottom: 12px;
+            overflow: hidden; border: 1px solid transparent; transition: 0.3s;
+        }
+        .faq-item:hover { border-color: var(--border); }
+        .faq-trigger {
+            padding: 20px; cursor: pointer; display: flex; justify-content: space-between;
+            font-weight: 700; align-items: center;
+        }
+        .faq-content { padding: 0 20px 20px; color: var(--text-dim); font-size: 14px; display: none; }
+        .faq-item.active .faq-content { display: block; }
+        .faq-item.active .faq-trigger { color: var(--accent); }
+
+        /* Form Styling */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 12px; font-weight: 700; color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase; }
+        input, select, textarea {
+            width: 100%; padding: 14px; border-radius: 12px;
+            background: rgba(0,0,0,0.2); border: 1px solid var(--border);
+            color: white; font-size: 15px; transition: 0.2s;
+        }
+        input:focus { border-color: var(--accent); outline: none; }
+
+        .btn {
+            padding: 14px 24px; border-radius: 12px; font-weight: 700; cursor: pointer;
+            border: none; transition: 0.3s;
+        }
+        .btn-primary { background: var(--accent); color: white; width: 100%; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); }
+
+        /* Sidebar Info */
+        .channel-list { list-style: none; margin-top: 20px; }
+        .channel-list li {
+            display: flex; align-items: center; gap: 15px; margin-bottom: 15px;
+            padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px;
+        }
+        .icon-box { 
+            width: 40px; height: 40px; background: rgba(99,102,241,0.1); 
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            color: var(--accent); font-size: 18px;
+        }
+
+        .chat-widget {
+            position: fixed; bottom: 30px; right: 30px;
+            background: var(--accent); color: white; width: 60px; height: 60px;
+            border-radius: 30px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            font-size: 24px; transition: 0.3s;
+        }
+        .chat-widget:hover { transform: scale(1.1) rotate(-10deg); }
+
+        @media (max-width: 900px) { .support-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div class="logo-mark">TM</div>
+            <h2 style="font-weight: 800; letter-spacing: -0.5px;">Support Hub</h2>
+        </div>
+        <a href="dashboard.html" style="color: var(--text-dim); text-decoration: none; font-weight: 600; font-size: 14px;">← Dashboard</a>
+    </header>
+
+    <div class="hero-section">
+        <h1>How can we help?</h1>
+        <p>Search our knowledge base or get in touch with our experts.</p>
+    </div>
+
+    <div class="support-grid">
+        <main>
+            <section class="card">
+                <h2 style="margin-bottom: 25px;">Submit a Support Ticket</h2>
+                <form id="ticketForm" onsubmit="handleTicket(event)">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="name" placeholder="Amina Mwangi" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="email" placeholder="amina@domain.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Reason for Contact</label>
+                        <select id="reason">
+                            <option>Technical Issue</option>
+                            <option>Billing & Refunds</option>
+                            <option>Certificate Verification</option>
+                            <option>Course Content Feedback</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Detailed Message</label>
+                        <textarea id="message" placeholder="Describe your issue in detail..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Support Request</button>
+                </form>
+            </section>
+
+            <section class="faq-container">
+                <h2 style="margin-bottom: 20px;">Frequently Asked Questions</h2>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-trigger">How do I verify my certificate? <span>+</span></div>
+                    <div class="faq-content">Each certificate comes with a unique ID. You can enter this on our 'Verification' page or share the direct link provided in your profile.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-trigger">Can I access courses offline? <span>+</span></div>
+                    <div class="faq-content">Yes! Using the Trade Masters mobile app, you can download lessons to watch while traveling or in areas with low connectivity.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-trigger">What payment methods are supported? <span>+</span></div>
+                    <div class="faq-content">We support M-Pesa, Flutterwave, Card payments, and Bank Transfers across most African regions.</div>
+                </div>
+            </section>
+        </main>
+
+        <aside>
+            <div class="card">
+                <h3 style="margin-bottom: 20px;">Direct Channels</h3>
+                <ul class="channel-list">
+                    <li>
+                        <div class="icon-box">✉</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 14px;">Email Support</div>
+                            <div style="font-size: 12px; color: var(--text-dim);">help@trademasters.africa</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon-box">💬</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 14px;">Community Discord</div>
+                            <div style="font-size: 12px; color: var(--text-dim);">Join 5,000+ Students</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card" style="margin-top: 30px; background: linear-gradient(135deg, var(--accent), #4f46e5);">
+                <h3 style="color: white; margin-bottom: 10px;">Pro Support</h3>
+                <p style="color: rgba(255,255,255,0.8); font-size: 13px; margin-bottom: 15px;">Elite members get priority responses within 2 hours.</p>
+                <button class="btn" style="background: white; color: var(--accent); width: 100%;">Upgrade to Pro</button>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<div class="chat-widget" onclick="alert('Starting Live Chat...')">💬</div>
+
+<script>
+    function toggleFaq(el) {
+        el.classList.toggle('active');
+        const span = el.querySelector('span');
+        span.textContent = el.classList.contains('active') ? '−' : '+';
+    }
+
+    function handleTicket(e) {
+        e.preventDefault();
+        const id = 'TM-' + Math.floor(Math.random() * 100000);
+        alert(`Success! Ticket ${id} has been created. Check your email for confirmation.`);
+        document.getElementById('ticketForm').reset();
+    }
+</script>
+
+</body>
+</html>

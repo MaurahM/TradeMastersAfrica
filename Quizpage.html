@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Assessment • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.2);
+            --emerald: #10b981;
+            --rose: #f43f5e;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 20px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at center, rgba(99, 102, 241, 0.03) 0%, transparent 70%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 40px 100px -20px rgba(0,0,0,0.8);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Top Progress Bar */
+        .progress-bar-wrap {
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            width: 100%;
+        }
+        #progressFill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2, #7ef6d4));
+            width: 0%;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .quiz-header {
+            padding: 30px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timer-badge {
+            background: rgba(244, 63, 94, 0.1);
+            color: var(--rose);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 14px;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quiz-body { padding: 40px; }
+        
+        .q-meta { font-size: 12px; font-weight: 800; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+        .q-text { font-size: 22px; font-weight: 700; line-height: 1.4; margin-bottom: 30px; }
+
+        .options-list { display: grid; gap: 12px; }
+        .option-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            padding: 18px 24px;
+            border-radius: 16px;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-dim);
+        }
+        .option-btn:hover { background: rgba(255, 255, 255, 0.05); border-color: var(--accent); }
+        .option-btn.selected {
+            background: var(--accent-glow);
+            border-color: var(--accent);
+            color: var(--text-main);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+        }
+
+        .option-letter {
+            width: 28px; height: 28px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 800; color: var(--text-dim);
+        }
+        .selected .option-letter { background: var(--accent); color: white; }
+
+        .quiz-footer {
+            padding: 30px 40px;
+            background: rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s;
+        }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px var(--accent-glow); }
+        .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        @media (max-width: 600px) {
+            .quiz-body { padding: 25px; }
+            .q-text { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div class="progress-bar-wrap">
+        <div id="progressFill"></div>
+    </div>
+
+    <div class="quiz-header">
+        <div>
+            <h1 style="font-size: 18px;">Section Assessment</h1>
+            <p id="courseTitle" style="font-size: 12px; color: var(--text-dim);">Full-Stack Web Development</p>
+        </div>
+        <div class="timer-badge">
+            <span id="timer">15:00</span>
+        </div>
+    </div>
+
+    <div class="quiz-body">
+        <div class="q-meta" id="qNumber">Question 1 of 4</div>
+        <div class="q-text" id="qText">What does HTML stand for?</div>
+
+        <div class="options-list" id="options">
+            </div>
+    </div>
+
+    <div class="quiz-footer">
+        <div style="display: flex; gap: 10px;">
+            <button class="btn btn-ghost" id="prevBtn" onclick="prevQ()">Back</button>
+            <button class="btn btn-ghost" id="nextBtn" onclick="nextQ()">Next</button>
+        </div>
+        <button class="btn btn-primary" id="submitBtn" onclick="submitQuiz()">Submit Assessment</button>
+    </div>
+</div>
+
+<script>
+    const quizData = {
+        courseTitle: 'Full-Stack Web Development',
+        timeLimitMinutes: 15,
+        questions: [
+            {text: 'What does HTML stand for?', options: ['HyperText Markup Language','HighText Machine Language','HyperTool Markup Language','None of the above'], correct: 0},
+            {text: 'Which language runs in the browser?', options: ['Python','JavaScript','C++','Java'], correct: 1},
+            {text: 'Which is a backend runtime environment?', options: ['Node.js','React','Vue','Svelte'], correct: 0}
+        ]
+    };
+
+    let currentIdx = 0;
+    let userAnswers = new Array(quizData.questions.length).fill(null);
+    let timeLeft = quizData.timeLimitMinutes * 60;
+
+    function renderQuestion() {
+        const q = quizData.questions[currentIdx];
+        document.getElementById('qNumber').textContent = `Question ${currentIdx + 1} of ${quizData.questions.length}`;
+        document.getElementById('qText').textContent = q.text;
+        
+        const optionsContainer = document.getElementById('options');
+        optionsContainer.innerHTML = q.options.map((opt, i) => `
+            <div class="option-btn ${userAnswers[currentIdx] === i ? 'selected' : ''}" onclick="selectOption(${i})">
+                <div class="option-letter">${String.fromCharCode(65 + i)}</div>
+                <div style="flex: 1;">${opt}</div>
+            </div>
+        `).join('');
+
+        // Update progress bar
+        const progress = ((currentIdx + 1) / quizData.questions.length) * 100;
+        document.getElementById('progressFill').style.width = progress + '%';
+
+        // Nav buttons
+        document.getElementById('prevBtn').disabled = currentIdx === 0;
+        document.getElementById('nextBtn').disabled = currentIdx === quizData.questions.length - 1;
+        document.getElementById('submitBtn').style.display = currentIdx === quizData.questions.length - 1 ? 'block' : 'none';
+    }
+
+    function selectOption(i) {
+        userAnswers[currentIdx] = i;
+        renderQuestion();
+    }
+
+    function nextQ() { if(currentIdx < quizData.questions.length - 1) { currentIdx++; renderQuestion(); } }
+    function prevQ() { if(currentIdx > 0) { currentIdx--; renderQuestion(); } }
+
+    function startTimer() {
+        const timerEl = document.getElementById('timer');
+        const interval = setInterval(() => {
+            timeLeft--;
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            timerEl.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            
+            if (timeLeft <= 60) {
+                document.querySelector('.timer-badge').style.background = 'rgba(244, 63, 94, 0.3)';
+            }
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                submitQuiz();
+            }
+        }, 1000);
+    }
+
+    function submitQuiz() {
+        if(!confirm('Finalize your assessment? Your score will be recorded immediately.')) return;
+        
+        let score = 0;
+        userAnswers.forEach((ans, i) => {
+            if(ans === quizData.questions[i].correct) score++;
+        });
+
+        const finalResult = {
+            score: score,
+            total: quizData.questions.length,
+            percent: Math.round((score / quizData.questions.length) * 100)
+        };
+
+        localStorage.setItem('tm_last_quiz_result', JSON.stringify(finalResult));
+        location.href = 'Quizresultspage.html';
+    }
+
+    renderQuestion();
+    startTimer();
+</script>
+
+</body>
+</html>

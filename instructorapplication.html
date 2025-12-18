@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Join the Faculty • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.2);
+            --emerald: #10b981;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%);
+            color: var(--text-main);
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        header { text-align: center; margin-bottom: 48px; }
+        .logo-badge {
+            width: 56px; height: 56px; background: linear-gradient(135deg, var(--accent), #a855f7);
+            border-radius: 16px; display: inline-flex; align-items: center; justify-content: center;
+            font-weight: 800; color: white; margin-bottom: 20px; box-shadow: 0 10px 20px -5px var(--accent-glow);
+        }
+
+        h1 { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+        .stats-strip {
+            display: flex; justify-content: center; gap: 32px; margin-top: 24px;
+            padding: 16px; background: rgba(255,255,255,0.03); border-radius: 12px;
+        }
+        .stat-item { text-align: center; }
+        .stat-val { display: block; font-weight: 800; color: var(--accent); }
+        .stat-lbl { font-size: 11px; text-transform: uppercase; color: var(--text-dim); }
+
+        /* Form Styling */
+        form {
+            background: var(--surface);
+            padding: 40px; border-radius: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-title {
+            font-size: 14px; font-weight: 800; color: var(--accent);
+            text-transform: uppercase; letter-spacing: 1px;
+            margin: 32px 0 16px; display: flex; align-items: center; gap: 12px;
+        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .section-title:first-child { margin-top: 0; }
+
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        label { display: block; font-size: 13px; font-weight: 600; color: var(--text-dim); margin-bottom: 8px; }
+        
+        input, textarea, select {
+            width: 100%; padding: 14px; border-radius: 12px;
+            border: 1px solid var(--border); background: rgba(0,0,0,0.2);
+            color: white; font-size: 14px; transition: 0.2s;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+
+        /* File Upload Customization */
+        input[type="file"] { padding: 10px; font-size: 12px; background: transparent; border: 1px dashed var(--border); }
+
+        .btn-submit {
+            width: 100%; margin-top: 40px; background: var(--accent); color: white;
+            border: none; padding: 18px; border-radius: 14px; font-weight: 700;
+            font-size: 16px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-submit:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        #statusMessage {
+            margin-top: 20px; padding: 16px; border-radius: 12px;
+            background: rgba(16, 185, 129, 0.1); color: var(--emerald);
+            text-align: center; font-weight: 600; display: none;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 600px) { .input-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo-badge">TM</div>
+        <h1>Shape the Future of Trade</h1>
+        <p style="color: var(--text-dim)">Join 500+ elite instructors worldwide.</p>
+        
+        <div class="stats-strip">
+            <div class="stat-item"><span class="stat-val">85%</span><span class="stat-lbl">Revenue Share</span></div>
+            <div class="stat-item"><span class="stat-val">120K+</span><span class="stat-lbl">Active Students</span></div>
+            <div class="stat-item"><span class="stat-val">24/7</span><span class="stat-lbl">Studio Support</span></div>
+        </div>
+    </header>
+
+    <form id="instructorForm">
+        <div class="section-title">Personal Identity</div>
+        <div class="input-grid">
+            <div class="field">
+                <label>Full Name</label>
+                <input type="text" placeholder="Legal name" required>
+            </div>
+            <div class="field">
+                <label>Professional Email</label>
+                <input type="email" placeholder="work@example.com" required>
+            </div>
+        </div>
+
+        <div class="section-title">Professional Background</div>
+        <label>Primary Expertise</label>
+        <select required style="margin-bottom: 20px;">
+            <option value="">Select Domain</option>
+            <option>Software Engineering</option>
+            <option>Quantitative Finance</option>
+            <option>UX Architecture</option>
+            <option>Growth Marketing</option>
+        </select>
+
+        <label>Experience Synopsis</label>
+        <textarea placeholder="Summarize your industry track record..." required></textarea>
+
+        <div class="section-title">Course Proposal</div>
+        <label>Proposed Curriculum Titles</label>
+        <textarea placeholder="e.g. Advanced React Patterns, Crypto Arbitrage 101..." required></textarea>
+
+        <label>Credentials (Resume/Portfolio PDF)</label>
+        <input type="file" accept=".pdf" required>
+
+        <button type="submit" class="btn-submit">Initialize Application</button>
+        <div id="statusMessage"></div>
+    </form>
+</div>
+
+
+
+<script>
+    const form = document.getElementById('instructorForm');
+    const status = document.getElementById('statusMessage');
+
+    form.addEventListener('submit', function(e){
+        e.preventDefault();
+        status.style.display = 'block';
+        status.style.color = '#94a3b8';
+        status.textContent = 'Encrypting & Sending Payload...';
+        
+        setTimeout(()=>{
+            status.style.color = 'var(--emerald)';
+            status.textContent = 'Application Transmitted. Our faculty board will reach out within 48 hours. 🎉';
+            form.style.opacity = '0.5';
+            form.style.pointerEvents = 'none';
+        }, 2000);
+    });
+</script>
+</body>
+</html>

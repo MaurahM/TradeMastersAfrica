@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Learning Theater • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --emerald: #10b981;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 20px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Navigation */
+        nav {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .course-info h1 { font-size: 16px; font-weight: 800; }
+        .course-info p { font-size: 12px; color: var(--text-dim); }
+
+        /* Theater Layout */
+        .theater {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            height: calc(100vh - 73px);
+        }
+
+        .player-section {
+            padding: 32px;
+            overflow-y: auto;
+            background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.05), transparent);
+        }
+
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--border);
+        }
+
+        /* Sidebar / Curriculum */
+        .curriculum-sidebar {
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .lesson-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 4px;
+            border: 1px solid transparent;
+        }
+
+        .lesson-item:hover { background: rgba(255,255,255,0.03); }
+        .lesson-item.active { background: var(--accent); border-color: rgba(255,255,255,0.2); }
+        .lesson-item.active .lesson-title { color: white; }
+
+        .status-dot {
+            width: 20px; height: 20px; border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex; align-items: center; justify-content: center; font-size: 10px;
+        }
+        .status-dot.done { background: var(--emerald); border-color: var(--emerald); color: white; }
+
+        /* Lesson Content */
+        .content-body { margin-top: 32px; max-width: 900px; }
+        .tabs { display: flex; gap: 24px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+        .tab { padding: 12px 0; color: var(--text-dim); cursor: pointer; font-weight: 600; font-size: 14px; position: relative; }
+        .tab.active { color: var(--accent); }
+        .tab.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--accent); }
+
+        /* UI Elements */
+        .btn {
+            background: var(--accent); color: white; border: none; padding: 10px 20px;
+            border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s;
+        }
+        .ai-prompt {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.1));
+            border: 1px solid var(--border); padding: 20px; border-radius: 16px; margin-top: 24px;
+        }
+        textarea {
+            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+            border-radius: 12px; color: white; padding: 12px; margin: 12px 0; resize: none;
+        }
+
+        @media (max-width: 1100px) {
+            .theater { grid-template-columns: 1fr; height: auto; }
+            .curriculum-sidebar { border-left: none; border-top: 1px solid var(--border); }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="course-info">
+        <h1 id="courseTitle">Mastering Modern UX</h1>
+        <p id="moduleTitle">Module 2: Visual Hierarchy & Spacing</p>
+    </div>
+    <div style="display: flex; gap: 12px;">
+        <button class="btn" style="background: transparent; border: 1px solid var(--border);" onclick="location.href='coursedetailspage.html'">Exit</button>
+        <button class="btn" id="completeBtn" onclick="toggleComplete()">Complete Lesson</button>
+    </div>
+</nav>
+
+<div class="theater">
+    <main class="player-section">
+        <div class="video-container">
+            <iframe id="videoPlayer" width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <div class="content-body">
+            <h2 id="lessonTitle" style="font-size: 24px; margin-bottom: 8px;">1. Introduction to Spatial Systems</h2>
+            <p id="lessonDescription" style="color: var(--text-dim); line-height: 1.6;">In this lesson, we explore how 8pt grids define modern interface balance.</p>
+
+            <div class="tabs" style="margin-top: 40px;">
+                <div class="tab active">Resources</div>
+                <div class="tab">Transcript</div>
+                <div class="tab">Personal Notes</div>
+                <div class="tab">Discussion</div>
+            </div>
+
+            <div id="tabContent">
+                <div id="resourcesList">
+                    </div>
+            </div>
+
+            <div class="ai-prompt">
+                <div style="font-weight: 800; font-size: 14px;">✨ Ask Trade Masters AI</div>
+                <textarea id="aiQuestion" rows="2" placeholder="Confused about a concept in this video? Ask AI..."></textarea>
+                <button class="btn" style="width: 100%;" onclick="askAI()">Query Intelligence</button>
+                <div id="aiAnswer" style="margin-top: 15px; font-size: 13px; color: var(--emerald); font-weight: 600;"></div>
+            </div>
+        </div>
+    </main>
+
+    <aside class="curriculum-sidebar">
+        <div class="sidebar-header">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 12px; font-weight: 800; color: var(--text-dim);">COURSE PROGRESS</span>
+                <span id="moduleProgress" style="font-size: 12px; font-weight: 800; color: var(--emerald);">0%</span>
+            </div>
+            <div style="height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                <div id="progressFill" style="height: 100%; background: var(--accent); width: 0%; transition: 0.5s;"></div>
+            </div>
+        </div>
+        
+        <div class="lesson-list" id="lessonList">
+            </div>
+    </aside>
+</div>
+
+<script>
+    const demoData = {
+        courseTitle: 'Full-Stack Web Development',
+        module: 'Module 1: Foundations',
+        currentLessonId: 'l1',
+        lessons: [
+            { id: 'l1', title: 'Introduction & Setup', duration: '12:34', status: 'done' },
+            { id: 'l2', title: 'HTML & CSS Basics', duration: '45:10', status: 'next' },
+            { id: 'l3', title: 'JavaScript Essentials', duration: '32:15', status: 'lock' }
+        ]
+    };
+
+    function renderCurriculum() {
+        const list = document.getElementById('lessonList');
+        const progress = JSON.parse(localStorage.getItem('tm_progress') || '{}');
+        
+        list.innerHTML = demoData.lessons.map(l => {
+            const isCompleted = progress[l.id]?.completed;
+            const isActive = l.id === demoData.currentLessonId;
+            
+            return `
+                <div class="lesson-item ${isActive ? 'active' : ''}" onclick="changeLesson('${l.id}')">
+                    <div class="status-dot ${isCompleted ? 'done' : ''}">${isCompleted ? '✓' : ''}</div>
+                    <div style="flex: 1;">
+                        <div class="lesson-title" style="font-size: 14px; font-weight: 600;">${l.title}</div>
+                        <div style="font-size: 11px; color: var(--text-dim);">${l.duration}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        updateProgressUI();
+    }
+
+    function updateProgressUI() {
+        const p = JSON.parse(localStorage.getItem('tm_progress') || '{}');
+        const completed = Object.values(p).filter(x => x.completed).length;
+        const pct = Math.round((completed / demoData.lessons.length) * 100);
+        
+        document.getElementById('moduleProgress').textContent = pct + '%';
+        document.getElementById('progressFill').style.width = pct + '%';
+        
+        const isNowComplete = p[demoData.currentLessonId]?.completed;
+        document.getElementById('completeBtn').textContent = isNowComplete ? 'Lesson Completed ✓' : 'Complete Lesson';
+        document.getElementById('completeBtn').style.background = isNowComplete ? 'var(--emerald)' : 'var(--accent)';
+    }
+
+    function toggleComplete() {
+        let p = JSON.parse(localStorage.getItem('tm_progress') || '{}');
+        const id = demoData.currentLessonId;
+        
+        if(!p[id]) p[id] = {};
+        p[id].completed = !p[id].completed;
+        
+        localStorage.setItem('tm_progress', JSON.stringify(p));
+        renderCurriculum();
+    }
+
+    function askAI() {
+        const ans = document.getElementById('aiAnswer');
+        ans.textContent = "Analyzing video transcript for context...";
+        setTimeout(() => {
+            ans.textContent = "AI Result: The instructor mentioned 'Environmental Variables' at 04:22. These are key-value pairs used to configure your app's environment without hardcoding sensitive data.";
+        }, 1500);
+    }
+
+    // Initial Load
+    renderCurriculum();
+</script>
+
+</body>
+</html>

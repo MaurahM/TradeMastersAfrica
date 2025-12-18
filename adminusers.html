@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Users • Trade Masters Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.2);
+            --emerald: #10b981;
+            --rose: #f43f5e;
+            --amber: #f59e0b;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container { max-width: 1300px; margin: 0 auto; }
+
+        /* Header Navigation */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 32px;
+        }
+        .brand { display: flex; align-items: center; gap: 14px; }
+        .logo-box {
+            width: 44px; height: 44px; background: linear-gradient(135deg, var(--accent), #a855f7);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: white; box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        /* Filter Controls */
+        .toolbar {
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 16px; border-radius: 16px;
+            display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .search-input {
+            flex: 1; min-width: 250px; position: relative;
+        }
+        input[type=text], select {
+            width: 100%; padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border);
+            background: rgba(0,0,0,0.2); color: white; font-size: 14px; outline: none;
+        }
+        input:focus { border-color: var(--accent); }
+
+        /* Table Design */
+        .table-wrap {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; overflow: hidden;
+        }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { 
+            padding: 16px; font-size: 12px; text-transform: uppercase; 
+            color: var(--text-dim); letter-spacing: 1px; border-bottom: 1px solid var(--border);
+        }
+        td { padding: 16px; font-size: 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        tr:last-child td { border: none; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+
+        /* User Identity Cells */
+        .user-cell { display: flex; align-items: center; gap: 12px; }
+        .avatar {
+            width: 36px; height: 36px; border-radius: 50%; background: #334155;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700; color: white;
+        }
+
+        /* Status & Role Badges */
+        .badge {
+            display: inline-flex; align-items: center; padding: 4px 10px;
+            border-radius: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+        }
+        .role-admin { background: rgba(99, 102, 241, 0.1); color: var(--accent); }
+        .role-instructor { background: rgba(16, 185, 129, 0.1); color: var(--emerald); }
+        .role-student { background: rgba(148, 163, 184, 0.1); color: var(--text-dim); }
+        
+        .status-active { color: var(--emerald); }
+        .status-suspended { color: var(--rose); }
+
+        /* Buttons */
+        .btn {
+            background: var(--accent); color: white; border: none; padding: 10px 20px;
+            border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s;
+        }
+        .btn:hover { background: #4f46e5; transform: translateY(-1px); }
+        .btn-ghost {
+            background: transparent; border: 1px solid var(--border); color: var(--text-dim);
+            padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 12px;
+        }
+        .btn-ghost:hover { border-color: white; color: white; }
+        .btn-danger { color: var(--rose); }
+        .btn-danger:hover { background: rgba(244, 63, 94, 0.1); border-color: var(--rose); }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px);
+            display: none; align-items: center; justify-content: center; z-index: 1000;
+        }
+        .modal-content {
+            background: #0f172a; border: 1px solid var(--border); width: 500px;
+            padding: 32px; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+        .modal-content h3 { margin-bottom: 24px; font-size: 20px; }
+        .field-group { margin-bottom: 16px; }
+        .field-group label { display: block; font-size: 12px; color: var(--text-dim); margin-bottom: 6px; }
+
+        footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 13px; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brand">
+                <div class="logo-box">ID</div>
+                <div>
+                    <h1 style="font-size: 20px; font-weight: 800;">Identity Hub</h1>
+                    <p style="font-size: 12px; color: var(--text-dim);">Directory Management & Permissions</p>
+                </div>
+            </div>
+            <div style="display:flex; gap:12px;">
+                <button class="btn-ghost" onclick="location.href='admindashboard.html'">Terminal</button>
+                <button class="btn" id="openCreate">+ Provision User</button>
+            </div>
+        </header>
+
+        <div class="toolbar">
+            <div class="search-input">
+                <input id="q" type="text" placeholder="Filter by name, email or ID..." oninput="renderTable()">
+            </div>
+            <select id="roleFilter" onchange="renderTable()" style="width: auto;">
+                <option value="all">Roles: All</option>
+                <option value="student">Student</option>
+                <option value="instructor">Instructor</option>
+                <option value="admin">Administrator</option>
+            </select>
+            <select id="statusFilter" onchange="renderTable()" style="width: auto;">
+                <option value="all">Status: All</option>
+                <option value="active">Active Only</option>
+                <option value="suspended">Suspended Only</option>
+            </select>
+            <button class="btn-ghost" onclick="exportCSV()">Export CSV</button>
+            <button class="btn-ghost btn-danger" onclick="bulkDelete()">Delete Selected</button>
+        </div>
+
+        <div class="table-wrap">
+            <table id="usersTable">
+                <thead>
+                    <tr>
+                        <th><input id="selectAll" type="checkbox" onclick="toggleAll(this)"></th>
+                        <th>User Identity</th>
+                        <th>Permissions</th>
+                        <th>Last Activity</th>
+                        <th>Status</th>
+                        <th style="text-align: right;">Operations</th>
+                    </tr>
+                </thead>
+                <tbody id="usersBody"></tbody>
+            </table>
+        </div>
+
+        <footer>
+            <div>Registry: <span id="count" style="color: var(--text-main); font-weight: 700;">0</span> records found</div>
+            <button class="btn-ghost" onclick="loadMore()">Sync More Records</button>
+        </footer>
+    </div>
+
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalTitle">Provision New Identity</h3>
+            <form id="userForm" onsubmit="return saveUser(event)">
+                <div class="field-group">
+                    <label>Full Name</label>
+                    <input id="u_name" required placeholder="e.g. Alex Rivera">
+                </div>
+                <div class="field-group">
+                    <label>Email Address</label>
+                    <input id="u_email" type="email" required placeholder="alex@nexus.io">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="field-group">
+                        <label>Security Role</label>
+                        <select id="u_role">
+                            <option value="student">Student</option>
+                            <option value="instructor">Instructor</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>Access Status</label>
+                        <select id="u_status">
+                            <option value="active">Active Access</option>
+                            <option value="suspended">Restricted</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label>Initial Passkey (Optional)</label>
+                    <input id="u_pass" type="text" placeholder="System will auto-generate if blank">
+                </div>
+
+                <div style="margin-top: 32px; display: flex; gap: 12px;">
+                    <button type="button" class="btn-ghost" style="flex: 1" onclick="closeModal()">Discard</button>
+                    <button class="btn" type="submit" style="flex: 2">Commit Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let users = [
+            {id: 101, name: 'Maura', email: 'maura@nexus.io', role: 'admin', joined: '2024-02-10', last_login: '2025-12-18', status: 'active'},
+            {id: 102, name: 'Nana K.', email: 'nana@nexus.io', role: 'instructor', joined: '2024-05-01', last_login: '2025-12-15', status: 'active'},
+            {id: 103, name: 'Kofi', email: 'kofi@nexus.io', role: 'student', joined: '2025-01-12', last_login: '2025-12-07', status: 'suspended'}
+        ];
+        let nextId = 104;
+
+        function renderTable() {
+            const q = document.getElementById('q').value.toLowerCase();
+            const role = document.getElementById('roleFilter').value;
+            const st = document.getElementById('statusFilter').value;
+            const tbody = document.getElementById('usersBody'); 
+            tbody.innerHTML = '';
+
+            const filtered = users.filter(u => {
+                if(role !== 'all' && u.role !== role) return false;
+                if(st !== 'all' && u.status !== st) return false;
+                if(q && !(u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q) || u.id.toString().includes(q))) return false;
+                return true;
+            });
+
+            filtered.forEach(u => {
+                const initials = u.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><input type="checkbox" data-id="${u.id}"></td>
+                    <td>
+                        <div class="user-cell">
+                            <div class="avatar">${initials}</div>
+                            <div>
+                                <div style="font-weight: 700;">${u.name}</div>
+                                <div style="font-size: 11px; color: var(--text-dim);">#${u.id} • ${u.email}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="badge role-${u.role}">${u.role}</span></td>
+                    <td><div style="font-size: 12px;">${u.last_login || 'Never'}</div></td>
+                    <td><span class="status-${u.status}" style="font-size: 12px;">● ${u.status}</span></td>
+                    <td style="text-align: right;">
+                        <button class="btn-ghost" onclick="editUser(${u.id})">Manage</button>
+                        <button class="btn-ghost btn-danger" onclick="deleteUser(${u.id})">Kill</button>
+                    </td>`;
+                tbody.appendChild(tr);
+            });
+            document.getElementById('count').textContent = filtered.length;
+        }
+
+        function toggleAll(cb) { document.querySelectorAll('#usersBody input[type=checkbox]').forEach(i => i.checked = cb.checked); }
+
+        function deleteUser(id) { 
+            if(!confirm(`Terminate access for ID ${id}?`)) return; 
+            users = users.filter(u => u.id !== id); 
+            renderTable(); 
+        }
+
+        function bulkDelete() {
+            const ids = Array.from(document.querySelectorAll('#usersBody input[type=checkbox]:checked')).map(i => Number(i.dataset.id));
+            if(!ids.length) return alert('No identities selected');
+            if(!confirm(`Purge ${ids.length} records?`)) return;
+            users = users.filter(u => !ids.includes(u.id)); renderTable();
+        }
+
+        const modal = document.getElementById('modal');
+        document.getElementById('openCreate').addEventListener('click', () => openModal());
+        
+        function openModal(user) { 
+            modal.style.display = 'flex'; 
+            document.getElementById('modalTitle').textContent = user ? 'Modify Identity' : 'Provision New Identity';
+            document.getElementById('u_name').value = user ? user.name : '';
+            document.getElementById('u_email').value = user ? user.email : '';
+            document.getElementById('u_role').value = user ? user.role : 'student';
+            document.getElementById('u_status').value = user ? user.status : 'active';
+            document.getElementById('userForm').dataset.editId = user ? user.id : '';
+        }
+
+        function closeModal() { modal.style.display = 'none'; }
+        
+        function saveUser(e) {
+            e.preventDefault();
+            const id = Number(document.getElementById('userForm').dataset.editId) || null;
+            const data = { 
+                name: document.getElementById('u_name').value, 
+                email: document.getElementById('u_email').value, 
+                role: document.getElementById('u_role').value, 
+                status: document.getElementById('u_status').value 
+            };
+            if(id) {
+                const idx = users.findIndex(u => u.id === id);
+                if(idx >= 0) users[idx] = Object.assign(users[idx], data);
+            } else {
+                data.id = nextId++;
+                data.last_login = '';
+                users.unshift(data);
+            }
+            closeModal(); renderTable(); return false;
+        }
+
+        function editUser(id) { const u = users.find(x => x.id === id); if(u) openModal(u); }
+
+        function exportCSV() {
+            const rows = [['ID','Name','Email','Role','Status']].concat(users.map(u => [u.id, u.name, u.email, u.role, u.status]));
+            const csv = rows.map(r => r.join(',')).join('\n');
+            const blob = new Blob([csv], {type: 'text/csv'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = 'nexus_users.csv'; a.click();
+        }
+
+        function loadMore() {
+            const names = ['Ama', 'Kwesi', 'Adwoa', 'Yaw', 'Efua'];
+            for(let i=0; i<3; i++) {
+                users.push({
+                    id: nextId++, 
+                    name: names[i] + ' ' + (nextId % 10), 
+                    email: names[i].toLowerCase() + '@nexus.io', 
+                    role: 'student', 
+                    last_login: '2025-12-18', 
+                    status: 'active'
+                });
+            }
+            renderTable();
+        }
+
+        renderTable();
+    </script>
+</body>
+</html>

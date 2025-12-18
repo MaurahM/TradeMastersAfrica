@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Full-Stack Alchemy — Trade Masters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #030816;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #6366f1;
+      --accent-magic: #a855f7;
+      --accent-teal: #2dd4bf;
+      --gradient-magic: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg-deep);
+      background-image: radial-gradient(circle at 50% -20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+    }
+
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+
+    /* Navigation */
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 40px; padding: 20px 24px;
+      background: var(--card-bg); backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border); border-radius: 20px;
+    }
+
+    .logo-mark {
+      width: 42px; height: 42px; background: var(--gradient-magic);
+      border-radius: 10px; display: flex; align-items: center; 
+      justify-content: center; font-weight: 800; color: white;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Layout */
+    .content-grid { display: grid; grid-template-columns: 1fr 380px; gap: 32px; }
+
+    /* Video Hero */
+    .video-portal {
+      width: 100%; aspect-ratio: 16/9;
+      background: #000; border-radius: 24px;
+      position: relative; overflow: hidden;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      display: flex; align-items: center; justify-content: center;
+      background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200');
+      background-size: cover; background-position: center;
+    }
+
+    .video-portal::after {
+      content: ''; position: absolute; inset: 0; background: rgba(3, 8, 22, 0.6);
+    }
+
+    .play-trigger {
+      position: relative; z-index: 2; width: 80px; height: 80px;
+      background: white; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; cursor: pointer;
+      transition: 0.3s; box-shadow: 0 0 30px rgba(255,255,255,0.2);
+    }
+    .play-trigger:hover { transform: scale(1.1); box-shadow: 0 0 40px var(--accent-magic); }
+    .play-trigger svg { margin-left: 5px; fill: var(--bg-deep); width: 30px; }
+
+    /* Typography & Info */
+    .course-header { margin-top: 32px; }
+    .course-header h1 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+    
+    .badge-row { display: flex; gap: 12px; align-items: center; margin-bottom: 24px; }
+    .status-badge {
+      background: rgba(45, 212, 191, 0.1); color: var(--accent-teal);
+      padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 700;
+    }
+
+    /* Tabs */
+    .magic-tabs {
+      display: flex; gap: 10px; border-bottom: 1px solid var(--glass-border);
+      margin-top: 40px; padding-bottom: 1px;
+    }
+    .magic-tab {
+      padding: 12px 24px; cursor: pointer; color: var(--text-muted);
+      font-weight: 600; font-size: 15px; transition: 0.3s;
+      border-radius: 12px 12px 0 0; position: relative;
+    }
+    .magic-tab.active { color: var(--accent-teal); background: rgba(255,255,255,0.03); }
+    .magic-tab.active::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; width: 100%;
+      height: 2px; background: var(--accent-teal); box-shadow: 0 0 10px var(--accent-teal);
+    }
+
+    /* Sections */
+    .tab-content { padding: 32px 0; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .lesson-item {
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      border-radius: 16px; padding: 16px 20px; margin-bottom: 12px;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: 0.3s;
+    }
+    .lesson-item:hover { border-color: var(--accent-magic); background: rgba(255,255,255,0.05); }
+    
+    .lesson-info h4 { font-size: 15px; font-weight: 600; }
+    .lesson-meta { font-size: 12px; color: var(--text-muted); }
+
+    .btn-preview {
+      background: rgba(255,255,255,0.05); color: var(--text-main);
+      border: 1px solid var(--glass-border); padding: 8px 16px;
+      border-radius: 8px; cursor: pointer; font-size: 13px;
+    }
+
+    /* Sidebar Purchase Card */
+    .purchase-card {
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      border-radius: 24px; padding: 32px; position: sticky; top: 40px;
+      backdrop-filter: blur(10px); box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .price-tag { font-size: 42px; font-weight: 800; color: white; margin-bottom: 4px; }
+    .btn-enroll {
+      width: 100%; background: var(--gradient-magic); color: white;
+      border: none; padding: 18px; border-radius: 16px; font-size: 18px;
+      font-weight: 800; cursor: pointer; margin: 24px 0;
+      box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3); transition: 0.3s;
+    }
+    .btn-enroll:hover { transform: translateY(-3px); filter: brightness(1.1); }
+
+    .perks-list { list-style: none; }
+    .perks-list li {
+      font-size: 14px; color: var(--text-muted); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .perks-list li::before { content: '✦'; color: var(--accent-teal); }
+
+    @media (max-width: 900px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .purchase-card { position: static; margin-top: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+    <header>
+      <div style="display:flex; align-items:center; gap:12px">
+        <div class="logo-mark">TM</div>
+        <div style="font-weight: 700; font-size: 18px;">Academy</div>
+      </div>
+      <button class="btn-preview" onclick="location.href='courselisting.html'">← Back to Library</button>
+    </header>
+
+    <div class="content-grid">
+      <main>
+        <div class="video-portal">
+          <div class="play-trigger" onclick="preview(0)">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+
+        <div class="course-header">
+          <div class="badge-row">
+            <span class="status-badge">Best Seller</span>
+            <span style="font-size: 13px; color: var(--text-muted);">4.9 ★ (1,240 students)</span>
+          </div>
+          <h1 id="title">Full-Stack Web Alchemy</h1>
+          <p id="meta" style="color: var(--text-muted);">Guided by <strong>Nana Kwame</strong> • 48 chapters • 12h 30m total</p>
+        </div>
+
+        <div class="magic-tabs">
+          <div class="magic-tab active" onclick="showSection('overview', this)">Overview</div>
+          <div class="magic-tab" onclick="showSection('curriculum', this)">Curriculum</div>
+          <div class="magic-tab" onclick="showSection('instructor', this)">The Mentor</div>
+        </div>
+
+        <div id="overview" class="tab-content">
+          <h3 style="margin-bottom: 16px;">What you'll master</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; color: var(--text-muted); font-size: 15px;">
+            <p>✦ Build full-stack web apps with Node.js and React</p>
+            <p>✦ Design RESTful APIs and manage databases</p>
+            <p>✦ Deploy to cloud and optimize performance</p>
+            <p>✦ Real-time state management mastery</p>
+          </div>
+          <p style="margin-top: 30px; color: var(--text-muted);">
+            This isn't just a course; it's a transformative journey from curious beginner to a professional architect. We focus on "The Craft"—writing clean, scalable code that employers fight for.
+          </p>
+        </div>
+
+        <div id="curriculum" class="tab-content" style="display:none">
+          <div id="lesson-list"></div>
+        </div>
+
+        <div id="instructor" class="tab-content" style="display:none">
+          <div style="display: flex; gap: 24px; align-items: center; background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--glass-border);">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop" style="width: 100px; height: 100px; border-radius: 20px; object-fit: cover;">
+            <div>
+              <h3 id="instrName">Nana Kwame</h3>
+              <p style="color: var(--accent-teal); font-size: 14px; font-weight: 700; margin-bottom: 8px;">Senior Web Architect</p>
+              <p style="color: var(--text-muted); font-size: 14px;">12+ years of experience building for the web. Nana has mentored over 50k students globally.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <aside>
+        <div class="purchase-card">
+          <div class="price-tag" id="price">$29</div>
+          <p style="color: var(--text-muted); font-size: 14px; text-decoration: line-through;">$149.00</p>
+          
+          <button class="btn-enroll" onclick="enroll()">Enroll Now</button>
+          
+          <ul class="perks-list">
+            <li>Full lifetime access</li>
+            <li>Certificate of Mastery</li>
+            <li>24 Downloadable resources</li>
+            <li>Exclusive community access</li>
+          </ul>
+
+          <div style="margin-top: 32px; border-top: 1px solid var(--glass-border); padding-top: 24px;">
+            <h4 style="font-size: 14px; margin-bottom: 12px;">Recommended Lore</h4>
+            <div style="font-size: 13px; color: var(--accent-teal); cursor: pointer;">UI/UX Design Fundamentals →</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const lessons = [
+      {title:'Intro & Setting the Forge', time:'10:12'},
+      {title:'HTML & CSS Structural Alchemy', time:'28:05'},
+      {title:'JavaScript: The Living Breath', time:'42:10'},
+      {title:'React: The Component Ritual', time:'55:20'},
+      {title:'Node.js & Express Architecture', time:'46:30'},
+      {title:'Postgres: Knowledge Storage', time:'34:00'},
+      {title:'Deployment & Cloud Ascension', time:'30:22'}
+    ];
+
+    function init() {
+      const list = document.getElementById('lesson-list');
+      lessons.forEach((l, i) => {
+        const div = document.createElement('div');
+        div.className = 'lesson-item';
+        div.innerHTML = `
+          <div class="lesson-info">
+            <span class="lesson-meta">Chapter 0${i+1}</span>
+            <h4>${l.title}</h4>
+          </div>
+          <div style="display:flex; align-items:center; gap:15px">
+            <span class="lesson-meta">${l.time}</span>
+            <button class="btn-preview" onclick="preview(${i})">Preview</button>
+          </div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function showSection(id, el) {
+      document.querySelectorAll('.tab-content').forEach(s => s.style.display = 'none');
+      document.querySelectorAll('.magic-tab').forEach(t => t.classList.remove('active'));
+      
+      document.getElementById(id).style.display = 'block';
+      el.classList.add('active');
+    }
+
+    function preview(i) { alert('Opening magical portal for: ' + lessons[i].title); }
+    function enroll() { 
+      const btn = document.querySelector('.btn-enroll');
+      btn.innerText = "Processing alchemy...";
+      setTimeout(() => { location.href='paymentpage.html'; }, 800);
+    }
+
+    init();
+  </script>
+</body>
+</html>

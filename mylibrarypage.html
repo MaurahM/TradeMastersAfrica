@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Archive • Trade Masters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #020617;
+      --card-bg: rgba(15, 23, 42, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-magic: #a855f7;
+      --accent-teal: #2dd4bf;
+      --gradient-magic: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      --radius-lg: 24px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    body {
+      background-color: var(--bg-deep);
+      background-image: 
+        radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 100% 100%, rgba(45, 212, 191, 0.05) 0%, transparent 40%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* Side Navigation */
+    .nexus-nav {
+      width: 280px;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.8);
+      border-right: 1px solid var(--glass-border);
+      padding: 40px 24px;
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 18px;
+      margin-bottom: 48px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-decoration: none;
+      margin-bottom: 8px;
+      transition: 0.3s;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background: rgba(255,255,255,0.05);
+      color: white;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      padding: 40px 60px;
+      max-width: 1400px;
+    }
+
+    .header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    /* Search Bar */
+    .search-container {
+      position: relative;
+      width: 400px;
+    }
+
+    .search-container input {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      padding: 14px 14px 14px 45px;
+      border-radius: 16px;
+      color: white;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .search-container input:focus {
+      border-color: var(--accent-magic);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.5;
+    }
+
+    /* Filter Tabs */
+    .filter-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .filter-pill {
+      padding: 10px 24px;
+      border-radius: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .filter-pill:hover { border-color: var(--accent-magic); color: white; }
+    .filter-pill.active {
+      background: var(--gradient-magic);
+      color: white;
+      border: none;
+      box-shadow: 0 8px 15px rgba(168, 85, 247, 0.2);
+    }
+
+    /* Library Grid */
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .course-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    .course-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent-magic);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .img-container {
+      height: 180px;
+      width: 100%;
+      position: relative;
+    }
+
+    .course-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .category-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .card-body { padding: 24px; }
+
+    .progress-container {
+      margin: 16px 0;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--gradient-magic);
+      border-radius: 10px;
+    }
+
+    .btn-play {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      background: rgba(255,255,255,0.05);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .course-card:hover .btn-play {
+      background: var(--gradient-magic);
+      box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+    }
+
+    @media (max-width: 900px) {
+      .nexus-nav { display: none; }
+      .main-content { padding: 30px 20px; }
+      .search-container { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="nexus-nav">
+    <a href="#" class="nav-logo">
+      <div style="width:35px; height:35px; background:var(--gradient-magic); border-radius:8px; display:flex; align-items:center; justify-content:center;">TM</div>
+      Trade Masters
+    </a>
+    <nav>
+      <a href="dashboard.html" class="nav-item">🏠 Overview</a>
+      <a href="#" class="nav-item active">📚 Library Archive</a>
+      <a href="myachievementspage.html" class="nav-item">🏆 My Achievements</a>
+      <a href="mentorhub.html" class="nav-item">💬 Nexus Chat</a>
+      <a href="profilesettingspage.html" class="nav-item">⚙️ Settings</a>
+    </nav>
+
+    <div style="margin-top:auto; background:rgba(0,0,0,0.2); padding:20px; border-radius:18px; border:1px solid var(--glass-border);">
+      <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">CURRENT RANK</p>
+      <p style="font-weight: 800; font-size: 14px; color: var(--accent-teal);">Elite Trader</p>
+      <div style="height:4px; width:100%; background:rgba(255,255,255,0.05); border-radius:10px; margin-top:10px;">
+        <div style="width:75%; height:100%; background:var(--accent-teal); border-radius:10px;"></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="header-flex">
+      <div>
+        <h1 style="font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px;">My Library</h1>
+        <p style="color: var(--text-muted);">Continue where you left off in your mastery journey.</p>
+      </div>
+
+      <div class="search-container">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="libSearch" placeholder="Filter courses by name or skill...">
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-pill active" onclick="filterCat('all')">All Paths</button>
+      <button class="filter-pill" onclick="filterCat('trading')">Trading</button>
+      <button class="filter-pill" onclick="filterCat('dev')">Development</button>
+      <button class="filter-pill" onclick="filterCat('design')">Design</button>
+    </div>
+
+    <div class="library-grid" id="libGrid">
+      </div>
+  </main>
+
+  <script>
+    const courses = [
+      { id: 1, title: 'Price Action Protocol', cat: 'trading', prog: 85, img: 'https://images.unsplash.com/photo-1611974714851-eb6077374213?q=80&w=600&auto=format&fit=crop' },
+      { id: 2, title: 'Quantum React Native', cat: 'dev', prog: 12, img: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=600&auto=format&fit=crop' },
+      { id: 3, title: 'Typography & Layout', cat: 'design', prog: 100, img: 'https://images.unsplash.com/photo-1561070791-2bc2a4e5c6e1?q=80&w=600&auto=format&fit=crop' },
+      { id: 4, title: 'Liquidity Advanced', cat: 'trading', prog: 40, img: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=600&auto=format&fit=crop' },
+      { id: 5, title: 'Python for Finance', cat: 'dev', prog: 5, img: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&auto=format&fit=crop' },
+      { id: 6, title: 'Modern UI Systems', cat: 'design', prog: 60, img: 'https://images.unsplash.com/photo-1586717791821-3f44a563dc4c?q=80&w=600&auto=format&fit=crop' }
+    ];
+
+    function render(data) {
+      const grid = document.getElementById('libGrid');
+      grid.innerHTML = data.map(c => `
+        <div class="course-card">
+          <div class="img-container">
+            <img src="${c.img}" class="course-img">
+            <span class="category-badge">${c.cat}</span>
+          </div>
+          <div class="card-body">
+            <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 4px;">${c.title}</h3>
+            <div class="progress-container">
+              <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:6px; font-weight:700;">
+                <span style="color:var(--text-muted)">Completion</span>
+                <span style="color:var(--accent-teal)">${c.prog}%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: ${c.prog}%; ${c.prog === 100 ? 'background: var(--accent-teal)' : ''}"></div>
+              </div>
+            </div>
+            <button class="btn-play">
+              ${c.prog === 100 ? '✨ Review Path' : (c.prog > 0 ? '▶ Continue' : '💎 Start')}
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Search functionality
+    document.getElementById('libSearch').addEventListener('input', (e) => {
+      const val = e.target.value.toLowerCase();
+      const filtered = courses.filter(c => c.title.toLowerCase().includes(val));
+      render(filtered);
+    });
+
+    // Category filter
+    function filterCat(cat) {
+      // Update UI pills
+      document.querySelectorAll('.filter-pill').forEach(btn => {
+        btn.classList.remove('active');
+        if(btn.innerText.toLowerCase().includes(cat)) btn.classList.add('active');
+      });
+
+      if(cat === 'all') {
+        render(courses);
+      } else {
+        const filtered = courses.filter(c => c.cat === cat);
+        render(filtered);
+      }
+    }
+
+    // Initial load
+    render(courses);
+  </script>
+</body>
+</html>

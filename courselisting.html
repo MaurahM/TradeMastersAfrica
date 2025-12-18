@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mastery Library • Trade Masters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #020617;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #6366f1;
+      --accent-magic: #a855f7;
+      --accent-teal: #2dd4bf;
+      --gradient-magic: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg-deep);
+      background-image: 
+        radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .wrap { max-width: 1400px; margin: 0 auto; padding: 40px 24px; }
+
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 40px; padding: 24px;
+      background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border); border-radius: 24px;
+    }
+
+    .logo-box { display: flex; align-items: center; gap: 16px; }
+    .logo-circle {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--gradient-magic);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; color: white; box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-dash {
+      background: var(--accent); color: white; border: none;
+      padding: 12px 24px; border-radius: 12px; font-weight: 700;
+      cursor: pointer; transition: 0.3s;
+    }
+    .btn-dash:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); }
+
+    /* Top Navigation */
+    .top-controls {
+      display: grid; grid-template-columns: 1fr 280px; gap: 20px; margin-bottom: 40px;
+    }
+
+    .search-wrapper {
+      position: relative; background: var(--card-bg);
+      border: 1px solid var(--glass-border); border-radius: 16px;
+      display: flex; align-items: center; padding: 0 20px;
+    }
+    .search-wrapper input {
+      background: transparent; border: none; padding: 16px;
+      color: white; width: 100%; outline: none; font-size: 16px;
+    }
+
+    select {
+      background: var(--card-bg); color: white; border: 1px solid var(--glass-border);
+      padding: 16px; border-radius: 16px; outline: none; cursor: pointer; appearance: none;
+    }
+
+    /* Main Layout */
+    .layout { display: grid; grid-template-columns: 280px 1fr; gap: 40px; }
+
+    .sidebar {
+      position: sticky; top: 40px; height: fit-content;
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      padding: 30px; border-radius: 24px;
+    }
+
+    .filter-group { margin-bottom: 35px; }
+    .filter-group h3 {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--accent-teal); margin-bottom: 20px; font-weight: 800;
+    }
+
+    label {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+      font-size: 14px; color: var(--text-muted); cursor: pointer; transition: 0.2s;
+    }
+    label:hover { color: white; }
+
+    input[type="checkbox"] {
+      appearance: none; width: 20px; height: 20px;
+      border: 2px solid var(--glass-border); border-radius: 6px;
+      cursor: pointer; position: relative; transition: 0.2s;
+    }
+    input[type="checkbox"]:checked { background: var(--accent-magic); border-color: var(--accent-magic); }
+    input[type="checkbox"]:checked::after {
+      content: '✓'; position: absolute; color: white; font-size: 12px; left: 4px; top: 0;
+    }
+
+    /* Price Slider */
+    .slider-info { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; font-weight: 700; }
+    input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+    input[type=range]::-webkit-slider-runnable-track { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%;
+      background: var(--accent-teal); cursor: pointer; margin-top: -7px;
+      box-shadow: 0 0 15px rgba(45, 212, 191, 0.4);
+    }
+
+    /* Grid & Cards */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+
+    .card {
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius); overflow: hidden; position: relative;
+      transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1); text-decoration: none; color: inherit;
+    }
+    .card:hover {
+      transform: translateY(-10px); background: rgba(255,255,255,0.06);
+      border-color: var(--accent-teal); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.6);
+    }
+
+    .thumb { height: 200px; background-size: cover; background-position: center; position: relative; }
+    .thumb::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(2,6,23,0.9)); }
+
+    .badge {
+      position: absolute; top: 16px; left: 16px; z-index: 2;
+      background: var(--gradient-magic); color: white; padding: 6px 14px;
+      font-size: 10px; font-weight: 800; border-radius: 8px; text-transform: uppercase;
+    }
+
+    .card-content { padding: 24px; }
+    .instructor { color: var(--accent-teal); font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: block; }
+    .card-content h3 { font-size: 20px; margin-bottom: 12px; font-weight: 700; }
+    
+    .card-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 20px; border-top: 1px solid var(--glass-border); margin-top: 10px;
+    }
+    .price { font-weight: 800; font-size: 24px; color: var(--text-main); }
+    .enroll-link { font-size: 12px; font-weight: 800; color: var(--accent-magic); letter-spacing: 1px; }
+
+    @media (max-width: 950px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="logo-box">
+      <div class="logo-circle">TM</div>
+      <div>
+        <h1 style="font-size: 24px; letter-spacing: -1px;">Mastery Library</h1>
+        <p style="font-size: 13px; color: var(--text-muted);">Curated paths for the digital alchemist.</p>
+      </div>
+    </div>
+    <button class="btn-dash" onclick="location.href='dashboard.html'">My Sanctuary</button>
+  </header>
+
+  <div class="top-controls">
+    <div class="search-wrapper">
+      <input id="search" type="text" placeholder="What magic will you learn today?..." oninput="applyFilters()">
+    </div>
+    <select id="sort" onchange="applyFilters()">
+      <option value="popular">🔥 Most Popular</option>
+      <option value="newest">✨ Newest Arrivals</option>
+      <option value="price-asc">💎 Price: Low to High</option>
+      <option value="price-desc">💎 Price: High to Low</option>
+    </select>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="filter-group">
+        <h3>Categories</h3>
+        <label><input type="checkbox" class="cat-filter" value="dev" onchange="applyFilters()"> Development</label>
+        <label><input type="checkbox" class="cat-filter" value="design" onchange="applyFilters()"> Design</label>
+        <label><input type="checkbox" class="cat-filter" value="marketing" onchange="applyFilters()"> Marketing</label>
+        <label><input type="checkbox" class="cat-filter" value="data" onchange="applyFilters()"> Data Science</label>
+      </div>
+
+      <div class="filter-group">
+        <h3>Adept Level</h3>
+        <label><input type="checkbox" class="level-filter" value="beginner" onchange="applyFilters()"> Novice</label>
+        <label><input type="checkbox" class="level-filter" value="intermediate" onchange="applyFilters()"> Adept</label>
+        <label><input type="checkbox" class="level-filter" value="advanced" onchange="applyFilters()"> Master</label>
+      </div>
+
+      <div class="filter-group">
+        <h3>Budget (Max)</h3>
+        <div class="slider-info">
+          <span>$0</span>
+          <span id="priceVal" style="color: var(--accent-teal);">$200</span>
+        </div>
+        <input type="range" id="priceRange" min="0" max="200" value="200" oninput="applyFilters()">
+      </div>
+    </aside>
+
+    <main>
+      <div style="margin-bottom: 24px; font-size: 15px;">
+        Revealing <span id="count" style="color: var(--accent-magic); font-weight: 800;">0</span> scrolls of knowledge
+      </div>
+      <div class="grid" id="grid"></div>
+    </main>
+  </div>
+</div>
+
+<script>
+const courses = [
+  {id:1, title:'Full-Stack Web Alchemy', instructor:'Nana K', category:'dev', level:'intermediate', rating:4.9, price:29, students:'8.5k', newest:false, img:'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600', badge:'Bestseller'},
+  {id:2, title:'Ethereal UI/UX Mastery', instructor:'Zuri', category:'design', level:'beginner', rating:4.8, price:24, students:'6.2k', newest:true, img:'https://images.unsplash.com/photo-1586717791821-3f44a563eb4c?auto=format&fit=crop&w=600', badge:'New'},
+  {id:3, title:'Digital Growth & SEO Lore', instructor:'Ama', category:'marketing', level:'beginner', rating:4.5, price:19, students:'4.1k', newest:false, img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600', badge:''},
+  {id:4, title:'Python for Data Prophecy', instructor:'Kofi', category:'data', level:'intermediate', rating:4.9, price:39, students:'12k', newest:true, img:'https://images.unsplash.com/photo-1527477321055-430197a5f3ad?auto=format&fit=crop&w=600', badge:'Advanced'},
+  {id:5, title:'Cyber Defense Enchantment', instructor:'Nana K', category:'dev', level:'advanced', rating:4.7, price:59, students:'2.1k', newest:true, img:'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600', badge:''}
+];
+
+function applyFilters() {
+  const search = document.getElementById('search').value.toLowerCase();
+  const priceLimit = parseInt(document.getElementById('priceRange').value);
+  const sortVal = document.getElementById('sort').value;
+  
+  const selectedCats = Array.from(document.querySelectorAll('.cat-filter:checked')).map(i => i.value);
+  const selectedLevels = Array.from(document.querySelectorAll('.level-filter:checked')).map(i => i.value);
+
+  let filtered = courses.filter(c => {
+    const matchesSearch = c.title.toLowerCase().includes(search) || c.instructor.toLowerCase().includes(search);
+    const matchesCat = selectedCats.length === 0 || selectedCats.includes(c.category);
+    const matchesLevel = selectedLevels.length === 0 || selectedLevels.includes(c.level);
+    const matchesPrice = c.price <= priceLimit;
+    return matchesSearch && matchesCat && matchesLevel && matchesPrice;
+  });
+
+  // Sorting Logic
+  if(sortVal === 'newest') filtered.sort((a,b) => b.newest - a.newest);
+  else if(sortVal === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+  else if(sortVal === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+  else filtered.sort((a,b) => parseFloat(b.students) - parseFloat(a.students));
+
+  renderGrid(filtered);
+  document.getElementById('count').textContent = filtered.length;
+  document.getElementById('priceVal').textContent = `$${priceLimit}`;
+}
+
+function renderGrid(data) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = data.length ? '' : '<p style="color:var(--text-muted)">No magical scrolls found. Try adjusting your filters.</p>';
+  
+  data.forEach(c => {
+    const card = document.createElement('a');
+    card.className = 'card';
+    card.href = `coursedetails.html?id=${c.id}`;
+    card.innerHTML = `
+      <div class="thumb" style="background-image:url('${c.img}')">
+        ${c.badge ? `<div class="badge">${c.badge}</div>` : ''}
+      </div>
+      <div class="card-content">
+        <span class="instructor">${c.instructor}</span>
+        <h3>${c.title}</h3>
+        <div style="font-size: 13px; color: #ffb86b; margin-bottom: 12px;">★ ${c.rating} <span style="color:var(--text-muted); font-weight:400">(${c.students} Students)</span></div>
+        <div class="card-footer">
+          <div class="price">$${c.price}</div>
+          <div class="enroll-link">ENROLL NOW →</div>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// Initial Run
+applyFilters();
+</script>
+</body>
+</html>

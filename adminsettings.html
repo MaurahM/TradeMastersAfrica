@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Config • Trade Masters Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #020617;
+  --surface: #0f172a;
+  --accent: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.2);
+  --emerald: #10b981;
+  --text-main: #f8fafc;
+  --text-dim: #94a3b8;
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+* { box-sizing: border-box; margin:0; padding:0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%);
+  color: var(--text-main);
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.container { max-width: 1200px; margin: 0 auto; }
+
+header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border);
+}
+
+.brand-section { display: flex; align-items: center; gap: 16px; }
+.logo-sq {
+  width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent), #a855f7);
+  border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; color: white; font-size: 20px;
+}
+
+.grid-layout { display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
+
+/* Panels */
+.settings-panel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px; margin-bottom: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.settings-panel h2 {
+  font-size: 18px; font-weight: 700; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+
+/* Form Elements */
+label { display: block; font-size: 12px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; margin-top: 20px; }
+
+input[type=text], input[type=email], select, textarea {
+  width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border);
+  background: rgba(0,0,0,0.2); color: white; font-size: 14px; transition: 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent); outline: none; background: rgba(99, 102, 241, 0.05);
+}
+
+.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Custom Checkbox (Switch) */
+.switch-wrapper {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; background: rgba(255,255,255,0.02); border-radius: 12px; margin-top: 8px;
+}
+
+/* API Key Field */
+.key-field {
+  display: flex; gap: 8px; margin-top: 8px; background: #000; padding: 6px; border-radius: 14px; border: 1px solid var(--border);
+}
+.key-field input { border: none; background: transparent; font-family: monospace; font-size: 13px; }
+
+/* Buttons */
+.btn {
+  background: var(--accent); color: white; border: none; padding: 12px 24px;
+  border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s;
+}
+.btn:hover { background: #4f46e5; transform: translateY(-1px); box-shadow: 0 10px 15px -3px var(--accent-glow); }
+
+.btn-ghost {
+  background: transparent; color: var(--text-dim); border: 1px solid var(--border);
+  padding: 10px 20px; border-radius: 12px; cursor: pointer;
+}
+.btn-ghost:hover { color: white; border-color: white; }
+
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+
+footer {
+  margin-top: 48px; border-top: 1px solid var(--border); padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center; color: var(--text-dim); font-size: 13px;
+}
+
+@media (max-width: 900px) { .grid-layout { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="brand-section">
+      <div class="logo-sq">TM</div>
+      <div>
+        <h1 style="font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Core Configuration</h1>
+        <p style="font-size: 13px; color: var(--text-dim);">Global parameters & security protocols</p>
+      </div>
+    </div>
+    <div style="display: flex; gap: 12px;">
+      <button class="btn-ghost" onclick="location.href='admindashboard.html'">Terminal</button>
+      <button class="btn" onclick="saveSettings()">Deploy Changes</button>
+    </div>
+  </header>
+
+  <div class="grid-layout">
+    <main>
+      <section class="settings-panel">
+        <h2>General Intelligence</h2>
+        <label>Platform Identity</label>
+        <input id="siteTitle" type="text" placeholder="Trade Masters">
+        
+        <label>Mission Tagline</label>
+        <input id="siteTag" type="text" placeholder="Master marketable skills">
+
+        <div class="input-row">
+          <div>
+            <label>Primary Language</label>
+            <select id="siteLang">
+              <option value="en">English (Global)</option>
+              <option value="fr">French</option>
+              <option value="pt">Portuguese</option>
+            </select>
+          </div>
+          <div>
+            <label>Interface Mode</label>
+            <select id="theme"><option value="dark">Deep Space (Dark)</option><option value="light">Cloud (Light)</option></select>
+          </div>
+        </div>
+
+        <label>Metadata Description</label>
+        <textarea id="siteDesc" placeholder="Global SEO and description..."></textarea>
+      </section>
+
+      <section class="settings-panel">
+        <h2 style="color: #f472b6;">Security Hardening</h2>
+        
+        <div class="switch-wrapper">
+          <div>
+            <div style="font-weight: 600; font-size: 14px;">Enforce 2FA</div>
+            <div style="font-size: 12px; color: var(--text-dim);">Mandatory for all administration nodes</div>
+          </div>
+          <input id="require2fa" type="checkbox" style="width: 20px; height: 20px;">
+        </div>
+
+        <div class="input-row">
+          <div>
+            <label>Min Password Bits</label>
+            <input id="pwMin" type="text" placeholder="12">
+          </div>
+          <div>
+            <label>Entropy Level</label>
+            <select id="pwStrength"><option value="strong">High Security</option><option value="medium">Balanced</option></select>
+          </div>
+        </div>
+
+        <label>Restricted Domains</label>
+        <input id="blockedEmails" type="text" placeholder="tempmail.com, bot-trash.org">
+      </section>
+
+      <section class="settings-panel">
+        <h2 style="color: var(--emerald);">Financial Gateway</h2>
+        <div class="input-row">
+          <div>
+            <label>Base Currency</label>
+            <select id="currency"><option value="USD">USD ($)</option><option value="NGN">NGN (₦)</option></select>
+          </div>
+          <div>
+            <label>Provider Hub</label>
+            <select id="paymentProvider"><option value="stripe">Stripe</option><option value="paystack">Paystack</option></select>
+          </div>
+        </div>
+
+        <label>Gateway Production Key</label>
+        <div class="key-field">
+          <input id="paymentKey" type="password" value="sk_live_demo_key_5521" readonly>
+          <button class="btn-ghost btn-sm" onclick="toggleKey('paymentKey')">View</button>
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <section class="settings-panel" style="border-left: 4px solid var(--accent);">
+        <h2>Communication</h2>
+        <label>Master Admin Email</label>
+        <input id="adminEmail" type="email" placeholder="root@trademasters.io">
+        
+        <div class="switch-wrapper">
+          <span style="font-size: 13px;">Critical System Alerts</span>
+          <input id="alerts" type="checkbox" checked>
+        </div>
+      </section>
+
+      <section class="settings-panel">
+        <h2>Developer API</h2>
+        <label>Nexus Access Token</label>
+        <div class="key-field" style="background: rgba(99, 102, 241, 0.1);">
+          <input id="adminApiKey" type="text" value="tm_live_772...881" readonly>
+        </div>
+        <button class="btn-ghost btn-sm" style="width:100%; margin-top: 12px;" onclick="regenKey()">Regenerate Token</button>
+        <p style="font-size: 11px; color: var(--text-dim); margin-top: 12px; line-height: 1.4;">
+          Warning: Regenerating will disconnect all third-party integrations instantly.
+        </p>
+      </section>
+
+      <button class="btn-ghost" style="width: 100%; color: #ef4444;" onclick="resetSettings()">Reset to Factory Defaults</button>
+    </aside>
+  </div>
+
+  <footer>
+    <div>© 2025 Trade Masters Orchestrator</div>
+    <div style="display:flex; gap:16px;">
+      <a href="adminreports.html" style="color:inherit; text-decoration:none;">Audit Logs</a>
+      <a href="admincourses.html" style="color:inherit; text-decoration:none;">Asset Manager</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+const STORAGE_KEY = 'tm_admin_settings_v3';
+
+function saveSettings() {
+  const btn = event.target;
+  btn.textContent = 'Synchronizing...';
+  
+  // Simulation of save logic
+  setTimeout(() => {
+    btn.textContent = 'Changes Deployed';
+    btn.style.background = 'var(--emerald)';
+    setTimeout(() => {
+      btn.textContent = 'Deploy Changes';
+      btn.style.background = 'var(--accent)';
+    }, 2000);
+  }, 800);
+}
+
+function toggleKey(id) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+
+function regenKey() {
+  if(confirm('Authorized: Confirm token regeneration?')) {
+    document.getElementById('adminApiKey').value = 'tm_live_' + Math.random().toString(36).substring(2, 15);
+  }
+}
+
+function resetSettings() {
+  alert('Factory reset initiated. Simulation only.');
+}
+</script>
+</body>
+</html>

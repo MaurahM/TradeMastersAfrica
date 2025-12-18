@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Scholarships & Financial Aid • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --accent-glow: #a855f7;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --gold: #f59e0b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 60px 20px; }
+
+        header { text-align: center; margin-bottom: 80px; }
+        header h1 { font-size: 52px; font-weight: 800; letter-spacing: -3px; margin-bottom: 16px; }
+        header p { color: var(--text-dim); font-size: 20px; max-width: 700px; margin: 0 auto; }
+
+        /* Scholarship Cards */
+        .scholarship-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .scholarship-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
+            display: grid;
+            grid-template-columns: 100px 1fr 200px;
+            align-items: center;
+            gap: 30px;
+            transition: 0.3s;
+            position: relative;
+        }
+        .scholarship-card:hover { 
+            border-color: var(--accent);
+            transform: scale(1.02);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .partner-icon {
+            width: 100px; height: 100px; border-radius: 16px;
+            background: var(--bg); border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px;
+        }
+
+        .info h3 { font-size: 22px; margin-bottom: 8px; color: var(--text-main); }
+        .info p { color: var(--text-dim); font-size: 15px; max-width: 550px; }
+        
+        .meta-tags { display: flex; gap: 10px; margin-top: 15px; }
+        .tag { 
+            font-size: 11px; font-weight: 800; padding: 4px 12px; 
+            border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .tag-coverage { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+        .tag-deadline { background: rgba(245, 158, 11, 0.1); color: var(--gold); }
+
+        .apply-box { text-align: right; }
+        .btn-apply {
+            background: var(--accent); color: white; padding: 14px 28px;
+            border-radius: 12px; text-decoration: none; font-weight: 700;
+            display: inline-block; transition: 0.3s;
+        }
+        .btn-apply:hover { background: #4f46e5; box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+
+        /* Stats Grid */
+        .finaid-stats {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; margin-bottom: 60px;
+        }
+        .stat-card {
+            padding: 30px; border-radius: 20px; border: 1px solid var(--border);
+            background: linear-gradient(145deg, rgba(255,255,255,0.03), transparent);
+        }
+        .stat-card h4 { font-size: 12px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; }
+        .stat-card p { font-size: 28px; font-weight: 800; color: var(--accent-glow); }
+
+        @media (max-width: 850px) {
+            .scholarship-card { grid-template-columns: 1fr; text-align: center; }
+            .partner-icon { margin: 0 auto; }
+            .apply-box { text-align: center; }
+            .meta-tags { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Leveling the Playing Field</h1>
+        <p>We believe talent is universal, but opportunity is not. Access fully-funded paths and financial aid sponsored by our global partners.</p>
+    </header>
+
+    <div class="finaid-stats">
+        <div class="stat-card">
+            <h4>Total Awarded</h4>
+            <p>$1.2M+</p>
+        </div>
+        <div class="stat-card">
+            <h4>Scholars Hired</h4>
+            <p>850+</p>
+        </div>
+        <div class="stat-card">
+            <h4>Active Funds</h4>
+            <p>12 Programs</p>
+        </div>
+    </div>
+
+    <div class="scholarship-list">
+        <div class="scholarship-card">
+            <div class="partner-icon">🌍</div>
+            <div class="info">
+                <div class="meta-tags">
+                    <span class="tag tag-coverage">100% Tuition Covered</span>
+                    <span class="tag tag-deadline">Ends in 4 Days</span>
+                </div>
+                <h3>The Pan-African Tech Fund</h3>
+                <p>Designed for aspiring developers in underrepresented regions. Includes a monthly stipend for internet data and a dedicated career coach.</p>
+            </div>
+            <div class="apply-box">
+                <a href="#" class="btn-apply">Apply Now</a>
+            </div>
+        </div>
+
+        <div class="scholarship-card">
+            <div class="partner-icon">👩‍💻</div>
+            <div class="info">
+                <div class="meta-tags">
+                    <span class="tag tag-coverage">Women in Tech</span>
+                    <span class="tag tag-deadline">Rolling Basis</span>
+                </div>
+                <h3>Zuri Design Fellowship</h3>
+                <p>Specifically for African women looking to transition into UI/UX and Product Design. Sponsored by top-tier design agencies in Nairobi and Lagos.</p>
+            </div>
+            <div class="apply-box">
+                <a href="#" class="btn-apply">Apply Now</a>
+            </div>
+        </div>
+
+        <div class="scholarship-card" style="opacity: 0.7;">
+            <div class="partner-icon">⚡</div>
+            <div class="info">
+                <div class="meta-tags">
+                    <span class="tag" style="background: rgba(255,255,255,0.1); color: #fff;">Waitlist Open</span>
+                </div>
+                <h3>Future Founders Grant</h3>
+                <p>For students building their own startups. Covers the Full-Stack Engineering path plus $5,000 in AWS credits.</p>
+            </div>
+            <div class="apply-box">
+                <a href="#" class="btn-apply" style="background: #334155;">Join Waitlist</a>
+            </div>
+        </div>
+    </div>
+
+    <section style="margin-top: 100px; padding: 60px; background: var(--surface); border-radius: 32px; border: 1px solid var(--border); text-align: center;">
+        <h2 style="font-size: 32px; margin-bottom: 20px;">Support the Next Generation</h2>
+        <p style="color: var(--text-dim); margin-bottom: 30px; max-width: 600px; margin: 0 auto 30px;">Are you an organization looking to sponsor talent? Join our mission to train 1 million African developers.</p>
+        <a href="partner.html" style="color: var(--accent-glow); font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--accent-glow);">Become a Sponsor →</a>
+    </section>
+</div>
+
+</body>
+</html>

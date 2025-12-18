@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Fiscal Terminal • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --emerald: #10b981;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+            color: var(--text-main);
+            padding: 24px;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 32px; flex-wrap: wrap; gap: 20px;
+        }
+
+        .logo-group { display: flex; align-items: center; gap: 16px; }
+        .logo-mark {
+            width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent), #10b981);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: white;
+        }
+
+        .grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
+
+        .card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 24px;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        /* Stats Section */
+        .stats-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-box {
+            background: rgba(255,255,255,0.02); padding: 20px; border-radius: 14px;
+            border: 1px solid var(--border);
+        }
+        .stat-label { font-size: 11px; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; font-weight: 700; }
+        .stat-value { font-size: 24px; font-weight: 800; margin-top: 8px; font-family: monospace; }
+
+        /* Chart Area */
+        .chart-container { margin: 24px 0; height: 200px; position: relative; }
+
+        /* Ledger Table */
+        .table-container { overflow-x: auto; margin-top: 24px; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th { text-align: left; padding: 12px; color: var(--text-dim); border-bottom: 1px solid var(--border); font-size: 12px; }
+        td { padding: 16px 12px; border-bottom: 1px solid var(--border); }
+        .status-pending { color: #f59e0b; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+
+        /* AI Concierge */
+        .ai-concierge {
+            margin-top: 32px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.2); border-radius: var(--radius); padding: 20px;
+        }
+        .ai-input-wrap { position: relative; margin-top: 12px; }
+        .ai-input {
+            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+            padding: 12px 16px; border-radius: 10px; color: white; outline: none;
+        }
+        .ai-input:focus { border-color: var(--accent); }
+
+        /* Buttons */
+        .btn {
+            background: var(--accent); color: white; border: none; padding: 10px 20px;
+            border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s;
+        }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 10px 20px; border-radius: 10px; cursor: pointer; }
+        .btn-outline:hover { border-color: var(--text-main); color: var(--text-main); }
+
+        input[type="date"] {
+            background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: white;
+            padding: 8px; border-radius: 8px; font-size: 12px;
+        }
+
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .stats-strip { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo-group">
+            <div class="logo-mark">$</div>
+            <div>
+                <h1 style="font-size: 22px; font-weight: 800;">Earnings & Payouts</h1>
+                <p style="font-size: 13px; color: var(--text-dim);">Financial audit for your faculty account</p>
+            </div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-outline" onclick="location.href='instructordashboard.html'">Terminal</button>
+            <button class="btn" onclick="exportCSV()">Export Ledger (CSV)</button>
+        </div>
+    </header>
+
+    <div class="grid">
+        <main>
+            <div class="card">
+                <div class="stats-strip">
+                    <div class="stat-box">
+                        <div class="stat-label">Gross Revenue</div>
+                        <div class="stat-value" id="totalEarnings">$0.00</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">30d Performance</div>
+                        <div class="stat-value" id="monthEarnings" style="color: var(--emerald);">$0.00</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Awaiting Payout</div>
+                        <div class="stat-value" id="pendingPayouts" style="color: #f59e0b;">$0.00</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="earningsChart"></canvas>
+                </div>
+
+                
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Course Asset</th>
+                                <th>Sales</th>
+                                <th>Gross</th>
+                                <th>Net (After Fee)</th>
+                                <th>Settlement Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="earningsTable"></tbody>
+                    </table>
+                </div>
+
+                <div class="ai-concierge">
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700;">
+                        <span>✨</span> Fiscal AI Assistant
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Ask complex questions about your revenue patterns.</p>
+                    <div class="ai-input-wrap">
+                        <input type="text" id="aiQuery" class="ai-input" placeholder="e.g. 'Project my earnings for next month based on current growth'"/>
+                        <button class="btn" style="position: absolute; right: 6px; top: 6px; padding: 6px 14px; font-size: 12px;" onclick="askAI()">Analyze</button>
+                    </div>
+                    <div id="aiResponse" style="margin-top: 12px; font-size: 13px; font-weight: 600; color: var(--emerald);"></div>
+                </div>
+            </div>
+        </main>
+
+        <aside>
+            <div class="card">
+                <h3 style="font-size: 16px; margin-bottom: 16px;">Payout Management</h3>
+                <div style="padding: 16px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid var(--border);">
+                    <div class="stat-label">Scheduled For</div>
+                    <div id="nextPayout" style="font-weight: 700; margin-top: 4px;">Loading...</div>
+                </div>
+                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <button class="btn" onclick="requestPayout()">Initiate Instant Payout</button>
+                    <button class="btn-outline" style="font-size: 12px;" onclick="markPaid()">Administrative Clear (Demo)</button>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 24px;">
+                <h3 style="font-size: 16px; margin-bottom: 16px;">Audit Filters</h3>
+                <div style="display: grid; gap: 12px;">
+                    <div>
+                        <div class="stat-label" style="margin-bottom: 6px;">Start Date</div>
+                        <input type="date" id="fromDate" style="width: 100%;">
+                    </div>
+                    <div>
+                        <div class="stat-label" style="margin-bottom: 6px;">End Date</div>
+                        <input type="date" id="toDate" style="width: 100%;">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+                        <button class="btn" onclick="applyFilters()">Apply</button>
+                        <button class="btn-outline" onclick="clearFilters()">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<script>
+    // Integration logic remains consistent with your previous structure 
+    // but styled for the new high-fidelity interface.
+    function seedDemo(){
+        if(localStorage.getItem('tm_instructor_payments')) return;
+        const now = Date.now();
+        const demo = [
+            {id:'p1',course:'React Design Patterns',students:14,gross:280,platform:84,net:196,date:new Date(now-432000000).toISOString(),status:'paid'},
+            {id:'p2',course:'Advanced Node Architecture',students:9,gross:180,platform:54,net:126,date:new Date(now-1728000000).toISOString(),status:'paid'},
+            {id:'p3',course:'UI Strategy with Figma',students:6,gross:120,platform:36,net:84,date:new Date(now-3024000000).toISOString(),status:'pending'}
+        ];
+        localStorage.setItem('tm_instructor_payments', JSON.stringify(demo));
+    }
+
+    let chart;
+    function render(){
+        seedDemo();
+        const payments = JSON.parse(localStorage.getItem('tm_instructor_payments')||'[]');
+        
+        const total = payments.reduce((s,p)=>s+p.gross,0);
+        const monthStart = new Date(); monthStart.setDate(1);
+        const monthTotal = payments.filter(p=>new Date(p.date) >= monthStart).reduce((s,p)=>s+p.gross,0);
+        const pending = payments.filter(p=>p.status==='pending').reduce((s,p)=>s+p.gross,0);
+
+        document.getElementById('totalEarnings').textContent = `$${total.toLocaleString()}`;
+        document.getElementById('monthEarnings').textContent = `+$${monthTotal.toLocaleString()}`;
+        document.getElementById('pendingPayouts').textContent = `$${pending.toLocaleString()}`;
+
+        const tbody = document.getElementById('earningsTable');
+        tbody.innerHTML = payments.sort((a,b)=>new Date(b.date)-new Date(a.date)).map(p => `
+            <tr>
+                <td style="font-weight: 700;">${p.course}</td>
+                <td>${p.students}</td>
+                <td style="font-family: monospace;">$${p.gross}</td>
+                <td style="color: var(--emerald); font-weight: 700; font-family: monospace;">$${p.net}</td>
+                <td>
+                    <span style="font-size: 12px; color: var(--text-dim)">${new Date(p.date).toLocaleDateString()}</span>
+                    ${p.status === 'pending' ? '<br><span class="status-pending">Processing</span>' : ''}
+                </td>
+            </tr>
+        `).join('');
+
+        // Chart Init
+        const labels = payments.map(p => new Date(p.date).toLocaleDateString()).reverse();
+        const data = payments.map(p => p.gross).reverse();
+        const ctx = document.getElementById('earningsChart').getContext('2d');
+        if(chart) chart.destroy();
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{
+                    data,
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#6366f1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+
+        const next = payments.find(p=>p.status==='pending');
+        document.getElementById('nextPayout').textContent = next ? new Date(next.date).toLocaleDateString() : 'Settled';
+    }
+
+    function askAI(){
+        const res = document.getElementById('aiResponse');
+        res.textContent = "Analyzing historical payout patterns...";
+        setTimeout(() => {
+            res.textContent = "Insight: Your 'React Design Patterns' course accounts for 42% of revenue. Suggestion: Create a Part 2 to leverage current momentum.";
+        }, 1200);
+    }
+
+    function exportCSV(){ alert("Generating encrypted CSV export..."); }
+    function requestPayout(){ alert("Request transmitted. Funds typically clear in 3-5 business days."); }
+    function markPaid(){ 
+        const p = JSON.parse(localStorage.getItem('tm_instructor_payments'));
+        p.forEach(x => x.status = 'paid');
+        localStorage.setItem('tm_instructor_payments', JSON.stringify(p));
+        render();
+    }
+    function applyFilters() { render(); }
+    function clearFilters() { render(); }
+
+    render();
+</script>
+</body>
+</html>

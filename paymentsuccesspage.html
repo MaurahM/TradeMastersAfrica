@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Payment Successful — Trade Masters</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#6c9ef8;
+  --accent2:#7ef6d4;
+  --muted:#9aa7bf;
+  --bg:#071026;
+  --bg-darker:#041226;
+  --card-bg:rgba(255,255,255,0.05);
+  --card-hover:rgba(255,255,255,0.1);
+  --radius:14px;
+  --shadow:0 12px 32px rgba(0,0,0,0.5);
+  --success:#42f58d;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif;}
+body{background:linear-gradient(180deg,var(--bg),var(--bg-darker));color:#e6eef8;min-height:100vh;}
+a{color:inherit;text-decoration:none;}
+button{transition:0.3s;cursor:pointer;}
+
+.wrap{max-width:900px;margin:40px auto;padding:18px;}
+
+/* Header */
+header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.logo{
+  width:50px;height:50px;border-radius:var(--radius);
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  color:#02223d;font-weight:800;font-size:22px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.5);
+}
+header div strong{font-weight:800;}
+header div .muted{color:var(--muted);font-size:13px;}
+header .actions{display:flex;gap:12px;flex-wrap:wrap;}
+
+/* Cards */
+.card{
+  background:var(--card-bg);
+  backdrop-filter:blur(12px);
+  padding:20px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  margin-top:20px;
+  transition:0.3s, transform 0.3s;
+}
+.card:hover{transform:translateY(-4px);background:var(--card-hover);}
+
+/* Typography */
+h1{margin:0;font-size:22px;}
+h3{margin-bottom:12px;font-size:18px;font-weight:700;color:#e6eef8;}
+.muted{color:var(--muted);}
+.big{font-size:48px;font-weight:800;color:var(--success);}
+.line{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.btn{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:#02223d;padding:10px 16px;border-radius:var(--radius);
+  border:none;font-weight:700;box-shadow:0 6px 20px rgba(108,158,248,0.5);
+}
+.btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 24px rgba(108,158,248,0.6);}
+.ghost{
+  background:transparent;border:1px solid rgba(255,255,255,0.05);
+  padding:10px 16px;border-radius:var(--radius);
+  color:var(--muted);
+}
+.ghost:hover{background:rgba(255,255,255,0.03);}
+
+/* Small */
+.small{font-size:13px;color:var(--muted);}
+@media (max-width:760px){.wrap{padding:14px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="logo">TM</div>
+      <div>
+        <h1>Payment Complete</h1>
+        <div class="muted">Thank you for your purchase — your payment was successful!</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="ghost" onclick="location.href='courselisting.html'">Browse More Courses</button>
+      <button class="ghost" onclick="location.href='dashboard.html'">My Courses</button>
+    </div>
+  </header>
+
+  <!-- Success card -->
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div class="big">✓</div>
+      <div>
+        <div style="font-size:20px;font-weight:700" id="thankTitle">Payment Successful!</div>
+        <div class="small" id="thankSub">Receipt and enrollment details below.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <div class="line"><div class="small">Order ID</div><div id="orderId">—</div></div>
+      <div class="line"><div class="small">Course</div><div id="courseTitle">—</div></div>
+      <div class="line"><div class="small">Paid by</div><div id="payer">—</div></div>
+      <div class="line"><div class="small">Amount</div><div id="amount">—</div></div>
+      <div class="line"><div class="small">Date</div><div id="date">—</div></div>
+
+      <div class="actions">
+        <button class="btn" id="downloadBtn" onclick="downloadReceipt()">Download Receipt</button>
+        <button class="btn" id="viewCourseBtn" onclick="viewCourse()">Go to Course</button>
+        <button class="ghost" onclick="contactSupport()">Contact Support</button>
+      </div>
+
+      <div class="small" style="margin-top:10px;color:var(--accent2)" id="enrollMsg"></div>
+    </div>
+  </div>
+
+  <!-- Order details card -->
+  <div class="card">
+    <h3>Order Details</h3>
+    <div id="orderDetails" class="small">Loading...</div>
+  </div>
+</div>
+
+<script>
+function readParams(){
+  const ps = new URLSearchParams(location.search);
+  return {
+    order: ps.get('order') || ps.get('orderId') || null,
+    amount: ps.get('amount') || ps.get('amt') || null,
+    courseId: ps.get('courseId') || ps.get('course') || null
+  };
+}
+
+function findPayment(orderId){
+  const payments = JSON.parse(localStorage.getItem('tm_payments')||'[]');
+  return payments.find(p=> String(p.orderId) === String(orderId)) || null;
+}
+
+function render(payment, params){
+  const now = new Date();
+  const orderId = payment?.orderId || params.order || '—';
+  const amount = (payment?.amount !== undefined) ? payment.amount : (params.amount || '—');
+  const email = payment?.email || '—';
+  const courseTitle = payment?.courseTitle || (params.courseId ? `Course #${params.courseId}` : '—');
+  const date = payment?.timestamp ? new Date(payment.timestamp).toLocaleString() : now.toLocaleString();
+
+  document.getElementById('orderId').textContent = orderId;
+  document.getElementById('amount').textContent = (typeof amount==='number')?`$${amount}`:amount;
+  document.getElementById('payer').textContent = email;
+  document.getElementById('date').textContent = date;
+  document.getElementById('courseTitle').textContent = courseTitle;
+
+  const details = {
+    paymentMethod: payment?.method || 'Card (demo)',
+    status: payment?.status || 'Paid',
+    reference: payment?.reference || '',
+  };
+  let detailsHtml = `<div>Payment method: <strong>${details.paymentMethod}</strong></div>`;
+  detailsHtml += `<div>Status: <strong>${details.status}</strong></div>`;
+  if(details.reference) detailsHtml += `<div>Reference: <strong>${details.reference}</strong></div>`;
+  document.getElementById('orderDetails').innerHTML = detailsHtml;
+
+  const courseId = payment?.courseId || params.courseId;
+  if(courseId){
+    enrollUser(courseId, courseTitle);
+    document.getElementById('enrollMsg').textContent = `You are now enrolled in ${courseTitle}. It appears in your dashboard.`;
+    document.getElementById('viewCourseBtn').disabled = false;
+    document.getElementById('viewCourseBtn').dataset.courseId = courseId;
+  } else {
+    document.getElementById('enrollMsg').textContent = 'If this purchase includes a course, it will appear in your dashboard shortly.';
+    document.getElementById('viewCourseBtn').disabled = true;
+  }
+}
+
+function enrollUser(courseId, title){
+  let enrolls = JSON.parse(localStorage.getItem('tm_enrollments')||'[]');
+  const exists = enrolls.find(e => String(e.id) === String(courseId));
+  if(!exists){
+    enrolls.push({ id: courseId, title: title || `Course #${courseId}`, instructor: 'Course Instructor', hours: 10, enrolledAt: new Date().toISOString() });
+    localStorage.setItem('tm_enrollments', JSON.stringify(enrolls));
+  }
+}
+
+function downloadReceipt(){
+  const orderId = document.getElementById('orderId').textContent;
+  const amount = document.getElementById('amount').textContent;
+  const email = document.getElementById('payer').textContent;
+  const date = document.getElementById('date').textContent;
+  const title = document.getElementById('courseTitle').textContent;
+  const content = `Trade Masters\nReceipt\nOrder: ${orderId}\nCourse: ${title}\nAmount: ${amount}\nPaid by: ${email}\nDate: ${date}\n\nThank you for your purchase.`;
+  const blob = new Blob([content],{type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download=`receipt_${orderId}.txt`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function viewCourse(){
+  const btn = document.getElementById('viewCourseBtn');
+  const courseId = btn.dataset.courseId;
+  if(!courseId) return;
+  location.href = `coursedetailspage.html?id=${courseId}`;
+}
+
+function contactSupport(){ location.href='support.html'; }
+
+(function(){
+  const params = readParams();
+  let payment = null;
+  if(params.order){ payment = findPayment(params.order); }
+  render(payment, params);
+})();
+</script>
+</body>
+</html>

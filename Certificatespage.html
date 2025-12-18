@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Credentials Vault • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.2);
+            --emerald: #10b981;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--border);
+        }
+
+        .brand-group { display: flex; align-items: center; gap: 16px; }
+        .logo-seal {
+            width: 52px; height: 52px; background: linear-gradient(135deg, var(--accent), #a855f7);
+            border-radius: 16px; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: white; font-size: 20px; box-shadow: 0 0 25px var(--accent-glow);
+        }
+
+        /* Verification Engine Section */
+        .verification-panel {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            border: 1px solid var(--border); border-radius: 20px; padding: 24px;
+            margin-bottom: 32px; display: flex; align-items: center; gap: 20px;
+        }
+
+        .verify-input-group { flex: 1; position: relative; }
+        .verify-input-group input {
+            width: 100%; padding: 14px 20px; background: #000; border: 1px solid var(--border);
+            border-radius: 12px; color: white; font-family: monospace; letter-spacing: 1px;
+        }
+
+        /* Certificate Grid */
+        .cert-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;
+        }
+
+        .cert-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 24px; overflow: hidden; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column;
+        }
+        .cert-card:hover { 
+            transform: translateY(-8px); border-color: var(--accent);
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.5);
+        }
+
+        .cert-preview {
+            height: 180px; background-size: cover; background-position: center;
+            position: relative; display: flex; align-items: flex-end; padding: 16px;
+        }
+        .cert-preview::after {
+            content: ''; position: absolute; inset: 0; 
+            background: linear-gradient(to top, var(--surface), transparent);
+        }
+
+        .badge-verified {
+            position: relative; z-index: 2; background: var(--emerald); color: white;
+            padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        .cert-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+        .cert-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
+        .cert-meta { font-size: 13px; color: var(--text-dim); margin-bottom: 20px; }
+
+        /* Actions */
+        .btn {
+            background: var(--accent); color: white; border: none; padding: 12px 24px;
+            border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s;
+            font-size: 14px;
+        }
+        .btn:hover { filter: brightness(1.1); transform: scale(1.02); }
+
+        .btn-ghost {
+            background: rgba(255,255,255,0.03); color: var(--text-main); border: 1px solid var(--border);
+            padding: 10px 18px; border-radius: 10px; cursor: pointer; font-size: 13px;
+        }
+        .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: var(--text-dim); }
+
+        .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; }
+
+        footer {
+            margin-top: 60px; padding: 32px 0; border-top: 1px solid var(--border);
+            text-align: center; color: var(--text-dim); font-size: 14px;
+        }
+
+        @media (max-width: 760px) {
+            .verification-panel { flex-direction: column; align-items: stretch; }
+            header { flex-direction: column; align-items: flex-start; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="brand-group">
+                <div class="logo-seal">TM</div>
+                <div>
+                    <h1 style="font-size: 28px; font-weight: 800; letter-spacing: -1px;">Credentials Vault</h1>
+                    <p style="color: var(--text-dim); font-size: 14px;">Securely manage and verify your professional milestones</p>
+                </div>
+            </div>
+            <div style="display:flex; gap:12px;">
+                <button class="btn-ghost" onclick="location.href='dashboard.html'">Back to Terminal</button>
+                <button class="btn" onclick="downloadAll()">Archive All (PDF)</button>
+            </div>
+        </header>
+
+        <div class="verification-panel">
+            <div style="min-width: 200px;">
+                <h4 style="font-size: 14px; margin-bottom: 4px;">Authenticity Check</h4>
+                <p style="font-size: 11px; color: var(--text-dim);">Verify any certificate ID instantly</p>
+            </div>
+            <div class="verify-input-group">
+                <input id="verifyCode" type="text" placeholder="HEX CODE (e.g. ABC123)">
+            </div>
+            <button class="btn" onclick="verify()">Verify Credential</button>
+            <div id="verifyResult" style="font-weight: 600; font-size: 13px;"></div>
+        </div>
+
+        <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="font-size: 18px;">Your Collection</h3>
+            <input id="q" type="text" placeholder="Search collection..." oninput="renderList()" 
+                   style="background: transparent; border: none; border-bottom: 1px solid var(--border); color: white; padding: 8px;">
+        </div>
+
+        <div class="cert-grid" id="certList">
+            </div>
+
+        <footer>
+            <p>All Trade Masters certificates are secured via encrypted hash verification.</p>
+            <div style="margin-top: 12px; display: flex; justify-content: center; gap: 20px;">
+                <a href="#" style="color: var(--accent); text-decoration: none;">Public Profile Settings</a>
+                <a href="#" style="color: var(--accent); text-decoration: none;">Request Physical Copy</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const certs = [
+            {id:1,code:'TM-UI-882',title:'UI/UX Design Masterclass',instructor:'Zuri',date:'Oct 12, 2025',verified:true,thumb:'https://images.unsplash.com/photo-1586717791821-3f44a563eb4c?q=80&w=800'},
+            {id:2,code:'TM-FS-109',title:'Full-Stack Architecture',instructor:'Nana K.',date:'Aug 20, 2025',verified:true,thumb:'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800'},
+            {id:3,code:'TM-DM-442',title:'Algorithmic Marketing',instructor:'Ama',date:'Jul 05, 2025',verified:false,thumb:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800'}
+        ];
+
+        function renderList(){
+            const q = document.getElementById('q').value.toLowerCase();
+            const container = document.getElementById('certList');
+            container.innerHTML = '';
+
+            certs.filter(c => c.title.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)).forEach(c => {
+                const card = document.createElement('div');
+                card.className = 'cert-card';
+                card.innerHTML = `
+                    <div class="cert-preview" style="background-image: url('${c.thumb}')">
+                        ${c.verified ? '<span class="badge-verified">Authenticated</span>' : ''}
+                    </div>
+                    <div class="cert-body">
+                        <div class="cert-meta">ID: ${c.code}</div>
+                        <h4 class="cert-title">${c.title}</h4>
+                        <p class="cert-meta">Issued by <strong>${c.instructor}</strong> • ${c.date}</p>
+                        <div class="card-actions">
+                            <button class="btn-ghost" onclick="shareCertificate('${c.code}')">Share</button>
+                            <button class="btn" onclick="downloadPDF(${c.id})">Download</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function verify(){
+            const code = document.getElementById('verifyCode').value.trim().toUpperCase();
+            const result = certs.find(c => c.code.includes(code));
+            const el = document.getElementById('verifyResult');
+            
+            if(result) {
+                el.style.color = 'var(--emerald)';
+                el.innerHTML = `✓ VALID: ${result.title}`;
+            } else {
+                el.style.color = '#fb7185';
+                el.innerHTML = `✕ INVALID KEY`;
+            }
+        }
+
+        function downloadPDF(id){
+            alert("Generating Secure PDF Asset...");
+        }
+
+        function shareCertificate(code){
+            prompt("Public Verification Link:", `https://trademasters.io/verify/${code}`);
+        }
+
+        function downloadAll() {
+            alert("Compiling Archive...");
+        }
+
+        renderList();
+    </script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Privacy Protocol • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --emerald: #10b981;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 24px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
+            color: var(--text-main);
+            padding: 60px 20px;
+            line-height: 1.6;
+        }
+
+        .policy-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 50px;
+            box-shadow: 0 40px 100px -20px rgba(0,0,0,0.6);
+            position: relative;
+        }
+
+        .policy-container::before {
+            content: 'CONFIDENTIAL';
+            position: absolute;
+            top: 40px;
+            right: -20px;
+            transform: rotate(15deg);
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            padding: 4px 12px;
+            background: rgba(244, 63, 94, 0.1);
+            color: #f43f5e;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            border-radius: 4px;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+
+        h1 { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+        .last-update { font-size: 13px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+        section { margin-bottom: 40px; }
+        
+        h2 { 
+            font-size: 18px; 
+            font-weight: 700; 
+            margin-bottom: 16px; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px;
+            color: var(--text-main);
+        }
+
+        h2::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--emerald);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--emerald);
+        }
+
+        p { color: var(--text-dim); margin-bottom: 16px; font-size: 15px; }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 16px;
+            transition: 0.3s;
+        }
+        .info-card:hover { border-color: var(--accent); background: rgba(99, 102, 241, 0.05); }
+        .info-card strong { display: block; margin-bottom: 4px; color: var(--text-main); font-size: 14px; }
+        .info-card span { font-size: 13px; color: var(--text-dim); }
+
+        ul { list-style: none; }
+        li { 
+            position: relative; 
+            padding-left: 24px; 
+            margin-bottom: 12px; 
+            color: var(--text-dim); 
+            font-size: 14px; 
+        }
+        li::after {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+        .btn-back:hover { color: var(--accent); }
+
+        @media (max-width: 600px) {
+            .policy-container { padding: 30px 20px; }
+            h1 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="policy-container">
+        <a href="index.html" class="btn-back">← Return to Platform</a>
+        
+        <header>
+            <div class="last-update">Version 2.0 • Jan 2025</div>
+            <h1>Privacy Protocol</h1>
+            <p>At Trade Masters, your data is treated as high-value intellectual property. We prioritize encryption and transparency over data monetization.</p>
+        </header>
+
+        <section>
+            <h2>1. Data Acquisition</h2>
+            <p>We collect only what is essential to fuel your learning experience.</p>
+            <div class="info-grid">
+                <div class="info-card">
+                    <strong>Identity</strong>
+                    <span>Full name and professional email.</span>
+                </div>
+                <div class="info-card">
+                    <strong>Telemetry</strong>
+                    <span>IP address and interaction patterns.</span>
+                </div>
+                <div class="info-card">
+                    <strong>Fiscal</strong>
+                    <span>Encrypted payment tokens via Stripe.</span>
+                </div>
+            </div>
+        </section>
+
+        
+
+        <section>
+            <h2>2. Processing Logic</h2>
+            <ul>
+                <li>Maintaining the state of your course progress.</li>
+                <li>Executing faculty payout distributions.</li>
+                <li>Hardening our infrastructure against cyber threats.</li>
+                <li>Generating personalized AI-driven learning insights.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>3. Security Architecture</h2>
+            <p>All sensitive data is shielded behind 256-bit AES encryption. We conduct quarterly security audits to ensure your "Learning Ledger" remains immutable and private.</p>
+        </section>
+
+        <section>
+            <h2>4. Your Sovereignty</h2>
+            <p>You maintain full control over your digital footprint on this platform.</p>
+            <ul>
+                <li>Request a full data export (JSON/CSV).</li>
+                <li>Instant account liquidation (Data Deletion).</li>
+                <li>Marketing communication opt-out.</li>
+            </ul>
+        </section>
+
+        <footer class="contact-box">
+            <h2 style="justify-content: center; margin-bottom: 8px;">Legal Inquiry</h2>
+            <p>Questions regarding our protocol can be directed to our compliance team.</p>
+            <strong style="color: var(--accent); font-size: 18px;">legal@trademasters.pro</strong>
+        </footer>
+    </div>
+
+</body>
+</html>

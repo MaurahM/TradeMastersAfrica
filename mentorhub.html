@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Mentor — Trade Masters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #020617;
+      --card-bg: rgba(15, 23, 42, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-magic: #a855f7;
+      --accent-teal: #2dd4bf;
+      --gradient-magic: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      --radius-lg: 24px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    body {
+      background-color: var(--bg-deep);
+      background-image: radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.08) 0%, transparent 40%);
+      color: var(--text-main);
+      height: 100vh;
+      display: flex;
+      overflow: hidden; /* App feel */
+    }
+
+    /* Side Navigation */
+    .nexus-nav {
+      width: 280px; height: 100vh; background: rgba(15, 23, 42, 0.8);
+      border-right: 1px solid var(--glass-border); padding: 40px 24px;
+      display: flex; flex-direction: column;
+    }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+      border-radius: 14px; color: var(--text-muted); font-weight: 600;
+      text-decoration: none; margin-bottom: 8px; transition: 0.3s;
+    }
+    .nav-item.active { background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--glass-border); }
+
+    /* Mentor Layout */
+    .mentor-container { display: flex; flex: 1; height: 100vh; }
+
+    /* Contacts Sidebar */
+    .mentor-list {
+      width: 320px; border-right: 1px solid var(--glass-border);
+      background: rgba(15, 23, 42, 0.4); display: flex; flex-direction: column;
+    }
+
+    .mentor-card {
+      padding: 20px; border-bottom: 1px solid var(--glass-border);
+      cursor: pointer; transition: 0.3s; display: flex; gap: 15px; align-items: center;
+    }
+    .mentor-card:hover { background: rgba(255,255,255,0.03); }
+    .mentor-card.active { background: rgba(168, 85, 247, 0.1); border-left: 4px solid var(--accent-magic); }
+
+    .avatar-wrap { position: relative; width: 48px; height: 48px; }
+    .avatar-img { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; }
+    .status-dot { 
+        position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; 
+        border-radius: 50%; border: 2px solid var(--bg-deep); background: #94a3b8;
+    }
+    .status-dot.online { background: var(--accent-teal); box-shadow: 0 0 10px var(--accent-teal); }
+
+    /* Chat Area */
+    .chat-main { flex: 1; display: flex; flex-direction: column; background: rgba(2, 6, 23, 0.5); }
+    
+    .chat-header {
+      padding: 20px 30px; border-bottom: 1px solid var(--glass-border);
+      display: flex; justify-content: space-between; align-items: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .chat-body { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+
+    .message { max-width: 70%; padding: 16px; border-radius: 18px; font-size: 14px; line-height: 1.5; }
+    .msg-mentor { background: var(--card-bg); border: 1px solid var(--glass-border); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .msg-user { background: var(--gradient-magic); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+
+    .chat-input-area { padding: 24px 30px; border-top: 1px solid var(--glass-border); }
+    .input-box {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+      padding: 14px 20px; border-radius: 14px; display: flex; gap: 15px;
+    }
+    .input-box input { background: none; border: none; color: white; flex: 1; outline: none; }
+
+    /* Profile Panel */
+    .profile-panel { width: 300px; padding: 30px; background: rgba(15, 23, 42, 0.8); border-left: 1px solid var(--glass-border); }
+    
+    .btn-book {
+      width: 100%; padding: 14px; border-radius: 12px; border: none;
+      background: var(--accent-teal); color: var(--bg-deep); font-weight: 800;
+      cursor: pointer; margin-top: 20px; transition: 0.3s;
+    }
+    .btn-book:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+    @media (max-width: 1100px) { .profile-panel, .nexus-nav { display: none; } }
+  </style>
+</head>
+<body>
+
+  <aside class="nexus-nav">
+    <a href="#" class="nav-logo" style="text-decoration:none; color:white; display:flex; gap:10px; align-items:center; font-weight:800; margin-bottom:40px;">
+      <div style="width:35px; height:35px; background:var(--gradient-magic); border-radius:8px; display:flex; align-items:center; justify-content:center;">TM</div>
+      Trade Masters
+    </a>
+    <nav>
+      <a href="dashboard.html" class="nav-item">🏠 Overview</a>
+      <a href="mylibrarypage.html" class="nav-item">📚 My Library</a>
+      <a href="myachievementspage.html" class="nav-item">🏆 Achievement Hub</a>
+      <a href="#" class="nav-item active">💬 Nexus Mentor</a>
+      <a href="profilesettingspage.html" class="nav-item">⚙️ Settings</a>
+    </nav>
+  </aside>
+
+  <div class="mentor-container">
+    <section class="mentor-list">
+      <div style="padding: 24px; border-bottom: 1px solid var(--glass-border);">
+        <h3 style="font-size: 18px; font-weight: 800;">Mentors</h3>
+      </div>
+      
+      <div class="mentor-card active">
+        <div class="avatar-wrap">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop" class="avatar-img">
+          <div class="status-dot online"></div>
+        </div>
+        <div>
+          <h4 style="font-size: 14px;">Zuri V.</h4>
+          <p style="font-size: 11px; color: var(--accent-teal);">UI/UX Master</p>
+        </div>
+      </div>
+
+      <div class="mentor-card">
+        <div class="avatar-wrap">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=150&auto=format&fit=crop" class="avatar-img">
+          <div class="status-dot online"></div>
+        </div>
+        <div>
+          <h4 style="font-size: 14px;">Ama Boateng</h4>
+          <p style="font-size: 11px; color: var(--text-muted);">Marketing Lead</p>
+        </div>
+      </div>
+
+      <div class="mentor-card">
+        <div class="avatar-wrap">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150&auto=format&fit=crop" class="avatar-img">
+          <div class="status-dot"></div>
+        </div>
+        <div>
+          <h4 style="font-size: 14px;">Nana K.</h4>
+          <p style="font-size: 11px; color: var(--text-muted);">Full-Stack Dev</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="chat-main">
+      <header class="chat-header">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <h2 style="font-size: 18px; font-weight: 800;">Chat with Zuri</h2>
+          <span style="font-size: 10px; background: rgba(45, 212, 191, 0.1); color: var(--accent-teal); padding: 4px 8px; border-radius: 6px; font-weight: 800;">ACTIVE SESSION</span>
+        </div>
+        <div style="display:flex; gap:10px;">
+            <button style="background:none; border:1px solid var(--glass-border); color:white; padding:8px 15px; border-radius:8px; cursor:pointer;">📞</button>
+            <button style="background:none; border:1px solid var(--glass-border); color:white; padding:8px 15px; border-radius:8px; cursor:pointer;">📹</button>
+        </div>
+      </header>
+
+      <div class="chat-body" id="chatBody">
+        <div class="message msg-mentor">
+          Hi Maura! I looked over your Figma wireframes for the Trading Dashboard project. You've got a great sense of hierarchy!
+        </div>
+        <div class="message msg-user">
+          Thanks Zuri! I was a bit worried about the cognitive load on the analytics page. Should I simplify the charts?
+        </div>
+        <div class="message msg-mentor">
+          Good question. In trading, data density is actually a feature, not a bug. Just ensure the most important 'Buy/Sell' actions are high contrast.
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <div class="input-box">
+          <button style="background:none; border:none; cursor:pointer; font-size:18px;">📎</button>
+          <input type="text" placeholder="Message Zuri..." id="msgInput">
+          <button style="background:var(--accent-magic); border:none; color:white; padding:0 20px; border-radius:8px; cursor:pointer; font-weight:800;" onclick="sendMessage()">Send</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="profile-panel">
+      <div style="text-align:center; margin-bottom:30px;">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop" style="width:120px; height:120px; border-radius:24px; object-fit:cover; margin-bottom:15px; border: 2px solid var(--accent-magic);">
+        <h3 style="font-size: 20px;">Zuri V.</h3>
+        <p style="font-size: 13px; color: var(--text-muted);">Senior Product Designer @ Nexus</p>
+      </div>
+
+      <div style="background:rgba(0,0,0,0.2); padding:20px; border-radius:18px; margin-bottom:20px;">
+        <h4 style="font-size:12px; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px;">Availability</h4>
+        <p style="font-size:14px;">Next slot: <b>Today, 4:00 PM</b></p>
+      </div>
+
+      <button class="btn-book">Book 1-on-1 Session</button>
+      <p style="font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 15px;">Cost: 500 Mastery Credits</p>
+    </aside>
+  </div>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById('msgInput');
+      const body = document.getElementById('chatBody');
+      if (input.value.trim() !== "") {
+        const div = document.createElement('div');
+        div.className = "message msg-user";
+        div.innerText = input.value;
+        body.appendChild(div);
+        input.value = "";
+        body.scrollTop = body.scrollHeight;
+      }
+    }
+    
+    // Allow enter key to send
+    document.getElementById('msgInput').addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>

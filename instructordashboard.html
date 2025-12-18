@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Faculty Terminal • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.2);
+            --emerald: #10b981;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%);
+            color: var(--text-main);
+            padding: 24px;
+        }
+
+        .container { max-width: 1280px; margin: 0 auto; }
+
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 32px;
+        }
+        .welcome h1 { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
+        .welcome p { color: var(--text-dim); font-size: 14px; }
+
+        .btn {
+            background: var(--accent); color: white; border: none; padding: 12px 24px;
+            border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s;
+            text-decoration: none; display: inline-block;
+        }
+        .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+        /* Stats Grid */
+        .stats-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+            gap: 20px; margin-bottom: 32px; 
+        }
+        .stat-card {
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 24px; border-radius: 20px; position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--accent); opacity: 0.5;
+        }
+        .stat-card.success::before { background: var(--emerald); }
+        .stat-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
+        .stat-value { font-size: 32px; font-weight: 800; margin: 8px 0; }
+        .stat-trend { font-size: 12px; color: var(--emerald); display: flex; align-items: center; gap: 4px; }
+
+        /* Content Layout */
+        .main-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+
+        .panel { 
+            background: var(--surface); border: 1px solid var(--border); 
+            border-radius: 24px; padding: 24px; margin-bottom: 24px;
+        }
+        .panel-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .panel-h h3 { font-size: 18px; font-weight: 700; }
+
+        /* Table Design */
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px 16px; font-size: 12px; color: var(--text-dim); border-bottom: 1px solid var(--border); }
+        td { padding: 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .student-pill { display: flex; align-items: center; gap: 10px; }
+        .avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: var(--border); }
+
+        /* Side widgets */
+        .action-list { display: flex; flex-direction: column; gap: 10px; }
+        .action-item {
+            padding: 14px; border-radius: 12px; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.02); text-decoration: none; color: var(--text-main);
+            font-size: 14px; font-weight: 600; transition: 0.2s;
+        }
+        .action-item:hover { background: var(--accent-glow); border-color: var(--accent); }
+
+        @media (max-width: 1024px) { .main-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="welcome">
+            <h1>Faculty Terminal</h1>
+            <p>Welcome back, Instructor. Your platform performance is up 12% this week.</p>
+        </div>
+        <div class="actions">
+            <a href="Createcourse.html" class="btn">+ Create New Course</a>
+        </div>
+    </header>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">Total Reach</div>
+            <div class="stat-value" id="totalStudents">0</div>
+            <div class="stat-trend">▲ 8.4% growth</div>
+        </div>
+        <div class="stat-card success">
+            <div class="stat-label">Net Revenue (30d)</div>
+            <div class="stat-value" id="revenue30">$0.00</div>
+            <div class="stat-trend">▲ $1,204.00 vs last month</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Avg. Rating</div>
+            <div class="stat-value">4.92</div>
+            <div class="stat-trend">Top 5% of Faculty</div>
+        </div>
+    </div>
+
+    
+
+    <div class="main-layout">
+        <div class="content">
+            <div class="panel">
+                <div class="panel-h">
+                    <h3>Active Course Portfolio</h3>
+                    <a href="InstructorCourses.html" style="font-size: 13px; color: var(--accent); text-decoration: none;">View All</a>
+                </div>
+                <div id="courseList">
+                    </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-h">
+                    <h3>Recent Global Enrollments</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Target Course</th>
+                            <th style="text-align:right">Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody id="enrollTable">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <aside>
+            <div class="panel">
+                <h3 style="margin-bottom: 16px; font-size: 16px;">Quick Actions</h3>
+                <div class="action-list">
+                    <a href="createlesson.html" class="action-item">🎥 Upload New Lesson</a>
+                    <a href="createquiz.html" class="action-item">📝 Build Assessment</a>
+                    <a href="Instructorearnings.html" class="action-item">💰 Payout Settings</a>
+                    <a href="support.html" class="action-item">🛠️ Technical Support</a>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3 style="margin-bottom: 12px; font-size: 16px;">System Alerts</h3>
+                <div id="notifications" style="font-size: 13px; color: var(--text-dim); line-height: 1.5;">
+                    No critical alerts detected.
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<script>
+    // Logic from your provided code, enhanced for the new UI
+    function seedDemo(){
+        if(!localStorage.getItem('tm_instructor_courses')){
+            localStorage.setItem('tm_instructor_courses', JSON.stringify([
+                {id:'c1', title:'Advanced Technical Analysis', students: 1240, status: 'published'},
+                {id:'c2', title:'Algorithmic Trading Patterns', students: 852, status: 'published'}
+            ]));
+        }
+        if(!localStorage.getItem('tm_enrollments')){
+            localStorage.setItem('tm_enrollments', JSON.stringify([
+                {student:'Sarah Chen', course:'Advanced Technical Analysis', date: new Date().toISOString()},
+                {student:'Marcus Aurelius', course:'Algorithmic Trading Patterns', date: new Date(Date.now()-86400000).toISOString()},
+                {student:'Elena Rodriguez', course:'Advanced Technical Analysis', date: new Date(Date.now()-172800000).toISOString()}
+            ]));
+        }
+    }
+
+    function render(){
+        seedDemo();
+        const courses = JSON.parse(localStorage.getItem('tm_instructor_courses')||'[]');
+        const enrollments = JSON.parse(localStorage.getItem('tm_enrollments')||'[]');
+
+        document.getElementById('totalStudents').textContent = courses.reduce((s,c)=>s+(c.students||0),0).toLocaleString();
+        document.getElementById('revenue30').textContent = '$14,240.50';
+
+        const cl = document.getElementById('courseList');
+        cl.innerHTML = courses.map(c => `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 16px 0; border-bottom: 1px solid var(--border);">
+                <div>
+                    <div style="font-weight:700; font-size:15px;">${c.title}</div>
+                    <div style="font-size:12px; color:var(--text-dim); margin-top:4px;">${c.students.toLocaleString()} students • 4.8★</div>
+                </div>
+                <button class="action-item" style="padding: 8px 16px;" onclick="location.href='coursedetailspage.html?course=${c.id}'">Manage</button>
+            </div>
+        `).join('');
+
+        const et = document.getElementById('enrollTable');
+        et.innerHTML = enrollments.map(e => `
+            <tr>
+                <td>
+                    <div class="student-pill">
+                        <div class="avatar-sm"></div>
+                        <span style="font-weight:600;">${e.student}</span>
+                    </div>
+                </td>
+                <td style="color: var(--text-dim);">${e.course}</td>
+                <td style="text-align:right; font-size:12px; color: var(--text-dim);">${new Date(e.date).toLocaleDateString()}</td>
+            </tr>
+        `).join('');
+    }
+
+    render();
+</script>
+</body>
+</html>

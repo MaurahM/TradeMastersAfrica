@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Forge Lesson — Trade Masters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #030816;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-magic: #a855f7;
+      --accent-teal: #2dd4bf;
+      --gradient-magic: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg-deep);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    .wrap { max-width: 850px; margin: 40px auto; padding: 0 24px; }
+
+    /* Header Navigation */
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 32px; padding: 20px 24px;
+      background: var(--card-bg); backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border); border-radius: 20px;
+    }
+    
+    .logo-mark {
+      width: 42px; height: 42px; background: var(--gradient-magic);
+      border-radius: 10px; display: flex; align-items: center; 
+      justify-content: center; font-weight: 800; color: white;
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+    }
+
+    .btn-back {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+      color: var(--text-main); padding: 8px 16px; border-radius: 10px;
+      cursor: pointer; font-size: 14px; transition: 0.3s;
+    }
+    .btn-back:hover { background: rgba(255,255,255,0.1); border-color: var(--text-muted); }
+
+    /* Form Design */
+    .magic-form {
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      border-radius: 28px; padding: 40px; backdrop-filter: blur(10px);
+    }
+
+    .group { margin-bottom: 24px; }
+    label { display: block; font-size: 13px; font-weight: 700; color: var(--accent-teal); 
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    
+    input[type=text], input[type=number], input[type=url], textarea {
+      width: 100%; padding: 14px 18px; border-radius: 14px;
+      border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
+      color: white; font-family: inherit; font-size: 15px; transition: 0.3s;
+      outline: none;
+    }
+    input:focus, textarea:focus { border-color: var(--accent-magic); background: rgba(0,0,0,0.4); }
+
+    .hint { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+
+    /* Video Toggle Switch */
+    .mode-switch {
+      display: flex; background: rgba(0,0,0,0.3); padding: 6px; 
+      border-radius: 14px; margin-bottom: 20px; border: 1px solid var(--glass-border);
+    }
+    .mode-btn {
+      flex: 1; padding: 12px; border: none; border-radius: 10px;
+      background: transparent; color: var(--text-muted); font-weight: 700;
+      cursor: pointer; transition: 0.3s; font-size: 14px;
+    }
+    .mode-btn.active {
+      background: var(--gradient-magic); color: white;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Upload Zone */
+    .drop-zone {
+      border: 2px dashed var(--glass-border); border-radius: 18px;
+      padding: 40px; text-align: center; cursor: pointer; transition: 0.3s;
+    }
+    .drop-zone:hover { border-color: var(--accent-teal); background: rgba(45, 212, 191, 0.03); }
+    
+    #videoPreview { margin-top: 15px; font-size: 13px; color: var(--accent-teal); font-weight: 600; }
+
+    /* Checkbox Magic */
+    .checkbox-wrap {
+      display: flex; align-items: center; gap: 12px; cursor: pointer;
+      padding: 16px; background: rgba(255,255,255,0.02); border-radius: 14px;
+      border: 1px solid var(--glass-border); transition: 0.3s;
+    }
+    .checkbox-wrap:hover { background: rgba(255,255,255,0.05); }
+    input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent-magic); }
+
+    /* Layout Rows */
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    /* Submit Actions */
+    .actions { display: flex; gap: 15px; margin-top: 30px; }
+    .btn-save {
+      flex: 2; padding: 18px; border-radius: 16px; border: none;
+      background: var(--gradient-magic); color: white; font-weight: 800;
+      font-size: 16px; cursor: pointer; transition: 0.3s;
+      box-shadow: 0 10px 25px rgba(168, 85, 247, 0.2);
+    }
+    .btn-save:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+    .hidden { display: none; }
+
+    /* Success Toast */
+    #success {
+      position: fixed; top: 20px; right: 20px; background: var(--accent-teal);
+      color: var(--bg-deep); padding: 16px 24px; border-radius: 12px;
+      font-weight: 800; transform: translateX(200%); transition: 0.5s; z-index: 1000;
+    }
+    #success.show { transform: translateX(0); }
+
+    @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div style="display:flex; align-items:center; gap:12px">
+      <div class="logo-mark">TM</div>
+      <div>
+        <h1 style="font-size: 20px;">Add New Lesson</h1>
+        <p style="font-size: 12px; color: var(--text-muted);">Expand your course curriculum</p>
+      </div>
+    </div>
+    <button class="btn-back" onclick="history.back()">Cancel</button>
+  </header>
+
+  <form class="magic-form" onsubmit="saveLesson(event)">
+    <div class="group">
+      <label>Lesson Title</label>
+      <input id="title" type="text" placeholder="e.g. Master the useState Hook" required>
+      <div class="hint">Keep it actionable and concise.</div>
+    </div>
+
+    <div class="group">
+      <label>Video Content Source</label>
+      <div class="mode-switch">
+        <button type="button" class="mode-btn active" id="btn-url" onclick="switchVideoMode('url')">Link / URL</button>
+        <button type="button" class="mode-btn" id="btn-upload" onclick="switchVideoMode('upload')">Direct Upload</button>
+      </div>
+
+      <div id="videoUrl">
+        <input id="videoUrlInput" type="url" placeholder="https://youtube.com/watch?v=..." required>
+        <div class="hint">Support for YouTube, Vimeo, or AWS S3 links.</div>
+      </div>
+
+      <div id="videoUpload" class="hidden">
+        <div class="drop-zone" onclick="document.getElementById('videoFile').click()" id="drop-zone">
+          <p style="font-size: 30px; margin-bottom: 10px;">🎞️</p>
+          <p style="font-weight: 700;">Drag video file here or browse</p>
+          <p style="font-size: 11px; color: var(--text-muted); margin-top: 5px;">MP4 or WebM (Max 500MB)</p>
+          <input id="videoFile" type="file" accept="video/*" class="hidden">
+        </div>
+        <div id="videoPreview"></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <label>Lesson Brief (Description)</label>
+      <textarea id="desc" placeholder="Summarize the core takeaways of this video..." style="min-height: 100px;"></textarea>
+    </div>
+
+    <div class="row">
+      <div class="group">
+        <label>Duration (Mins)</label>
+        <input id="duration" type="number" placeholder="15" required>
+      </div>
+      <div class="group">
+        <label>Step Number</label>
+        <input id="order" type="number" placeholder="1" required>
+        <div class="hint">Order in the list.</div>
+      </div>
+    </div>
+
+    <div class="group">
+      <label>Magical Scrolls (Resources)</label>
+      <textarea id="resources" placeholder="Link 1, Link 2, Link 3..." style="min-height: 80px;"></textarea>
+      <div class="hint">Separate links with commas for student downloads.</div>
+    </div>
+
+    <div class="group">
+      <label class="checkbox-wrap">
+        <input type="checkbox" id="preview">
+        <div>
+          <div style="font-weight: 700; color: white; font-size: 14px;">Enable Free Preview</div>
+          <div style="font-size: 12px; color: var(--text-muted);">Allow non-enrolled students to see this.</div>
+        </div>
+      </label>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn-save">Manifest Lesson</button>
+    </div>
+  </form>
+</div>
+
+<div id="success">✨ Lesson added to the scroll!</div>
+
+<script>
+  function switchVideoMode(mode) {
+    const isUrl = mode === 'url';
+    document.getElementById('videoUrl').classList.toggle('hidden', !isUrl);
+    document.getElementById('videoUpload').classList.toggle('hidden', isUrl);
+    
+    document.getElementById('btn-url').classList.toggle('active', isUrl);
+    document.getElementById('btn-upload').classList.toggle('active', !isUrl);
+    
+    document.getElementById('videoUrlInput').required = isUrl;
+    document.getElementById('videoFile').required = !isUrl;
+  }
+
+  // File Preview
+  document.getElementById('videoFile').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if(file) {
+      document.getElementById('videoPreview').innerHTML = `✦ Ready to upload: <strong>${file.name}</strong> (${(file.size/1024/1024).toFixed(1)}MB)`;
+    }
+  });
+
+  // Save Logic
+  function saveLesson(e) {
+    e.preventDefault();
+    const btn = document.querySelector('.btn-save');
+    btn.innerText = "Casting Spell...";
+    
+    // Simulate Save
+    setTimeout(() => {
+      document.getElementById('success').classList.add('show');
+      setTimeout(() => history.back(), 1500);
+    }, 1000);
+  }
+
+  // Simple Drag & Drop UI feedback
+  const dz = document.getElementById('drop-zone');
+  dz.addEventListener('dragover', (e) => { e.preventDefault(); dz.style.borderColor = 'var(--accent-teal)'; });
+  dz.addEventListener('dragleave', () => { dz.style.borderColor = 'var(--glass-border)'; });
+  dz.addEventListener('drop', (e) => {
+    e.preventDefault();
+    document.getElementById('videoFile').files = e.dataTransfer.files;
+    document.getElementById('videoFile').dispatchEvent(new Event('change'));
+  });
+</script>
+</body>
+</html>

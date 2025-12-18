@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Transaction Suspended • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --error: #fb7185;
+            --error-glow: rgba(251, 113, 133, 0.15);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #6366f1;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at center, #1e1b4b 0%, var(--bg) 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+
+        .error-container {
+            width: 100%; max-width: 540px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .icon-circle {
+            width: 80px; height: 80px; background: var(--error-glow);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px; border: 1px solid rgba(251, 113, 133, 0.2);
+            color: var(--error); font-size: 32px;
+        }
+
+        h1 { font-size: 24px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
+        p.subtitle { color: var(--text-dim); font-size: 15px; line-height: 1.6; margin-bottom: 32px; }
+
+        /* Receipt Style Details */
+        .receipt-card {
+            background: rgba(0,0,0,0.2);
+            border: 1px dashed var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+        .receipt-row {
+            display: flex; justify-content: space-between; margin-bottom: 10px;
+            font-size: 13px;
+        }
+        .receipt-row:last-child { margin-bottom: 0; padding-top: 10px; border-top: 1px solid var(--border); }
+        .label { color: var(--text-dim); }
+        .value { font-weight: 600; font-family: monospace; }
+
+        /* Resolution Steps */
+        .steps {
+            text-align: left; margin-bottom: 32px;
+        }
+        .step-item {
+            display: flex; gap: 12px; font-size: 13px; color: var(--text-dim); margin-bottom: 12px;
+        }
+        .step-item span { color: var(--error); font-weight: bold; }
+
+        /* Actions */
+        .btn-stack { display: flex; flex-direction: column; gap: 12px; }
+        .btn-primary {
+            background: var(--error); color: white; border: none; padding: 16px;
+            border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s;
+        }
+        .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        
+        .btn-secondary {
+            background: transparent; border: 1px solid var(--border); color: var(--text-main);
+            padding: 14px; border-radius: 12px; font-weight: 600; cursor: pointer;
+        }
+        .btn-secondary:hover { background: rgba(255,255,255,0.05); }
+
+        .footer-link {
+            margin-top: 24px; font-size: 12px; color: var(--text-dim);
+        }
+        .footer-link a { color: var(--accent); text-decoration: none; font-weight: 600; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+        .icon-circle { animation: shake 0.5s ease-in-out; }
+    </style>
+</head>
+<body>
+
+    <div class="error-container">
+        <div class="icon-circle">✕</div>
+        
+        <h1>Payment Suspended</h1>
+        <p class="subtitle">Your financial institution was unable to authorize this transaction. No funds have been captured.</p>
+
+        <div class="receipt-card">
+            <div class="receipt-row">
+                <span class="label">Reference ID</span>
+                <span class="value" id="orderId">TRX-000000</span>
+            </div>
+            <div class="receipt-row">
+                <span class="label">Attempted Amount</span>
+                <span class="value" id="amount">$0.00</span>
+            </div>
+            <div class="receipt-row" style="color: var(--error)">
+                <span class="label">Processor Note</span>
+                <span class="value" id="reason">Insufficient Funds</span>
+            </div>
+        </div>
+
+        <div class="steps">
+            <div class="step-item"><span>1</span> Check card expiry and CVV/CVC code.</div>
+            <div class="step-item"><span>2</span> Ensure international payments are enabled.</div>
+            <div class="step-item"><span>3</span> Contact your bank to whitelist 'Trade Masters'.</div>
+        </div>
+
+        <div class="btn-stack">
+            <button class="btn-primary" id="retryBtn">Try Again with Different Card</button>
+            <button class="btn-secondary" id="supportBtn">Speak with Billing Support</button>
+        </div>
+
+        <div class="footer-link">
+            Changed your mind? <a href="courselisting.html">Return to Course Catalog</a>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(location.search);
+        const orderId = params.get('order');
+
+        function loadPayments(){ return JSON.parse(localStorage.getItem('tm_payments')||'[]'); }
+        
+        function render(){
+            const payments = loadPayments();
+            let order = payments.find(p => p.id === orderId) || {
+                id: 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+                amount: 49.99,
+                reason: 'Declined by Card Issuer'
+            };
+
+            document.getElementById('orderId').textContent = order.id;
+            document.getElementById('amount').textContent = `$${order.amount.toFixed(2)}`;
+            document.getElementById('reason').textContent = order.reason;
+
+            document.getElementById('retryBtn').onclick = () => {
+                location.href = `paymentpage.html?retry=${order.id}`;
+            };
+
+            document.getElementById('supportBtn').onclick = () => {
+                location.href = `support.html?issue=payment&ref=${order.id}`;
+            };
+        }
+
+        render();
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Terms of Service • Trade Masters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+
+        .legal-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 40px;
+        }
+
+        /* Content Side */
+        .content-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 60px;
+            box-shadow: 0 40px 100px -20px rgba(0,0,0,0.5);
+        }
+
+        header { border-bottom: 1px solid var(--border); margin-bottom: 40px; padding-bottom: 20px; }
+        .logo-mark {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--accent), #7ef6d4);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: #020617; margin-bottom: 20px;
+        }
+
+        h1 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+        .last-update { color: var(--text-dim); font-size: 14px; }
+
+        h2 { font-size: 22px; font-weight: 700; margin: 40px 0 16px; color: var(--accent); }
+        p { margin-bottom: 18px; color: #cbd5e1; }
+        ul { margin-bottom: 24px; padding-left: 20px; }
+        li { margin-bottom: 10px; color: #cbd5e1; }
+
+        /* Sidebar Side */
+        .summary-side { position: sticky; top: 40px; height: fit-content; }
+        .summary-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+        .summary-card h3 { font-size: 16px; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+        .summary-item { display: flex; gap: 12px; margin-bottom: 20px; font-size: 13px; }
+        .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+
+        .btn-action {
+            display: block; text-align: center; padding: 12px;
+            background: var(--accent); color: white; text-decoration: none;
+            border-radius: 10px; font-weight: 700; margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); }
+
+        @media (max-width: 900px) {
+            .legal-wrap { grid-template-columns: 1fr; }
+            .summary-side { display: none; }
+            .content-card { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="legal-wrap">
+    <main class="content-card">
+        <header>
+            <div class="logo-mark">TM</div>
+            <h1>Terms of Service</h1>
+            <p class="last-update">Effective Date: December 18, 2025</p>
+        </header>
+
+        <section id="agreement">
+            <h2>1. Agreement to Terms</h2>
+            <p>By accessing Trade Masters, you agree to follow these rules. We built this platform to empower learners across Africa, and these terms ensure a safe environment for everyone.</p>
+        </section>
+
+        <section id="accounts">
+            <h2>2. User Accounts</h2>
+            <p>To access most features, you must register for an account. You agree to:</p>
+            <ul>
+                <li>Provide accurate information (no aliases or fake credentials).</li>
+                <li>Maintain the security of your password.</li>
+                <li>Accept responsibility for all activities occurring under your account.</li>
+            </ul>
+        </section>
+
+        <section id="payments">
+            <h2>3. Payments and Refunds</h2>
+            <p>Trade Masters uses secure third-party processors. Enrollment fees are charged in local currency equivalents where applicable.</p>
+            <ul>
+                <li><strong>Refund Policy:</strong> Requests must be made within 14 days of purchase.</li>
+                <li><strong>Eligibility:</strong> Refunds are only granted if you have viewed less than 10% of the course content.</li>
+            </ul>
+        </section>
+
+        <section id="ip">
+            <h2>4. Intellectual Property</h2>
+            <p>All course materials, videos, and quizzes are the property of Trade Masters or our licensed instructors. You are granted a limited license to view content for personal growth. Downloading or redistributing content without permission is strictly prohibited.</p>
+        </section>
+
+        <section id="liability">
+            <h2>5. Limitation of Liability</h2>
+            <p>While we strive for excellence, Trade Masters is provided "as is." We are not liable for career outcomes, technical interruptions, or the accuracy of third-party instructor content beyond the cost of the course itself.</p>
+        </section>
+
+        <footer style="margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 14px;">
+            Questions? Email <a href="mailto:legal@trademasters.africa" style="color: var(--accent);">legal@trademasters.africa</a>
+        </footer>
+    </main>
+
+    <aside class="summary-side">
+        <div class="summary-card">
+            <h3>Key Takeaways</h3>
+            <div class="summary-item">
+                <div class="dot"></div>
+                <div><strong>No Sharing:</strong> Your account is for you only. Don't share logins.</div>
+            </div>
+            <div class="summary-item">
+                <div class="dot"></div>
+                <div><strong>14-Day Window:</strong> Refunds must be requested quickly and before you finish the course.</div>
+            </div>
+            <div class="summary-item">
+                <div class="dot"></div>
+                <div><strong>Ownership:</strong> Content stays ours; the skills stay yours.</div>
+            </div>
+            <a href="signup.html" class="btn-action">I Understand</a>
+        </div>
+    </aside>
+</div>
+
+</body>
+</html>

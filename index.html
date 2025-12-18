@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Trade Masters — The Future of Skill Mastery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #030816;
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-glow: #6366f1;
+      --accent-magic: #a855f7;
+      --accent-teal: #2dd4bf;
+      --gradient-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      --radius: 18px;
+      --shadow-magic: 0 0 20px rgba(99, 102, 241, 0.2);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg-deep);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Magical Sparkle Animation */
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    .sparkle-bg {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: -1;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* Glass Header */
+    header {
+      margin-top: 20px;
+      padding: 16px 24px;
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 20px; z-index: 100;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    .logo-container { display: flex; align-items: center; gap: 14px; }
+    .logo-mark {
+      width: 45px; height: 45px;
+      background: var(--gradient-primary);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 20px; color: white;
+      box-shadow: var(--shadow-magic);
+    }
+
+    nav.desktop-nav { display: flex; gap: 32px; }
+    nav.desktop-nav a {
+      color: var(--text-muted); font-weight: 600; font-size: 15px;
+      transition: 0.3s; position: relative;
+    }
+    nav.desktop-nav a:hover { color: var(--text-main); }
+    nav.desktop-nav a:hover::after {
+      content: ''; position: absolute; bottom: -5px; left: 0; width: 100%;
+      height: 2px; background: var(--gradient-primary); border-radius: 2px;
+    }
+
+    /* Hero Section */
+    .hero-grid {
+      display: grid; grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px; margin-top: 80px; align-items: center;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.1; font-weight: 800;
+      letter-spacing: -1px; margin-bottom: 24px;
+      background: linear-gradient(to right, #fff, #94a3b8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .hero-content p { color: var(--text-muted); font-size: 1.2rem; margin-bottom: 40px; max-width: 600px; }
+
+    .search-magic {
+      display: flex; background: rgba(255,255,255,0.03);
+      border: 1px solid var(--glass-border);
+      padding: 8px; border-radius: 20px; transition: 0.3s;
+    }
+    .search-magic:focus-within { border-color: var(--accent-glow); box-shadow: 0 0 20px rgba(99, 102, 241, 0.1); }
+    .search-magic input {
+      flex: 1; background: transparent; border: none; padding: 12px 20px;
+      color: white; font-size: 16px; outline: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary); color: white;
+      border: none; padding: 14px 28px; border-radius: 14px;
+      font-weight: 700; cursor: pointer; transition: 0.3s;
+      box-shadow: var(--shadow-magic);
+    }
+    .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+    /* Magic Card */
+    .featured-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: 30px; padding: 32px;
+      position: relative; overflow: hidden;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+    .featured-card::before {
+      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(from 180deg at 50% 50%, transparent 0deg, var(--accent-glow) 40deg, transparent 90deg);
+      animation: rotate 10s linear infinite; opacity: 0.1;
+    }
+    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* Course Cards */
+    .section-title { margin-top: 100px; margin-bottom: 40px; }
+    .course-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .course-card {
+      background: var(--bg-card); border: 1px solid var(--glass-border);
+      border-radius: var(--radius); padding: 16px; transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .course-card:hover {
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-10px) scale(1.02);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    .course-img {
+      width: 100%; height: 180px; border-radius: 12px;
+      object-fit: cover; margin-bottom: 16px;
+    }
+
+    .badge-alt {
+      background: rgba(45, 212, 191, 0.1); color: var(--accent-teal);
+      padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 700;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 100px; padding: 60px 0;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-content p { margin: 0 auto 40px; }
+      nav.desktop-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sparkle-bg" id="sparkles"></div>
+
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <div class="logo-mark">TM</div>
+        <div>
+          <h2 style="font-size: 18px; line-height: 1;">Trade Masters</h2>
+          <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Academy of Africa</span>
+        </div>
+      </div>
+      
+      <nav class="desktop-nav">
+        <a href="courselisting.html">Courses</a>
+        <a href="mentors.html">Mentors</a>
+        <a href="paths.html">Paths</a>
+        <a href="eneterprisepage.html">Enterprise</a>
+      </nav>
+
+      <div style="display: flex; gap: 12px;">
+        <a href="signup.html"><button class="btn-primary">Join Now</button></a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero-grid">
+        <div class="hero-content">
+          <span style="color: var(--accent-teal); font-weight: 800; font-size: 14px; letter-spacing: 2px; text-transform: uppercase;">Unlock Your Potential</span>
+          <h1>Master the craft that sets you free.</h1>
+          <p>Join the elite 1% of African professionals mastering high-income skills through project-led alchemy.</p>
+          
+          <div class="search-magic">
+            <input type="text" placeholder="What magic do you want to learn today?">
+            <button class="btn-primary" style="padding: 10px 24px;">Search</button>
+          </div>
+        </div>
+
+        <div class="featured-card">
+          <div style="position: relative; z-index: 1;">
+            <div class="badge-alt" style="margin-bottom: 12px; display: inline-block;">Hottest Path 2025</div>
+            <h3 style="font-size: 24px; margin-bottom: 16px;">AI-Driven Creative Direction</h3>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px;">Master the synthesis of human creativity and neural networks. Led by Zuri Okonjo.</p>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="display: flex;">
+                <img src="https://i.pravatar.cc/40?img=1" style="border-radius: 50%; border: 2px solid var(--bg-deep);">
+                <img src="https://i.pravatar.cc/40?img=2" style="border-radius: 50%; border: 2px solid var(--bg-deep); margin-left: -15px;">
+                <img src="https://i.pravatar.cc/40?img=3" style="border-radius: 50%; border: 2px solid var(--bg-deep); margin-left: -15px;">
+              </div>
+              <span style="font-size: 12px; color: var(--text-muted);">+2.4k students this week</span>
+            </div>
+            <button class="btn-primary" style="width: 100%; margin-top: 24px; background: white; color: var(--bg-deep);">Enchant My Career</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-title">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+          <div>
+            <h2 style="font-size: 32px; font-weight: 800;">Curated Masterclasses</h2>
+            <p style="color: var(--text-muted);">Hand-picked by industry legends</p>
+          </div>
+          <a href="courselisting.html" style="color: var(--accent-glow); font-weight: 700; text-decoration: none;">View All Library →</a>
+        </div>
+
+        <div class="course-grid" style="margin-top: 40px;">
+          <div class="course-card">
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400" class="course-img" alt="Cyber">
+            <div class="badge-alt">Advanced Tech</div>
+            <h3 style="margin: 12px 0 8px; font-size: 18px;">Ethical Hacking & Cyber Defense</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: var(--text-muted); font-size: 14px;">Nana K.</span>
+              <span style="font-weight: 800; color: var(--accent-teal);">$49.00</span>
+            </div>
+          </div>
+          <div class="course-card">
+            <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&w=400" class="course-img" alt="Design">
+            <div class="badge-alt">Visual Arts</div>
+            <h3 style="margin: 12px 0 8px; font-size: 18px;">Motion Design for Startups</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: var(--text-muted); font-size: 14px;">Zuri</span>
+              <span style="font-weight: 800; color: var(--accent-teal);">Free</span>
+            </div>
+          </div>
+          <div class="course-card">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=400" class="course-img" alt="Business">
+            <div class="badge-alt">Business</div>
+            <h3 style="margin: 12px 0 8px; font-size: 18px;">The African SaaS Playbook</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: var(--text-muted); font-size: 14px;">Adeola</span>
+              <span style="font-weight: 800; color: var(--accent-teal);">$89.00</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;">
+        <div>
+          <h3 style="margin-bottom: 20px;">Trade Masters</h3>
+          <p style="font-size: 14px; color: var(--text-muted);">Empowering the next generation of African digital giants through magical learning experiences.</p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 15px;">Explore</h4>
+          <ul style="list-style: none; color: var(--text-muted); font-size: 14px; line-height: 2;">
+            <li>Success Stories</li>
+            <li>Scholarships</li>
+            <li>Partner with us</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 15px;">Join Our Scroll</h4>
+          <div style="display: flex; gap: 8px;">
+            <input type="email" placeholder="Email" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 10px; border-radius: 8px; color: white; width: 100%;">
+            <button class="btn-primary">Go</button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Generate magical sparkles
+    const sparkleContainer = document.getElementById('sparkles');
+    for (let i = 0; i < 50; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.style.position = 'absolute';
+      sparkle.style.width = Math.random() * 3 + 'px';
+      sparkle.style.height = sparkle.style.width;
+      sparkle.style.background = 'white';
+      sparkle.style.borderRadius = '50%';
+      sparkle.style.top = Math.random() * 100 + '%';
+      sparkle.style.left = Math.random() * 100 + '%';
+      sparkle.style.opacity = '0';
+      sparkle.style.animation = `sparkle ${Math.random() * 3 + 2}s infinite ${Math.random() * 5}s`;
+      sparkleContainer.appendChild(sparkle);
+    }
+
+    // Scroll reveal effect
+    window.addEventListener('scroll', () => {
+      const cards = document.querySelectorAll('.course-card');
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin Vault — Trade Masters</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #020617;
+  --panel: #0f172a;
+  --accent: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.4);
+  --text: #f8fafc;
+  --text-dim: #94a3b8;
+  --error: #ef4444;
+  --glass: rgba(255, 255, 255, 0.03);
+}
+
+* { box-sizing: border-box; margin:0; padding:0; font-family:'Plus Jakarta Sans', sans-serif; }
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg);
+  background-image: 
+    radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent 400px),
+    radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.05), transparent 400px);
+  color: var(--text);
+}
+
+/* Shimmering Border Container */
+.login-container {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  padding: 2px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--glass), rgba(255,255,255,0.1), var(--glass));
+}
+
+.card {
+  background: #0f172a;
+  border-radius: 22px;
+  padding: 40px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.brand-shield {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 900;
+  font-size: 20px;
+  color: white;
+  margin-bottom: 24px;
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+.subtitle { font-size: 14px; color: var(--text-dim); margin-bottom: 32px; line-height: 1.5; }
+
+.input-group { margin-bottom: 20px; }
+label { display: block; font-size: 12px; font-weight: 700; color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+
+input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--glass);
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  font-size: 15px;
+  transition: 0.3s;
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--accent);
+  background: rgba(99, 102, 241, 0.05);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.login-btn {
+  width: 100%;
+  background: white;
+  color: #020617;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+}
+
+.two-factor-box {
+  display: none;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--glass);
+  animation: slideUp 0.4s ease forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+footer {
+  margin-top: 32px;
+  font-size: 11px;
+  color: #475569;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--error);
+  background: rgba(239, 68, 68, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 15px;
+}
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <div class="card">
+    <div class="brand-shield">ADM</div>
+    
+    <div class="status-badge">
+      <span style="width:6px; height:6px; background:var(--error); border-radius:50%"></span>
+      Restricted Access
+    </div>
+
+    <h1>Internal Systems</h1>
+    <p class="subtitle">Secure gateway for Trade Masters administrators. Authorization required.</p>
+
+    <form id="adminLogin" onsubmit="return handleAdminLogin(event)">
+      <div id="credentialsArea">
+        <div class="input-group">
+          <label>Identity</label>
+          <input id="a_user" type="text" placeholder="Username or Email" required autocomplete="username">
+        </div>
+
+        <div class="input-group">
+          <label>Access Key</label>
+          <input id="a_pass" type="password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+      </div>
+
+      <div id="twoFactorArea" class="two-factor-box">
+        <label>Verification Code (2FA)</label>
+        <input id="a_2fa" type="tel" placeholder="000 000" maxlength="6">
+        <p style="font-size: 11px; color: var(--text-dim); margin-top: 8px;">Enter the 6-digit code from your authenticator app.</p>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <button class="login-btn" type="submit" id="submitBtn">Initialize Session</button>
+        <button type="button" style="width:100%; background:transparent; border:none; color:var(--text-dim); font-size:13px; margin-top:16px; cursor:pointer;" onclick="window.history.back()">Return to Terminal</button>
+      </div>
+    </form>
+
+    <footer>
+      Protected by Trade Masters AES-256 Encryption.<br>
+      Unauthorized attempts are logged and reported.
+    </footer>
+  </div>
+</div>
+
+<script>
+const demoAdmin = {user:'admin@trademasters.test', pass:'Admin123!'};
+
+function handleAdminLogin(e){
+  e.preventDefault();
+  const user = document.getElementById('a_user').value.trim();
+  const pass = document.getElementById('a_pass').value;
+  const twoFactorArea = document.getElementById('twoFactorArea');
+  const credentialsArea = document.getElementById('credentialsArea');
+  const submitBtn = document.getElementById('submitBtn');
+
+  // Stage 1: Validate Credentials
+  if(user === demoAdmin.user && pass === demoAdmin.pass){
+    if(twoFactorArea.style.display === 'none' || twoFactorArea.style.display === ''){
+      // Transition to 2FA
+      credentialsArea.style.opacity = '0.4';
+      credentialsArea.style.pointerEvents = 'none';
+      twoFactorArea.style.display = 'block';
+      submitBtn.textContent = 'Verify & Unlock';
+      document.getElementById('a_2fa').focus();
+      return false;
+    }
+
+    // Stage 2: Validate 2FA
+    const code = document.getElementById('a_2fa').value.trim();
+    if(code === '123456'){
+      submitBtn.textContent = 'Granting Access...';
+      submitBtn.style.background = '#10b981';
+      setTimeout(() => {
+        location.href = 'admindashboard.html';
+      }, 800);
+    } else {
+      alert('Security Breach: Invalid 2FA Code');
+    }
+  } else {
+    alert('Access Denied: Invalid Credentials');
+  }
+  return false;
+}
+</script>
+
+</body>
+</html>

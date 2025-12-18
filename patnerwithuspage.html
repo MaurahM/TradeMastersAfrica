@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Partner with Trade Masters • Build the Future</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #6366f1;
+            --accent-2: #7ef6d4;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 24px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Hero */
+        .partner-hero {
+            padding: 100px 0 60px;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+        }
+        .partner-hero h1 { font-size: 56px; font-weight: 800; letter-spacing: -3px; margin-bottom: 20px; }
+        .partner-hero p { font-size: 20px; color: var(--text-dim); max-width: 800px; margin: 0 auto; }
+
+        /* Impact Bar */
+        .impact-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            margin: 40px 0 80px;
+            text-align: center;
+        }
+        .impact-item h2 { font-size: 42px; color: var(--accent-2); margin-bottom: 5px; }
+        .impact-item p { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
+
+        /* Partner Types */
+        .partner-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 100px;
+        }
+        .partner-type {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            transition: 0.3s;
+        }
+        .partner-type:hover { border-color: var(--accent); background: rgba(255,255,255,0.04); }
+        .partner-type h3 { font-size: 24px; margin-bottom: 15px; color: var(--accent); }
+        .partner-type ul { list-style: none; margin-top: 20px; }
+        .partner-type li { margin-bottom: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 10px; }
+        .partner-type li::before { content: '→'; color: var(--accent-2); font-weight: 800; }
+
+        /* Lead Form */
+        .form-section {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 80px;
+            padding: 80px;
+            background: var(--surface);
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            margin-bottom: 80px;
+        }
+
+        .form-info h2 { font-size: 40px; margin-bottom: 20px; }
+        
+        .contact-form label { display: block; font-size: 12px; font-weight: 800; color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase; }
+        .contact-form input, .contact-form select, .contact-form textarea {
+            width: 100%; padding: 16px; background: var(--bg); border: 1px solid var(--border);
+            border-radius: 12px; color: white; margin-bottom: 20px; outline: none;
+        }
+        .contact-form input:focus { border-color: var(--accent); }
+
+        .btn-submit {
+            background: var(--accent); color: white; border: none; padding: 18px;
+            border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; transition: 0.3s;
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); }
+
+        @media (max-width: 900px) {
+            .form-section { grid-template-columns: 1fr; padding: 40px 20px; }
+            .impact-bar { grid-template-columns: 1fr; gap: 30px; }
+            .partner-hero h1 { font-size: 38px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <section class="partner-hero">
+        <h1>Building the African Tech Talent Pipeline, Together.</h1>
+        <p>We partner with world-class organizations to bridge the gap between education and employment across the continent.</p>
+    </section>
+
+    <div class="impact-bar">
+        <div class="impact-item">
+            <h2>50k+</h2>
+            <p>Active Learners</p>
+        </div>
+        <div class="impact-item">
+            <h2>15+</h2>
+            <p>African Countries</p>
+        </div>
+        <div class="impact-item">
+            <h2>92%</h2>
+            <p>Placement Rate</p>
+        </div>
+    </div>
+
+    <div class="partner-grid">
+        <div class="partner-type">
+            <h3>For Employers</h3>
+            <p>Access a vetted pool of ready-to-work developers, designers, and data scientists.</p>
+            <ul>
+                <li>Direct recruitment pipeline</li>
+                <li>Customized technical assessments</li>
+                <li>Employee upskilling programs</li>
+            </ul>
+        </div>
+        <div class="partner-type">
+            <h3>For Institutions</h3>
+            <p>Enhance your university curriculum with practical, industry-led technical training.</p>
+            <ul>
+                <li>Joint certification programs</li>
+                <li>LMS integration support</li>
+                <li>Guest lectures from industry lead</li>
+            </ul>
+        </div>
+        <div class="partner-type">
+            <h3>For NGOs & Gov</h3>
+            <p>Scalable digital literacy and vocational training for youth development initiatives.</p>
+            <ul>
+                <li>Subsidized cohort seats</li>
+                <li>Impact reporting & data</li>
+                <li>Regional talent development</li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="form-section">
+        <div class="form-info">
+            <h2>Let's discuss how we can work together.</h2>
+            <p style="color: var(--text-dim); margin-bottom: 30px;">Whether you're looking to hire 100 engineers or want to bring Trade Masters to your campus, our partnership team is ready to build with you.</p>
+            <div style="padding: 20px; background: rgba(126, 246, 212, 0.05); border-radius: 16px; border: 1px solid rgba(126, 246, 212, 0.2);">
+                <p style="color: var(--accent-2); font-weight: 700;">"Trade Masters has become our primary source for junior talent in Lagos."</p>
+                <p style="font-size: 13px; margin-top: 10px;">— CTO, Leading Fintech Startup</p>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <form onsubmit="event.preventDefault(); alert('Partnership request sent! Our team will reach out in 24 hours.');">
+                <label>Organization Type</label>
+                <select>
+                    <option>Corporate / Hiring Partner</option>
+                    <option>Educational Institution</option>
+                    <option>NGO / Foundation</option>
+                    <option>Government Agency</option>
+                </select>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <label>Contact Person</label>
+                        <input type="text" placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label>Work Email</label>
+                        <input type="email" placeholder="name@company.com">
+                    </div>
+                </div>
+
+                <label>How can we help?</label>
+                <textarea rows="4" placeholder="Tell us about your goals..."></textarea>
+
+                <button type="submit" class="btn-submit">Initiate Partnership</button>
+            </form>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

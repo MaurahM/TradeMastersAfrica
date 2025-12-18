@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Dashboard — Trade Masters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-deep: #020617;
+      --card-bg: rgba(15, 23, 42, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-magic: #a855f7;
+      --accent-teal: #2dd4bf;
+      --gradient-magic: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-deep);
+      background-image: 
+        radial-gradient(circle at 2% 2%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 98% 98%, rgba(45, 212, 191, 0.08) 0%, transparent 40%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 40px;
+      overflow-x: hidden;
+    }
+
+    .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+
+    /* Glass Navigation */
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 32px; padding: 12px 24px;
+      background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border); border-radius: 20px;
+      position: sticky; top: 10px; z-index: 100;
+    }
+    .logo-block { display: flex; align-items: center; gap: 12px; }
+    .logo-icon {
+      width: 40px; height: 40px; background: var(--gradient-magic);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; color: white; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+    }
+
+    /* Hero Banner */
+    .hero {
+      background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), 
+                  url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2000&auto=format&fit=crop');
+      background-size: cover; background-position: center;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg); padding: 50px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 32px; position: relative;
+    }
+
+    .hero-h1 { font-size: 38px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 8px; }
+    
+    .stat-ring {
+      display: flex; align-items: center; gap: 24px;
+      background: rgba(2, 6, 23, 0.8); padding: 24px 32px; border-radius: 24px;
+      backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
+    }
+
+    .progress-track {
+      width: 160px; height: 8px; background: rgba(255,255,255,0.1);
+      border-radius: 20px; position: relative; overflow: hidden;
+    }
+    .progress-filament {
+      position: absolute; height: 100%; border-radius: 20px;
+      background: var(--gradient-magic); box-shadow: 0 0 15px var(--accent-magic);
+    }
+
+    /* Layout Grid */
+    .dashboard-grid { display: grid; grid-template-columns: 280px 1fr; gap: 32px; }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg); padding: 32px 20px; height: fit-content;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+      border-radius: 14px; color: var(--text-muted); font-weight: 600; text-decoration: none;
+      margin-bottom: 8px; transition: 0.3s; font-size: 14px;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: white; transform: translateX(5px); }
+    .nav-item.active { background: var(--gradient-magic); color: white; }
+
+    /* Section Titles */
+    .section-title {
+      font-size: 18px; font-weight: 800; margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px; letter-spacing: -0.5px;
+    }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--glass-border), transparent); }
+
+    /* Course Cards */
+    .course-shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-bottom: 40px; }
+    
+    .course-card {
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      border-radius: 24px; padding: 12px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+    }
+    .course-card:hover { transform: translateY(-8px); background: rgba(255,255,255,0.05); border-color: var(--accent-magic); }
+    
+    .course-img-wrap { width: 100%; height: 160px; border-radius: 18px; overflow: hidden; margin-bottom: 16px; }
+    .course-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+    .course-card:hover .course-img { scale: 1.1; }
+
+    .course-info { padding: 0 8px 12px; }
+    
+    /* Activity & Charts */
+    .analytics-grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
+    .chart-box, .activity-feed {
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg); padding: 28px;
+    }
+
+    .activity-item {
+      padding: 16px 0; border-bottom: 1px solid var(--glass-border);
+      font-size: 13px; color: var(--text-muted); display: flex; flex-direction: column; gap: 4px;
+    }
+    .activity-item:last-child { border: none; }
+    .activity-item b { color: var(--text-main); font-weight: 700; }
+
+    .btn-action {
+      padding: 10px 20px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer;
+      font-size: 13px; transition: 0.3s;
+    }
+    .btn-teal { background: rgba(45, 212, 191, 0.1); color: var(--accent-teal); border: 1px solid var(--accent-teal); }
+    .btn-teal:hover { background: var(--accent-teal); color: var(--bg-deep); }
+
+    @media (max-width: 1100px) {
+      .dashboard-grid, .analytics-grid { grid-template-columns: 1fr; }
+      .hero { padding: 30px; flex-direction: column; align-items: flex-start; gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="logo-block">
+      <div class="logo-icon">TM</div>
+      <div>
+        <h2 style="font-size: 16px; font-weight: 800;">Trade Masters</h2>
+        <p style="font-size: 11px; color: var(--text-muted);">Learning Nexus v2.5</p>
+      </div>
+    </div>
+    <div style="display:flex; gap:12px; align-items:center;">
+      <div style="background:rgba(255,255,255,0.05); padding:8px 16px; border-radius:12px; font-size:12px; font-weight:700;">
+        🔥 12 DAY STREAK
+      </div>
+      <button class="btn-action btn-teal">Explore Path</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1 class="hero-h1">Welcome back, Maura.</h1>
+      <p style="color: rgba(255,255,255,0.7); font-weight: 500;">You've completed <b style="color:var(--accent-teal)">85%</b> of your weekly goals. Finish strong!</p>
+    </div>
+    <div class="stat-ring">
+      <div style="text-align:right">
+        <div style="font-size: 28px; font-weight: 800; color: var(--accent-teal);">42%</div>
+        <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 800;">Mastery Level</div>
+      </div>
+      <div class="progress-track">
+        <div class="progress-filament" style="width: 42%;"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="dashboard-grid">
+    <aside class="sidebar">
+      <div style="text-align:center; margin-bottom:32px;">
+        <div style="width:80px; height:80px; position:relative; margin: 0 auto 16px;">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&auto=format&fit=crop" 
+                 style="width:100%; height:100%; border-radius:50%; object-fit:cover; border: 3px solid var(--accent-magic);">
+            <div style="position:absolute; bottom:2px; right:2px; width:18px; height:18px; background:var(--accent-teal); border-radius:50%; border:3px solid var(--bg-deep);"></div>
+        </div>
+        <h3 style="font-size: 20px; font-weight: 800;">Maura</h3>
+        <p style="font-size: 12px; color: var(--text-muted);">Pro Scholar • Level 14</p>
+      </div>
+      
+      <nav>
+        <a href="#" class="nav-item active">🏠 Overview</a>
+        <a href="#" class="nav-item">📚 My Library</a>
+        <a href="#" class="nav-item">🏆 Achievement Hub</a>
+        <a href="mentors.html" class="nav-item">💬 Nexus Mentor</a>
+        <a href="profilesettingspage.html" class="nav-item">⚙️ Profile Settings</a>
+        <a href="#" class="nav-item" style="margin-top:40px; color: #ff5555;">🚪 Sign Out</a>
+      </nav>
+    </aside>
+
+    <main>
+      <div class="section-title">Active Mastery Paths</div>
+      <div class="course-shelf" id="enrolledCourses"></div>
+
+      <div class="analytics-grid">
+        <div class="chart-box">
+          <div class="section-title">Cognitive Load <span style="font-size: 11px; font-weight: 400; color: var(--text-muted); margin-left: 10px;">(Learning Hours / Week)</span></div>
+          <canvas id="learningChart" height="180"></canvas>
+        </div>
+
+        <div class="activity-feed">
+          <div class="section-title">Chronicle</div>
+          <div class="activity-item">
+              <b>✅ Completed: Wireframing 101</b>
+              <small>2 hours ago • +400 XP</small>
+          </div>
+          <div class="activity-item">
+              <b>📝 Quiz: CSS Flexbox</b>
+              <small>Yesterday • Scored 92%</small>
+          </div>
+          <div class="activity-item">
+              <b>🚀 Started: React Hooks</b>
+              <small>2 days ago • Mastery Path</small>
+          </div>
+          
+          <button class="btn-action btn-teal" style="width:100%; margin-top:20px;">Unlock Premium Chronicle</button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+  // Robust Unsplash Image Links for reliability
+  const courses = [
+    {
+      title: 'UI/UX Strategic Design', 
+      instructor: 'Zuri V.', 
+      prog: 72, 
+      img: 'https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      title: 'Advanced Full-Stack', 
+      instructor: 'Nana K.', 
+      prog: 28, 
+      img: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?q=80&w=800&auto=format&fit=crop'
+    },
+    {
+      title: 'Global SEO Strategy', 
+      instructor: 'Ama Boateng', 
+      prog: 95, 
+      img: 'https://images.unsplash.com/photo-1432888622747-4eb9a8f2c1d8?q=80&w=800&auto=format&fit=crop'
+    }
+  ];
+
+  const grid = document.getElementById('enrolledCourses');
+  courses.forEach(c => {
+    grid.innerHTML += `
+      <div class="course-card">
+        <div class="course-img-wrap">
+            <img src="${c.img}" class="course-img" alt="${c.title}">
+        </div>
+        <div class="course-info">
+          <h4 style="font-size:16px; margin-bottom:4px; font-weight:800;">${c.title}</h4>
+          <p style="font-size:12px; color:var(--text-muted);">Lead: ${c.instructor}</p>
+          
+          <div style="margin-top:20px">
+            <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:8px; font-weight:700;">
+              <span style="color:var(--text-muted)">Nexus Progress</span>
+              <span style="color:var(--accent-teal)">${c.prog}%</span>
+            </div>
+            <div class="progress-track" style="width:100%; background: rgba(255,255,255,0.05);">
+              <div class="progress-filament" style="width:${c.prog}%; ${c.prog > 90 ? 'background:var(--accent-teal); box-shadow:0 0 10px var(--accent-teal)' : ''}"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  // Polished Chart.js Config
+  const ctx = document.getElementById('learningChart').getContext('2d');
+  const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+  gradient.addColorStop(0, 'rgba(168, 85, 247, 0.4)');
+  gradient.addColorStop(1, 'rgba(168, 85, 247, 0)');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      datasets: [{
+        label: 'Focus Hours',
+        data: [2, 4.5, 3, 5, 2.8, 6.2, 4],
+        borderColor: '#a855f7',
+        backgroundColor: gradient,
+        fill: true,
+        tension: 0.45,
+        borderWidth: 4,
+        pointBackgroundColor: '#a855f7',
+        pointBorderColor: '#fff',
+        pointHoverRadius: 6,
+        pointRadius: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { 
+            grid: { color: 'rgba(255,255,255,0.05)' },
+            ticks: { color: '#64748b', font: { size: 10 } }
+        },
+        x: { 
+            grid: { display: false }, 
+            ticks: { color: '#94a3b8', font: { weight: '600' } } 
+        }
+      }
+    }
+  });
+</script>
+</body>
+</html>

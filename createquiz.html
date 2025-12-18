@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Forge Quiz — Trade Masters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #030816;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-magic: #a855f7;
+      --accent-teal: #2dd4bf;
+      --gradient-magic: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      --danger: #ff4e4e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg-deep);
+      background-image: 
+        radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 0% 100%, rgba(45, 212, 191, 0.05) 0%, transparent 40%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      padding-bottom: 80px;
+    }
+
+    .wrap { max-width: 900px; margin: 40px auto; padding: 0 24px; }
+
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 32px; padding: 20px 24px;
+      background: var(--card-bg); backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border); border-radius: 20px;
+    }
+
+    .logo-mark {
+      width: 42px; height: 42px; background: var(--gradient-magic);
+      border-radius: 10px; display: flex; align-items: center; 
+      justify-content: center; font-weight: 800; color: white;
+    }
+
+    /* Section Cards */
+    .glass-card {
+      background: var(--card-bg); border: 1px solid var(--glass-border);
+      border-radius: 24px; padding: 32px; backdrop-filter: blur(10px);
+      margin-bottom: 24px;
+    }
+
+    .section-label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--accent-teal); font-weight: 800; margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--glass-border); }
+
+    .group { margin-bottom: 20px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text-main); }
+    
+    input[type=text], input[type=number], textarea, select {
+      width: 100%; padding: 14px 18px; border-radius: 14px;
+      border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
+      color: white; font-family: inherit; font-size: 15px; transition: 0.3s;
+      outline: none;
+    }
+    input:focus, textarea:focus, select:focus { border-color: var(--accent-magic); background: rgba(0,0,0,0.4); }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    /* Question Cards */
+    .question-box {
+      background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border);
+      border-radius: 20px; padding: 24px; margin-bottom: 20px;
+      position: relative; animation: slideIn 0.4s ease-out;
+    }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .q-num { font-weight: 800; color: var(--accent-magic); font-size: 14px; }
+
+    .remove-q {
+      color: var(--danger); font-size: 12px; font-weight: 700; cursor: pointer;
+      padding: 5px 10px; border-radius: 8px; transition: 0.2s;
+    }
+    .remove-q:hover { background: rgba(255, 78, 78, 0.1); }
+
+    /* Options Styling */
+    .option-row {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+      background: rgba(255,255,255,0.02); padding: 10px 15px; border-radius: 12px;
+      border: 1px solid transparent; transition: 0.3s;
+    }
+    .option-row:focus-within { border-color: var(--accent-magic); background: rgba(168, 85, 247, 0.05); }
+    
+    .radio-custom {
+      width: 20px; height: 20px; accent-color: var(--accent-teal); cursor: pointer;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 14px 24px; border-radius: 14px; border: none; font-weight: 700;
+      cursor: pointer; transition: 0.3s; font-size: 15px;
+    }
+    .btn-primary { background: var(--gradient-magic); color: white; box-shadow: 0 10px 20px rgba(168, 85, 247, 0.2); }
+    .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    
+    .btn-add {
+      background: rgba(45, 212, 191, 0.1); border: 1px dashed var(--accent-teal);
+      color: var(--accent-teal); width: 100%; margin: 10px 0 30px;
+    }
+    .btn-add:hover { background: rgba(45, 212, 191, 0.15); }
+
+    .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--glass-border); }
+    .btn-ghost:hover { background: rgba(255,255,255,0.05); color: white; }
+
+    /* Checkbox toggle */
+    .toggle-wrap {
+      display: flex; align-items: center; gap: 12px; cursor: pointer;
+      padding: 12px 18px; background: rgba(255,255,255,0.02); border-radius: 14px;
+    }
+
+    #success-toast {
+      position: fixed; bottom: 30px; right: 30px; background: var(--accent-teal);
+      color: var(--bg-deep); padding: 16px 28px; border-radius: 16px;
+      font-weight: 800; transform: translateY(150%); transition: 0.5s; z-index: 1000;
+    }
+    #success-toast.show { transform: translateY(0); }
+
+    @media (max-width: 760px) { .row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div style="display:flex; align-items:center; gap:12px">
+      <div class="logo-mark">TM</div>
+      <div>
+        <h1 style="font-size: 18px;">Mastery Assessment</h1>
+        <p style="font-size: 11px; color: var(--text-muted);">Construct a quiz for your scholars</p>
+      </div>
+    </div>
+    <button class="btn btn-ghost" style="padding: 8px 16px;" onclick="history.back()">Exit</button>
+  </header>
+
+  <form onsubmit="saveQuiz(event)">
+    <div class="glass-card">
+      <div class="section-label">General Configuration</div>
+      <div class="group">
+        <label>Quiz Title</label>
+        <input id="title" type="text" placeholder="e.g. Chapter 1: The Basics of Alchemy" required>
+      </div>
+
+      <div class="group">
+        <label>Instructional Text (Description)</label>
+        <textarea id="desc" placeholder="What should students know before starting?"></textarea>
+      </div>
+
+      <div class="row">
+        <div class="group">
+          <label>Passing Threshold (%)</label>
+          <input id="passingScore" type="number" placeholder="70" min="0" max="100" required>
+        </div>
+        <div class="group">
+          <label>Time Constriction (Minutes)</label>
+          <input id="timeLimit" type="number" placeholder="Empty for untimed">
+        </div>
+      </div>
+
+      <div class="toggle-wrap">
+        <input type="checkbox" id="shuffle" style="width:18px; height:18px; accent-color: var(--accent-magic);">
+        <label for="shuffle" style="margin:0; cursor:pointer;">Randomize question sequence for every student</label>
+      </div>
+    </div>
+
+    <div class="section-label">Curriculum Questions</div>
+    
+    <div id="questionsContainer"></div>
+
+    <button type="button" class="btn btn-add" onclick="addQuestion()">+ Append New Question</button>
+
+    <div style="display:flex; gap:12px; margin-top:40px;">
+      <button type="submit" class="btn btn-primary" style="flex:2;">Finalize & Save Quiz</button>
+      <button type="button" class="btn btn-ghost" style="flex:1;" onclick="history.back()">Discard</button>
+    </div>
+  </form>
+</div>
+
+<div id="success-toast">✦ Quiz Manifested Successfully! ✦</div>
+
+<script>
+  let questionCount = 0;
+
+  function addQuestion() {
+    questionCount++;
+    const container = document.getElementById('questionsContainer');
+    const qDiv = document.createElement('div');
+    qDiv.className = 'question-box';
+    qDiv.id = `q-block-${questionCount}`;
+    qDiv.innerHTML = `
+      <div class="q-header">
+        <span class="q-num">QUESTION #${questionCount}</span>
+        <span class="remove-q" onclick="removeQuestion(${questionCount})">Delete</span>
+      </div>
+      <div class="group">
+        <textarea placeholder="Ask your question here..." required class="qtext" style="background: rgba(0,0,0,0.4);"></textarea>
+      </div>
+      <div class="row" style="margin-bottom: 20px;">
+        <div class="group">
+          <label>Answer Logic</label>
+          <select class="qtype" onchange="updateOptions(${questionCount}, this.value)">
+            <option value="multiple">Multiple Choice</option>
+            <option value="trueFalse">True / False</option>
+          </select>
+        </div>
+      </div>
+      <div id="options-area-${questionCount}"></div>
+    `;
+    container.appendChild(qDiv);
+    updateOptions(questionCount, 'multiple');
+    window.scrollTo({ top: qDiv.offsetTop - 100, behavior: 'smooth' });
+  }
+
+  function updateOptions(qid, type) {
+    const area = document.getElementById(`options-area-${qid}`);
+    area.innerHTML = `<label style="font-size: 11px; color: var(--accent-teal);">Options (Mark the correct one)</label>`;
+    
+    if (type === 'multiple') {
+      for (let i = 1; i <= 4; i++) {
+        const opt = document.createElement('div');
+        opt.className = 'option-row';
+        opt.innerHTML = `
+          <input type="radio" name="correct-${qid}" value="${i}" class="radio-custom" required>
+          <input type="text" placeholder="Option ${i} description" class="opt-text" style="padding: 8px; border-radius: 8px;">
+        `;
+        area.appendChild(opt);
+      }
+    } else {
+      area.innerHTML += `
+        <div style="display:flex; gap:20px; margin-top:10px;">
+          <label class="toggle-wrap" style="flex:1;">
+            <input type="radio" name="correct-${qid}" value="true" class="radio-custom" required> True
+          </label>
+          <label class="toggle-wrap" style="flex:1;">
+            <input type="radio" name="correct-${qid}" value="false" class="radio-custom" required> False
+          </label>
+        </div>
+      `;
+    }
+  }
+
+  function removeQuestion(qid) {
+    document.getElementById(`q-block-${qid}`).remove();
+    // No need to re-index, IDs remain unique for the session
+  }
+
+  function saveQuiz(e) {
+    e.preventDefault();
+    const toast = document.getElementById('success-toast');
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+      history.back();
+    }, 2000);
+  }
+
+  // Start with one question
+  addQuestion();
+</script>
+</body>
+</html>
